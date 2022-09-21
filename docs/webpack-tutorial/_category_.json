@@ -1,0 +1,11 @@
+{
+  "position": 2,
+  "label": "webpack-tutorial",
+  "collapsible": true,
+  "collapsed": false,
+  "className": "red",
+  "link": {
+    "type": "generated-index",
+    "title": "webpack-tutorial"
+  }
+}

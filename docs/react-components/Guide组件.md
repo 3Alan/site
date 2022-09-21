@@ -1,0 +1,162 @@
+---
+title: 组件库-Guide
+tags:
+  - React
+  - 组件库
+  - Guide
+categories:
+  - 前端
+  - React
+abbrlink: 6c0c371f
+date: 2021-09-16 13:15:29
+keywords: ['react组件库开发', 'react组件库打包', 'Guide组件', '新手引导组件']
+description: react组件库开发-新手引导组件
+---
+
+Guide新手引导组件
+
+<!-- more -->
+
+> https://mp.weixin.qq.com/s/vrDQEGgOSnKBvHuwZV6vSA
+> 
+> https://github.com/gilbarbara/react-joyride
+> 
+> https://github.com/bytedance/guide
+
+[最终效果](https://alan-ui.vercel.app/?path=/docs/components-guide--guide)
+
+本文章只介绍大致思路，一些细节的实现请查看[源码](https://github.com/3Alan/alan-ui/tree/main/src/components/guide)
+
+## 功能需求
+- 以`popover`的形式附着在目标元素上，以达到解释目标元素效果。
+- 存在多个目标元素时，提供上一步/下一步/结束三个按钮。
+- 当元素超出可视区域时，自动滚动到目标元素的位置。
+- 屏幕大小变化时，`popover`能始终附着在目标元素上
+
+## 确认api
+确认了功能需求后，就需要来设计api了，由于我的组件功能还算比较单一，所以api设计的也比较简单。
+```js
+// 是否显示遮罩层
+mask?: boolean;
+steps: StepItem;
+onClose?: (finished: boolean) => void;
+```
+这3个api都比较好理解，主要讲以下`steps`。
+
+因为`popover`需要附着在目标元素上，所以要获取目标元素的位置，可以使用`document.querySelector()`来实现，那么可以明确`steps`中需要提供一个`selector`参数。
+于是我们基本可以确认好`StepItem`的内容。
+```js
+/**
+  * 目标元素选择器
+  */
+selector: string;
+/**
+  * popover内容
+  */
+content: ReactNode;
+```
+
+## 前置知识
+- React.createPortal
+- HTMLElement.offsetParent
+  返回一个指向最近的（指包含层级上的最近）包含该元素的定位元素或者最近的 table,td,th,body元素。当元素的 style.display 设置为 "none" 时，offsetParent 返回 null。
+- HTMLElement.offsetXXX
+  相对于offsetParent
+- Element.getBoundingClientRect()
+  返回元素大小（包括border+padding）以及相对**视口**的位置
+  
+  https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/offsetWidth
+- clientWeight/clientHeight
+  
+  https://developer.mozilla.org/zh-CN/docs/Web/API/Element/clientWidth
+
+我写的[例子](https://stackblitz.com/edit/web-platform-5hqpo6)以便理解
+
+## 开始编码
+项目中使用了[rough-notation](https://github.com/rough-stuff/rough-notation)这个库，主要为了实现一些手绘效果以及动画，我会将相关代码剔除，以免影响主线思路。
+
+首先使用两个变量`currentIndex`和`currentContent`来控制当前的`step`
+```jsx
+useEffect(() => {
+  handleStepChange();
+}, [currentIndex]);
+```
+分析一下`handleStepChange`要实现什么
+- 通过`props.steps[currentIndex].selector`获取当前的目标元素并获取其`offsetParent`(后面称为parent)
+- 使用`React.createPortal`将`popover`渲染到parent节点中
+- 由于`popover`现在的父节点已经是目标元素的父节点（即与目标节点互为兄弟节点），所以只需要再相对于parent进行绝对定位调整位置即可。
+- 判断目标元素是否在可视区域内，没有的话就滚动到目标元素的位置
+
+```js
+const handleStepChange = () => {
+  const { selector, content } = steps[currentIndex];
+  const e = document.querySelector(selector) as HTMLElement;
+  const parent = (e.offsetParent || document.body) as HTMLElement;
+  setParentEl(parent);
+
+  // 判断是否在可是区域内
+  const isVisible = isElementVisible(selector);
+  if (!isVisible) {
+    e.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // 计算popover相对于parent的偏移量
+  computePopoverStyles();
+  setCurrentContent(content);
+};
+
+// <PopoverContent />为popover内容，理解成一个div就行，只是加了一点样式而已
+{createPortal(<PopoverContent />, parentEl)}
+```
+
+### popover内容
+```jsx
+<div className={`${cls}-inner`}>
+  <div className={`${cls}-content`}>{currentContent}</div>
+  <div className={`${cls}-footer`}>
+    <span>
+      {currentIndex + 1}/{steps.length}
+    </span>
+
+    {currentIndex !== 0 && (
+      <Button type="standard" size="small" onClick={() => setCurrentIndex(currentIndex - 1)}>
+        Prev
+      </Button>
+    )}
+
+    {currentIndex !== steps.length - 1 && (
+      <Button type="standard" size="small" onClick={() => setCurrentIndex(currentIndex + 1)}>
+        Next
+      </Button>
+    )}
+    {currentIndex === steps.length - 1 && (
+      <Button size="small" onClick={handleClose}>
+        finish
+      </Button>
+    )}
+  </div>
+</div>
+```
+
+### 监听窗口变化
+这里的`computePopoverStyles`主要就是计算相对于parent的绝对定位偏移量。
+```jsx
+// 使用防抖，优化手段
+const { run: handleResize } = useDebounceFn(computePopoverStyles, { wait: 200 });
+
+useEffect(() => {
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
+```
+
+### 计算偏移量
+
+![image-20210916145908255](https://raw.githubusercontent.com/3Alan/images/master/img/image-20210916145908255.png)
+
+
+
+
