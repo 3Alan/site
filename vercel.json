@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/posts/Hexo博客定制/index.html", "destination": "/posts/博客搭建系列/Hexo博客定制" }
+  ]
+}

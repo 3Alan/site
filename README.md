@@ -1,2 +1,2 @@
-- 配置gtag
 - 配置eslint
+- 百度 & bing 收录
