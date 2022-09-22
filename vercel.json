@@ -3,14 +3,15 @@
     { "source": "/posts/Hexo博客定制/index.html/", "destination": "/posts/博客搭建系列/Hexo博客定制" },
     { "source": "/posts/React-服务端渲染/index.html", "destination": "/posts/博客搭建系列/Hexo博客定制" },
     {
-      "source": "/posts/react-组件库搭建/index.html",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "www.alanwang.site"
         }
       ],
-      "destination": "https://www.alanwang.site/posts/react-components/react-组件库搭建"
+      "destination": "https://www.theverge.com/",
+      "permanent": false
     }
   ]
 }
