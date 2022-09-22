@@ -1,6 +1,17 @@
 {
   "redirects": [
     { "source": "/posts/Hexo博客定制/", "destination": "/posts/博客搭建系列/Hexo博客定制" },
-    { "source": "/posts/React-服务端渲染", "destination": "/posts/博客搭建系列/Hexo博客定制" }
+    { "source": "/posts/React-服务端渲染", "destination": "/posts/博客搭建系列/Hexo博客定制" },
+    {
+      "source": "/posts/Hexo博客定制",
+      "has": [
+        {
+          "type": "host",
+          "value": "alanwang.site"
+        }
+      ],
+      "destination": "https://www.alanwang.site/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E7%B3%BB%E5%88%97/Hexo%E5%8D%9A%E5%AE%A2%E5%AE%9A%E5%88%B6",
+      "permanent": false
+    }
   ]
 }
