@@ -1,17 +1,6 @@
 {
   "redirects": [
-    { "source": "/posts/Hexo博客定制/index.html/", "destination": "/posts/博客搭建系列/Hexo博客定制" },
-    { "source": "/posts/React-服务端渲染/index.html", "destination": "/posts/博客搭建系列/Hexo博客定制" },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.alanwang.site"
-        }
-      ],
-      "destination": "https://www.theverge.com/",
-      "permanent": false
-    }
+    { "source": "/posts/Hexo博客定制/", "destination": "/posts/博客搭建系列/Hexo博客定制" },
+    { "source": "/posts/React-服务端渲染", "destination": "/posts/博客搭建系列/Hexo博客定制" }
   ]
 }
