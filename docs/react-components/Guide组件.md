@@ -1,5 +1,5 @@
 ---
-title: 组件库-Guide
+title: react 引导组件
 tags:
   - React
   - 组件库
@@ -7,10 +7,14 @@ tags:
 categories:
   - 前端
   - React
-abbrlink: 6c0c371f
 date: 2021-09-16 13:15:29
-keywords: ['react组件库开发', 'react组件库打包', 'Guide组件', '新手引导组件']
-description: react组件库开发-新手引导组件
+keywords: 
+  - react guide 组件
+  - react 引导组件
+  - react 新手引导组件
+description: react 新手引导组件
+sidebar_label: Guide 组件
+sidebar_position: 3
 ---
 
 Guide新手引导组件

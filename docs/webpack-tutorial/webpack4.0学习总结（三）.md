@@ -274,10 +274,10 @@ dist
 
 ```js
 output: {
-    // 输出文件配置
-    filename: '[name].js',
-        publicPath: 'https://cdn.example.com/assets',
-            path: path.resolve(__dirname, 'dist'),
+  // 输出文件配置
+  filename: '[name].js',
+  publicPath: 'https://cdn.example.com/assets',
+  path: path.resolve(__dirname, 'dist'),
 },
 ```
 

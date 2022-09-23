@@ -1,5 +1,5 @@
 ---
-title: 组件库-Upload
+title: react Upload 组件
 date: 2022-01-10 22:31:58
 tags:
   - React
@@ -8,8 +8,14 @@ tags:
 categories:
   - 前端
   - React
-keywords: ['react组件库开发', 'react组件库打包', 'Upload组件']
-description: react组件库开发-Upload组件
+keywords: 
+ - react组件库
+ - Upload 组件
+ - react 上传组件
+ - react 拖拽上传
+description: react Upload 组件，包括普通上传、拖拽上传、上传进度
+sidebar_label: Upload 组件
+sidebar_position: 2
 ---
 
 下面的代码已经去除了大部分与主线无关的代码。

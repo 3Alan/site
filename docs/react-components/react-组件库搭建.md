@@ -6,10 +6,15 @@ tags:
 categories:
   - 前端
   - React
-abbrlink: d8051f67
 date: 2021-08-22 16:22:55
-keywords: ['react组件库开发', 'react组件库打包']
-description: react组件库搭建
+keywords: 
+  - react组件库开发
+  - react组件库打包
+  - 单元测试
+  - rollup
+description: react组件库的搭建流程，包括打包发布单元测试
+sidebar_label: 组件搭建
+sidebar_position: 1
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。
@@ -180,6 +185,7 @@ yarn add rimraf -D
 
 打包后的目录：
 
+```
 dist
  ├── index.cjs.js
  ├── index.css
@@ -187,6 +193,7 @@ dist
  ├── index.esm.js
  ├── Stanberry.ttf
  └── types
+```
 
 ### 发布npm
 
