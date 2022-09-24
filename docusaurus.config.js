@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Alan|前端博客',
   titleDelimiter: '-',
-  tagline: 'Dinosaurs are cool',
+  tagline: '此刻想举重若轻，之前必要负重前行',
   url: 'https://www.alanwang.site',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -85,29 +85,20 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: '系列教程',
             items: [
               {
-                label: 'Tutorial',
-                to: '/posts/intro'
-              }
-            ]
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus'
+                label: '博客搭建',
+                to: '/posts/博客搭建系列/Hexo博客定制'
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus'
+                label: 'react 组件库',
+                to: '/posts/react-components/react-组件库搭建'
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus'
-              }
+                label: 'webpack',
+                to: '/posts/webpack-tutorial/webpack4.0学习总结（一）'
+              },
             ]
           },
           {
@@ -120,11 +111,15 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/3Alan'
-              }
+              },
+              {
+                label: 'Email',
+                href: 'mailto:1540703192@qq.com'
+              },
             ]
           }
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`
+        copyright: `Copyright © ${new Date().getFullYear()} Alan's Blog.`
       },
       prism: {
         theme: lightCodeTheme,

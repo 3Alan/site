@@ -20,7 +20,7 @@ sidebar_position: 3
 
 
 
-<!-- more -->
+<!--truncate-->
 
 我的总结篇的第一节中提到了index.html是需要我们手动移动到打包后的dist目录下的，那我比较懒能不能让webpack来帮我完成呢。🤔
 

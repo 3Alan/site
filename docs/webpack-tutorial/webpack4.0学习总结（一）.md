@@ -17,7 +17,7 @@ sidebar_position: 1
 
 这一篇文章主要简单介绍了webpack是什么以及webpack的一些简单配置，你只要跟着我敲完这些代码后一定会对webpack有一个基本的了解的。😎
 
-<!-- more -->
+<!--truncate-->
 
 ## webpack是一个模块打包器
 

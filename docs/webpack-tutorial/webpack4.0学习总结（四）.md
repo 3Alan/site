@@ -20,7 +20,7 @@ sidebar_position: 4
 
 webpack的devServer热更新以及HMR局部热更新
 
-<!-- more -->
+<!--truncate-->
 
 ### DevServer
 

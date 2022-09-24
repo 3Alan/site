@@ -18,7 +18,7 @@ sidebar_position: 2
 
 这节主要讲一讲一些常见的Loder的使用。包括`file-loader`、`url-loader`以及`css-loader`和`style-loader`。
 
-<!-- more -->
+<!--truncate-->
 
 ## Loader
 

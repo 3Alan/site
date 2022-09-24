@@ -16,7 +16,7 @@ abbrlink: b050203a
 
 {% note info, 介绍了评论系统以及一些自定义配置 %}
 
-<!-- more -->
+<!--truncate-->
 
 ## 评论系统
 

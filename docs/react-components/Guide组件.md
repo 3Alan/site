@@ -19,7 +19,7 @@ sidebar_position: 3
 
 Guide新手引导组件
 
-<!-- more -->
+<!--truncate-->
 
 > https://mp.weixin.qq.com/s/vrDQEGgOSnKBvHuwZV6vSA
 > 

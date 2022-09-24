@@ -14,7 +14,7 @@ date: 2020-05-13 15:51:16
 
 阿里云最近推出了一个“在家实践活动”，**免费**领取半年的服务器，真香。[领取地址](https://developer.aliyun.com/adc/student/)
 
-<!-- more -->
+<!--truncate-->
 
 ## 购买阿里云服务器
 

@@ -21,7 +21,7 @@ sidebar_position: 6
 
 TS、Eslint、webpack性能优化
 
-<!-- more -->
+<!--truncate-->
 
 ## 基础内容
 

@@ -19,7 +19,7 @@ sidebar_position: 1
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。
 
-<!-- more -->
+<!--truncate-->
 
 ## 技术选型
 - react

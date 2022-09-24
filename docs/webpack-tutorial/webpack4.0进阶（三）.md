@@ -22,7 +22,7 @@ sidebar_position: 7
 
 手写简单的loader、Plugin、简单的webpack
 
-<!-- more -->
+<!--truncate-->
 
 ### 手写简单的loader
 

@@ -20,7 +20,7 @@ description: Next.js搭建教程
 
 这段时间工作要求将之前的vue的H5活动页面转移到Next.js下面，经过一段时间的研究，总结出了下面的内容。
 
-<!-- more -->
+<!--truncate-->
 
 ## 什么是Next.js
 
