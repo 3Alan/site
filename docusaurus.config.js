@@ -35,10 +35,10 @@ const config = {
       ({
         docs: {
           routeBasePath: '/posts',
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve('./sidebars.js')
         },
         blog: {
-          showReadingTime: true,
+          showReadingTime: true
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css')
@@ -64,7 +64,7 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial'
+            label: '系列文章'
           },
           {
             type: 'doc',
@@ -74,9 +74,10 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right'
+            href: 'https://github.com/3Alan',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub profile'
           }
         ]
       },
@@ -118,7 +119,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus'
+                href: 'https://github.com/3Alan'
               }
             ]
           }
@@ -134,6 +135,9 @@ const config = {
           hideable: true,
           autoCollapseCategories: true
         }
+      },
+      colorMode: {
+        defaultMode: 'dark'
       }
     }),
   plugins: [
