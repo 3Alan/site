@@ -141,10 +141,10 @@ const config = {
       {
         fromExtensions: ['html', 'htm'],
         redirects: [
-          {
-            from: '/posts/记一次Next-js搭建之旅/',
-            to: '/blog/记一次Next-js搭建之旅'
-          },
+          // {
+          //   from: '/posts/记一次Next-js搭建之旅/',
+          //   to: '/blog/记一次Next-js搭建之旅'
+          // },
           {
             from: '/posts/Hexo博客定制/',
             to: '/posts/博客搭建系列/Hexo博客定制'
