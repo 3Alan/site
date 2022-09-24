@@ -45,7 +45,7 @@ description: Next.js搭建教程
 
 
 
-## Next.js 基础(与Rect开发的不同之处)
+## Next.js 基础(与React开发的不同之处)
 
 > https://www.nextjs.cn/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website
 

@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/posts/记一次Next-js搭建之旅/", "destination": "/blog/记一次Next-js搭建之旅" }
+  ]
+}
