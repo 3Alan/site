@@ -25,9 +25,9 @@ export default function Home(): JSX.Element {
       description="一个专注于前端开发的小白，分享前端开发知识/教程"
     >
       <HomepageHeader />
-      <main>
+      {/* <main>
         <HomepageFeatures />
-      </main>
+      </main> */}
     </Layout>
   );
 }

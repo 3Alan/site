@@ -6,50 +6,46 @@ tags:
 categories:
   - 前端
   - React
-abbrlink: 6af865
 date: 2020-11-12 17:04:58
-keywords: 
+keywords:
   - Next.js部署
-  - SSR
-  - Eslint
+  - SSR 服务端渲染
   - Docker容器
   - 前端工程化
   - 移动端适配方案
-description: Next.js搭建教程
+  - Redux
+description: Next.js搭建教程，搭建中遇到的问题，前端工程化搭建
 ---
 
-这段时间工作要求将之前的vue的H5活动页面转移到Next.js下面，经过一段时间的研究，总结出了下面的内容。
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+这段时间工作要求将之前的 vue 的 H5 活动页面转移到 Next.js 下面，经过一段时间的研究，总结出了下面的内容。
 
 <!--truncate-->
 
-## 什么是Next.js
+## 什么是 Next.js
 
-基于`React`的SSR（服务端渲染框架）
-
-
+基于`React`的 SSR（服务端渲染框架）
 
 ## SSR & CSR
 
 > 参考链接：https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8
 
-<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/ssr-explanation.png?w=800&ssl=1"  />
+<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/ssr-explanation.png?w=800&ssl=1" />
 
 > The main difference is that for SSR your server’s response to the browser is the HTML of your page that is ready to be rendered, while for CSR the browser gets a pretty empty document with links to your javascript. That means your browser will start rendering the HTML from your server without having to wait for all the JavaScript to be downloaded and executed. In both cases, React will need to be downloaded and go through the same process of building a virtual dom and attaching events to make the page interactive — but for SSR, the user can start viewing the page while all of that is happening. For the CSR world, you need to wait for all of the above to happen and then have the virtual dom moved to the browser dom for the page to be viewable.
 
-<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/csr-explanation.png?w=800&ssl=1"  />
+<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/csr-explanation.png?w=800&ssl=1" />
 
-## Next.js的优点
+## Next.js 的优点
 
-- 更好的SEO
+- 更好的 SEO
 - 更快的首屏渲染速度
 
-
-
-## Next.js 基础(与React开发的不同之处)
+## Next.js 基础(与 React 开发的不同之处)
 
 > https://www.nextjs.cn/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website
-
-
 
 ### 路由映射
 
@@ -73,21 +69,20 @@ router.push({
   pathname: '/activities/experience-lesson/course-info',
   query: { ...queryData, isFree: 0 }
 });
-router.push('/about')
+router.push('/about');
 ```
 
 ### 渲染方式
 
 #### 预渲染
 
-- **静态生成（Static Generation）**（HTML重用、build生成）
-- **服务器端渲染（Server-side Rendering）**（每次请求生成的HTML不同、用户请求时生成）
+- **静态生成（Static Generation）**（HTML 重用、build 生成）
+- **服务器端渲染（Server-side Rendering）**（每次请求生成的 HTML 不同、用户请求时生成）
 
-
-
-#### 相关API
+#### 相关 API
 
 - 静态生成
+
   - `getStaticProps(context)`
   - `getStaticPaths(context)`
 
@@ -108,21 +103,19 @@ function Page({ data }) {
 // This gets called on every request
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`https://.../data`)
-  const data = await res.json()
+  const res = await fetch(`https://.../data`);
+  const data = await res.json();
 
   // Pass data to the page via props
-  return { props: { data } }
+  return { props: { data } };
 }
 
-export default Page
+export default Page;
 ```
-
-
 
 ## 项目结构及工程化
 
-### 配置Eslint+Prettier
+### 配置 Eslint+Prettier
 
 > https://github.com/paulolramos/eslint-prettier-airbnb-react
 >
@@ -130,11 +123,9 @@ export default Page
 >
 > https://dev.to/bybruno/configuring-absolute-paths-in-react-for-web-without-ejecting-en-us-52h6
 
-
-
 解决`eslint`无法识别动态引入语法`import()`:
 
-[相关issue](https://github.com/eslint/eslint/issues/11486)
+[相关 issue](https://github.com/eslint/eslint/issues/11486)
 
 ```js
 // eslint 配置
@@ -142,7 +133,7 @@ parserOptions: {
   ecmaVersion: 2020, // Use the latest ecmascript standard
   sourceType: 'module', // Allows using import/export statements
   ecmaFeatures: {
-  jsx: true // Enable JSX since we're using React
+    jsx: true // Enable JSX since we're using React
   }
 },
 ```
@@ -157,11 +148,14 @@ parserOptions: {
 }
 ```
 
-后期经过一段时间发现有些团队成员的编辑器设置了实时保存功能，于是就直接跳过了这一步，这里便可以用`husky`(用来给git添加hook)搭配`lint-staged`在commit代码前来自动做这一件事情。
+后期经过一段时间发现有些团队成员的编辑器设置了实时保存功能，于是就直接跳过了这一步，这里便可以用`husky`(用来给 git 添加 hook)搭配`lint-staged`在 commit 代码前来自动做这一件事情。
+
 ```
 yarn add husky lint-staged prettier --dev
 ```
+
 编写`package.json`
+
 ```
 "husky": {
  "hooks": {
@@ -176,11 +170,7 @@ yarn add husky lint-staged prettier --dev
 }
 ```
 
-
-
-
-
-### 配置alias
+### 配置 alias
 
 `next.config.js`配置
 
@@ -189,7 +179,7 @@ yarn add husky lint-staged prettier --dev
 const path = require('path');
 
 module.exports = {
-  webpack: (config) => {
+  webpack: config => {
     // Note: we provide webpack above so you should not `require` it
     // Perform customizations to webpack config
     config.resolve.alias['@'] = path.resolve(__dirname, './src');
@@ -197,18 +187,37 @@ module.exports = {
     return config;
   }
 };
-
 ```
 
+eslint 无法识别 alias，需要在根目录下创建文件`jsconfig.json`并在`.eslintrc.js` 配置`settings`
 
+<Tabs>
+<TabItem value="jsconfig" label="jsconfig.json">
 
-eslint无法识别alias，需要在根目录下创建文件`jsconfig.json`并在`.eslintrc.js`	配置`settings`
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
+```
+
+</TabItem>
+<TabItem value="eslintrc" label=".eslintrc.js">
 
 ```js
-// .eslintrc.js
 module.exports = {
   root: true, // Make sure eslint picks up the config at the root of the directory
-  extends: ['airbnb', 'airbnb/hooks', 'plugin:prettier/recommended', 'prettier/react'],
+  extends: [
+    'airbnb',
+    'airbnb/hooks',
+    'plugin:prettier/recommended',
+    'prettier/react'
+  ],
   env: {
     browser: true,
     commonjs: true,
@@ -272,93 +281,79 @@ module.exports = {
     }
   }
 };
-
 ```
 
+</TabItem>
+</Tabs>
 
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "exclude": ["node_modules", "**/node_modules/*"]
-}
-```
-
-
-
-
-
-### 封装axios在每次请求时显示`spin`组件
+### 封装 axios 在每次请求时显示`spin`组件
 
 这里要注意一点，由于服务端不存在`document`，所以要判断一下当前所处的环境再去执行操作。
 
-```jsx
-import axios from 'axios';
-import ReactDOM from 'react-dom';
-import Spin from '../components/Spin/Spin';
+<details>
+  <summary>详细代码</summary>
 
-const Axios = axios.create({
-  timeout: 20000
-});
+  ```jsx
+  import axios from 'axios';
+  import ReactDOM from 'react-dom';
+  import Spin from '../components/Spin/Spin';
 
-const csr = process.browser;
+  const Axios = axios.create({
+    timeout: 20000
+  });
 
-// 当前正在请求的数量
-let requestCount = 0;
+  const csr = process.browser;
 
-function showLoading() {
-  if (requestCount === 0) {
-    var dom = document.createElement('div');
-    dom.setAttribute('id', 'loading');
-    document.body.appendChild(dom);
-    ReactDOM.render(<Spin />, dom);
+  // 当前正在请求的数量
+  let requestCount = 0;
+
+  function showLoading() {
+    if (requestCount === 0) {
+      var dom = document.createElement('div');
+      dom.setAttribute('id', 'loading');
+      document.body.appendChild(dom);
+      ReactDOM.render(<Spin />, dom);
+    }
+    requestCount++;
+    console.log('showLoading', requestCount);
   }
-  requestCount++;
-  console.log('showLoading', requestCount);
-}
 
-function hideLoading() {
-  requestCount--;
-  if (requestCount === 0) {
-    document.body.removeChild(document.getElementById('loading'));
+  function hideLoading() {
+    requestCount--;
+    if (requestCount === 0) {
+      document.body.removeChild(document.getElementById('loading'));
+    }
+    console.log('hideLoading', requestCount);
   }
-  console.log('hideLoading', requestCount);
-}
 
-Axios.interceptors.request.use(
-  (config) => {
-    csr && showLoading();
-    return config;
-  },
-  (err) => {
-    csr && hideLoading();
-    return Promise.reject(err);
-  }
-);
+  Axios.interceptors.request.use(
+    config => {
+      csr && showLoading();
+      return config;
+    },
+    err => {
+      csr && hideLoading();
+      return Promise.reject(err);
+    }
+  );
 
-Axios.interceptors.response.use(
-  (res) => {
-    csr && hideLoading();
-    return res;
-  },
-  (err) => {
-    csr && hideLoading();
-    return Promise.reject(err);
-  }
-);
+  Axios.interceptors.response.use(
+    res => {
+      csr && hideLoading();
+      return res;
+    },
+    err => {
+      csr && hideLoading();
+      return Promise.reject(err);
+    }
+  );
 
-export default Axios;
+  export default Axios;
+  ```
 
-```
+</details>
 
-
-
-### 自定义input hook
+### 自定义 input hook
 
 使用后可以免去给每个表单组件设置`onChange`
 
@@ -376,13 +371,12 @@ export function useInput(initialValue) {
     reset: () => setValue(''),
     bind: {
       value,
-      onChange: (e) => {
+      onChange: e => {
         setValue(e.target.value);
       }
     }
   };
 }
-
 ```
 
 使用：
@@ -398,8 +392,7 @@ const [phone, setPhone] = useState('');
   className={`${styles['cell-content']} ${styles['cell-content-right']}`}
   value={phone}
   onChange={() => setPhone(e.target.value)}
-/>
-
+/>;
 
 // 使用后
 const { value: phone, bind: bindPhone } = useInput('');
@@ -410,12 +403,10 @@ const { value: phone, bind: bindPhone } = useInput('');
   placeholder="请输入您的手机号码(必填)"
   className={`${styles['cell-content']} ${styles['cell-content-right']}`}
   {...bindPhone}
-/>
+/>;
 ```
 
-
-
-### 封装Dialog
+### 封装 Dialog
 
 ```jsx
 import { createPortal } from 'react-dom';
@@ -426,7 +417,7 @@ export default function Modal({ content, show, onOk }) {
     <div className={styles['overlay']}>
       <div className={styles['modal']}>
         {/* 防止冒泡关闭窗口 */}
-        <div className={styles['wrapper']} onClick={(e) => e.stopPropagation()}>
+        <div className={styles['wrapper']} onClick={e => e.stopPropagation()}>
           <div className={styles['content']}>{content}</div>
           <div className={styles['readed_btn']} onClick={() => onOk()}>
             好 的
@@ -456,12 +447,9 @@ export default function Modal({ content, show, onOk }) {
     </>
   );
 }
-
 ```
 
-
-
-###  移动端适配
+### 移动端适配
 
 使用插件`postcss-px-to-viewport`
 
@@ -489,14 +477,12 @@ module.exports = {
     }
   }
 };
-
 ```
 
-
-
-### 使用Docker+coding实现自动化部署
+### 使用 Docker+coding 实现自动化部署
 
 ### docker 常用命令
+
 - `docker image ls `
 - `docker image build -t [imageName] .` 最后的`点`代表`dockerfile`路径
 - `docker container ls` 所有正在运行的容器 `--all , -a` 可以列出所有
@@ -533,30 +519,26 @@ EXPOSE 3000
 CMD [ "npm", "run", "start" ]
 ```
 
-在coding上设置代码push触发规则，触发生成制品库。
+在 coding 上设置代码 push 触发规则，触发生成制品库。
 
+### 使用 redux
 
-
-### 使用redux
-
->https://github.com/vercel/next.js/tree/canary/examples/with-redux
+> https://github.com/vercel/next.js/tree/canary/examples/with-redux
 >
->https://github.com/vercel/next.js/tree/canary/examples/with-redux-thunk
+> https://github.com/vercel/next.js/tree/canary/examples/with-redux-thunk
 
-里面有使用到一个js新特性[Nullish coalescing operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator)
-
-
+里面有使用到一个 js 新特性[Nullish coalescing operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator)
 
 ## Next.js 踩坑
 
 ### 环境变量配置
 
-环境变量在客户端无法获取，背景：由于我在项目中需要根据环境变量来使用不同环境的API域名。
+环境变量在客户端无法获取，背景：由于我在项目中需要根据环境变量来使用不同环境的 API 域名。
 
 解决方案：官方提供了以`NEXT_PUBLIC_`开头的环境变量名，这样就可以在客户端和服务端都访问得到环境变量了。
 
 ### 判断环境
+
 ```
 process.browser === true ? 'client' : 'server'
 ```
-
