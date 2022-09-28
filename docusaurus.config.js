@@ -164,6 +164,12 @@ const config = {
         ]
       }
     ]
+  ],
+  scripts: [
+    {
+      src: 'https://hm.baidu.com/hm.js?ff1856f91533fcea9c8c2fe5a1b06fe7',
+      async: true,
+    },
   ]
 };
 
