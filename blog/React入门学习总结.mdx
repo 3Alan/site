@@ -1,0 +1,666 @@
+---
+title: React入门学习总结
+tags:
+  - React
+categories:
+  - 前端
+  - React
+date: 2020-11-04 18:13:56
+keywords:
+  - React入门教程
+  - React Redux
+description: React入门教程
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+总结学习 React 以及相关生态时遇到的难点以及重点
+
+<!-- truncate -->
+
+![学习吗，不学习我就放手了](http://img.doutula.com/production/uploads/image/2018/03/15/20180315080324_kYaXfj.jpg)
+
+## 基础知识点
+
+- 单向数据流（子组件不能修改父组件数据）
+
+- 组件名首字母大写
+
+- 可以使用 `<React.Fragment></ React.Fragment>` 或者 `<></>` 包裹标签
+
+- 关键字
+  - `class` -> `className`
+  - `<label for="id名"></lable>`->`<label htmlFor="id名"></lable>`用来扩大点击范围
+- 不要直接修改 `state` 要使用 `this.setState()`
+
+- `this` 指向问题
+
+  ```js
+  // 在constructor使用bind，无法传参数
+  this.handlerClick = this.handlerClick.bind(this);
+  // 调用时使用bind，对性能优化不友好,因为每次render()时都要重新bind
+  onChange={this.handlerClick.bind(this,num)}
+  ```
+
+  ```js
+  // 使用箭头函数
+  onChange={e => this.handlerClick(num)}
+  ```
+
+  ```js
+  // 声明为箭头函数,无法传参
+  handlerClick = num => {};
+  ```
+
+- 循环渲染加 key，不要使用 index 作为 key 值。
+
+- 注释写法 `{/\*\*/}`
+
+- ```
+  dangerouslySetInnerHTML={{__html: item(需要展示的数据)}} // 不转义html标签
+  ```
+
+- [setState()](https://zh-hans.reactjs.org/docs/react-component.html#setstate)第二个参数为回调函数
+
+- 一旦 `state`, `props` 变化，`render()` 就会执行。也就是说一旦父组件 state 变化时，`render()` 会执行所以其父组件的中的子组件也会再 `render()` 一遍。
+
+- 动画组件[react-transition-group](https://reactcommunity.org/react-transition-group/)
+
+- 当组件中只有 `render()` 时，可以把它声明成一个无状态组件，可以提升性能
+
+- ref 用来获取 dom 元素，`ref={(element) => {}}` element 为该元素
+
+## 组件通信
+
+### 父->子
+
+通过属性传递，子组件通过 `this.props` 接受，父组件值的改变会直接影响到子组件。
+
+父组件
+
+```jsx
+// 父组件中使用子组件
+const name = 'Alan'
+
+<Child name={name} />
+```
+
+子组件
+
+```jsx
+<div>{this.props.name}</div>
+```
+
+### 子-> 父
+
+父组件将自己方法传递给子组件，子组件通过添加事件来调用该方法。这样就可以达到子组件修改父组件数据的目的，同时可以将子组件的数据传递给父组件。
+
+父组件
+
+```jsx
+this.state = {
+    list: [1,2,3]
+}
+
+<Child handlerEvent={this.deleteItem.bind(this)} />
+
+// 方法
+deleteItem(index) {
+  const list = [...this.state.list];
+  list.splice(index,1);
+  this.setState({
+    list,
+  });
+}
+```
+
+子组件
+
+```jsx
+<button onClick={() => this.props.handlerEvent(1)}></button>
+```
+
+## props 参数校验及默认值
+
+[具体参数](https://zh-hans.reactjs.org/docs/typechecking-with-proptypes.html)
+
+```jsx
+import PropTypes from 'prop-types';
+
+// 参数校验
+// Child为组件名
+// 定义this.props.content为string类型并且为必须参数
+Child.propTypes = {
+  content: PropTypes.string.isRequired
+};
+
+// 参数默认值
+Child.defaultProps = {
+  mobile: 'none'
+};
+```
+
+## 异步组件加载插件[react-loadable](https://github.com/jamiebuilds/react-loadable)
+
+使用方式
+
+```jsx
+import React, { Component } from 'react';
+import Loadable from 'react-loadable';
+
+const LoadableComponent = Loadable({
+  // 需要异步引入的组件
+  loader: () => import('./index'),
+  loading() {
+    // 加载时进行的操作，这里显示loading提升用户体验
+    return <div>loading...</div>;
+  }
+});
+
+export default class App extends Component {
+  render() {
+    return <LoadableComponent />;
+  }
+}
+```
+
+## 虚拟 DOM
+
+### 何为虚拟 DOM
+
+使用 JS 对象来描述真实 DOM，虚拟 DOM（JS 对象）的操作性能要远远优于真实 DOM 操作性能。
+
+通过 `React.createElement(type, [props], [...children])` 来生成虚拟 DOM
+
+优点：
+
+- DOM 操作很耗性能，虚拟 DOM 操作性能好
+
+- 无需替换全部 DOM，通过 diff 算法比对替换局部改变的 DOM
+- 由于使用了虚拟 DOM，有利于原生应用的开发（RN），因为 DOM 是存在于浏览器中的。
+
+出于性能考虑，react 将多次 `setState`(异步函数)合并成一次 setState，因为 `setState` 会导致虚拟 DOM 进行 diff 对比。
+
+### diff 算法
+
+[diff 算法](https://segmentfault.com/a/1190000000606216)
+
+## 生命周期
+
+- mounting
+  - `componentWillMount` / `UNSAFE_componentWillMount`
+  - `render()`
+  - `componentDidMount` 应用场景：发送请求
+- updation(props/state 发生变化)
+  - [`componentWillReceiveProps()`](https://reactjs.org/docs/react-component.html#unsafe_componentwillreceiveprops)将废除
+  - `shouldComponentUpdate` 更新之前，返回 true 时才会更新
+  - `render()`
+  - `componentDidUpdate`
+- unmounting
+  - `componentWillUnmount`
+
+## 性能优化
+
+```js
+// 只有当子组件数据变化时才去执行render()
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.content !== this.props.content;
+  // 防止更新影响性能
+}
+```
+
+也可以使用组件去继承 `React.PureComponent` 以达到和上面一样的效果，但是应该减少使用，因为它存在一些问题。[问题](https://reactjs.org/docs/render-props.html#be-careful-when-using-render-props-with-reactpurecomponent)
+
+**在 hook 中也有类似的 API：useMemo 和 useCallback**
+
+> useMemo 参考资料：
+>
+> [How to useMemo in React](https://www.robinwieruch.de/react-usememo-hook)
+
+## Redux
+
+![redux 原理](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200622095821817.png)
+
+#### 原理
+
+组件通过 `dispatch(action)` 来通知 `store` ， `store` 根据 `action` 来调用对应的 `reducers` 来操作 `store` 副本， `reducers` 将处理好的数据返回给 `store` 。
+
+`store` 和组件之间通过，`store.subscribe(this.setState(store.getState()))` 来同步最新的 `store` 数据。
+
+1. 创建 store (**createStore()**)
+
+```js
+import { createStore } from 'redux';
+import reducer from './reducer';
+// 第二个参数配置后可以使用谷歌redux插件
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+export default store;
+```
+
+2. 创建 reducer（管理操作数据 store 副本）
+
+```js
+const defaultState = {
+  todoText: ''
+};
+
+export default (state = defaultState, action) => {
+  if (action.type === 'action的type') {
+    let newState = JSON.parse(JSON.stringify(state));
+    // 更新store
+    newState.todoText = action.value;
+    return newState;
+  }
+  return state;
+};
+```
+
+可以通过 `store.getState()` 来获取 store 中的数据，给组件赋初值
+
+```js
+this.state = store.getState();
+```
+
+3. 创建 action
+
+```js
+const action = {
+  type: '',
+  value: '' // 要改变的值
+};
+```
+
+4. 通过 `store.dispatch(action)` 通知 `store` ， `reducer` 将接收到修改之前的 `state` 和 `action`
+5. `reducer` 更新 `state` 的副本，将新 `state` 返回给 `store`
+6. 使用 `store` 的组件中通过 `store.subscribe(this.setState(store.getState()))` 订阅 `store` 来同步最新的 `store`
+
+为了提高代码健壮性和可维护性，把 action 单独声明为一个文件，并且把 `action.type` 声明为一个常量文件。
+
+```
+store
+ ├── actionCreators.js // 生成action
+ ├── actionType.js // action type对应的常量
+ ├── index.js
+ └── reducer.js
+```
+
+<Tabs>
+<TabItem value="index" label="index.js">
+
+```js
+import { createStore } from 'redux';
+import reducer from './reducer';
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+export default store;
+```
+
+</TabItem>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+import { INPUT_CHANGE } from './actionType';
+
+export const changeInputAction = value => ({
+  type: INPUT_CHANGE,
+  value
+});
+```
+
+</TabItem>
+<TabItem value="reducer" label="reducer.js">
+
+```js
+import { INPUT_CHANGE } from './actionType';
+
+const defaultState = {
+  todoText: ''
+};
+
+export default (state = defaultState, action) => {
+  if (action.type === INPUT_CHANGE) {
+    let newState = JSON.parse(JSON.stringify(state));
+    newState.todoText = action.value;
+    return newState;
+  }
+  return state;
+};
+```
+
+</TabItem>
+<TabItem value="actionType" label="actionType.js">
+
+```js
+export const INPUT_CHANGE = 'inputChange';
+```
+
+</TabItem>
+</Tabs>
+
+<Admonition type="info">
+  <p>
+    reducers函数的返回值要是可预测，也就是说里面不能写类似new
+    Date,Ajax等的不可预测结果的代码
+  </p>
+  <p>
+    reducers不能修改原来的state，只能返回一个新的state，为了防止被误改造成bug，可以使用immutable.js来解决，它可以将state数据转化成一个特定的对象
+  </p>
+</Admonition>
+
+```
+npm i immutable redux-immutable -S
+```
+
+- `immutable` 对象通过 `get()` 和 `set()` 等 api 来操作数据，当有多个 `set()` 连用时可以使用 `merge({})` 来实现
+- `immutable` 通过 `fromJS` 可以将 `state` 转化成 `immutable` 对象，通过 `toJS()` 将 `immutable` 对象转化成 `js` 对象
+- `redux-immutable` 也提供了 `combineReducers` ，结合不同模块的 `reducers` 的同时还可以将 `state` 转化成 `immutable` 对象。
+
+<Admonition type="info">
+  当项目越来越大时，项目中的 reducer.js 文件也会越来越臃肿，这个时候我们可以通过 redux 提供的`combineReducers`来将 reducer 拆分成不同的模块
+</Admonition>
+
+```js
+import { combineReducers } from 'redux';
+import mAReducer from '../mAReducer/store/reducer';
+import mBReducer from '../mBReducer/store/reducer';
+
+export default combineReducers({
+  A: mAReducer,
+  B: mBReducer
+});
+// 这样我们在使用mAReducer中的数据是就要通过state.A.xxx来获取其数据了
+```
+
+### redux-thunk
+
+中间件：位于 action 和 store 之间
+
+redux-thunk 可以让 redux 使用异步操作
+
+使用方式
+
+```js
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './reducer';
+import thunk from 'redux-thunk';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+const store = createStore(reducer, enhancer);
+
+export default store;
+```
+
+例子
+
+<Tabs>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+export const setTodoList = list => ({
+  type: GET_TODOLIST,
+  list
+});
+
+export const getTodoList = () => {
+  return dispatch => {
+    axios.get('http://localhost:8888/test/getTodoList').then(res => {
+      const todoList = res.data.datas;
+      const action = setTodoList(todoList);
+      dispatch(action);
+    });
+  };
+};
+```
+
+</TabItem>
+<TabItem value="tab 组件使用" label="tab 组件使用">
+
+```js
+componentDidMount() {
+    const action = getTodoList();
+    store.dispatch(action);
+}
+```
+
+</TabItem>
+</Tabs>
+
+### redux-saga
+
+使用方式
+
+<Tabs>
+<TabItem value="index" label="index.js">
+
+```js
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './reducer';
+import createSagaMiddleware from 'redux-saga';
+import mySaga from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+const store = createStore(reducer, enhancer);
+sagaMiddleware.run(mySaga);
+
+export default store;
+```
+
+</TabItem>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+export const getSaga = list => ({
+  type: GET_SAGA,
+  list
+});
+```
+
+</TabItem>
+<TabItem value="sagas" label="sagas.js">
+
+```js
+import { takeEvery } from 'redux-saga/effects';
+import { GET_SAGA } from './actionType';
+
+function* getList() {
+  console.log('进行异步操作了');
+}
+
+function* mySaga(action) {
+  // 当dispatch的action.type = GET_SAGA时，调用getList方法
+  yield takeEvery(GET_SAGA, getList);
+}
+
+export default mySaga;
+```
+
+</TabItem>
+</Tabs>
+
+### react-redux
+
+使用 `Provider` 和 `connect` 实现 store 的共享，之前的写法是需要在需要使用 store 的组件中引入 store，并通过`store.subscribe`和`store.getState`来同步和获取最新的 store 内容。
+
+```jsx
+<Provider store={store}>
+  {/* 包裹需要使用store的组件 */}
+  <App />
+</Provider>
+```
+
+
+```jsx title="Demo.js"
+import { deleteTodoItemAction } from '../../store/actionCreators';
+
+// 将store中的state的数据映射到组件的props中
+const mapStateToProps = state => ({
+  ...state
+});
+
+// 将dispatch映射到props中
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteTodoItem(index) {
+      const action = deleteTodoItemAction(index);
+      dispatch(action);
+    }
+  };
+};
+
+// Demo为需要使用store的组件
+connect(mapStateToProps, mapDispatchToProps)(Demo);
+```
+
+---
+
+#### hook
+
+如果使用的是 hook 进行开发的话，可以使用 [react-redux](https://react-redux.js.org/next/api/hooks) 提供的 `hook` api 来简化书写,并且不需要使用 `connect()` 来包裹组件，**但是仍然需要使用`Provider`包裹父组件**
+
+```jsx
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTodoItemAction } from '../../store/actionCreators';
+
+// 等同于前面的mapStateToProps
+const counter = useSelector(state => state.counter);
+
+const dispatch = useDispatch();
+
+// 使用
+dispatch(deleteTodoItemAction);
+```
+
+- `useSelector`：返回 state 中的值，当一个 `action` 被 `dispatch` 时，`useSelector` 会把之前的 selector 返回的结果和现在的结果进行`浅`比较（默认深比较`===`），如果不相同的话组件会被强制渲染，否则不会。
+
+## css 写法
+
+react 不像 vue 那样可以优雅的在 vue 文件中写 css 代码，不过 react 也提供了几种 css 书写方式（待补充）
+
+- css in js
+- 使用 styled-components
+- css-module（依赖于 webpack）
+
+styled-components(使用 js 编写 css 代码)
+
+{%tabs 5%}
+
+<!-- tab style.js -->
+
+```js
+import styled from 'styled-components';
+
+export const Logo = styled.a.attrs({
+  href: '/'
+})`
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(${props => props.imgUrl});
+`;
+```
+
+<!-- endtab -->
+
+<!-- tab 使用方式 -->
+
+```jsx
+import React, { Component } from 'react';
+import { Logo } from './style';
+
+class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return <Logo imgUrl="xxx" />;
+  }
+}
+
+export default Header;
+```
+
+<!-- endtab -->
+
+{%endtabs%}
+
+上面这种写法等同于
+
+```jsx
+render() {
+    return (
+        <a href="/" style={{position: "absolute", top: 0, left: 0}}></a>
+    );
+}
+```
+
+## react-router
+
+```
+npm i react-router-dom -S
+```
+
+
+```jsx title="使用方式"
+import React from 'react';
+import Header from './common/header';
+import store from './store';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Home from './pages/home';
+import Detail from './pages/detail';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <Route path="/" exact component={Home}></Route>
+        <Route path="/detail" exact component={Detail}></Route>
+      </Router>
+    </Provider>
+  );
+}
+
+export default App;
+```
+
+**exact 为精准匹配路由**
+
+页面跳转，使用`react-router-dom`中的`<Link to="xxx"></Link>`，重定向使用`<Redirect to="xxx"></Redirect>`
+
+编程式写法：
+
+`this.props.history.(push()/goBack(num)/go()/replace())`
+
+**动态路由**
+
+```jsx
+<Route path="/post/:id" exact component={POST}></Route>
+// POST组件通过this.props.match.params.id来获取id值
+```
+
+**可以使用 withRouter 包裹组件来获取 history**
+
+## 总结
+
+React 对比 Vue 来说，学习成本比较高，但是比较灵活。而 vue 提供了很多封装好的 api，学习起来对小白比较友好。
