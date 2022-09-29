@@ -13,6 +13,7 @@ keywords:
   - React SSR
   - React Router
 description: React 服务端渲染的简单实现原理
+authors: Alan
 ---
 
 关于概念，我觉得这篇[文章](https://segmentfault.com/a/1190000038336185)讲的很形象
