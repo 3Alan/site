@@ -126,8 +126,18 @@ const config = {
         darkTheme: darkCodeTheme,
         magicComments: [
           {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: {start: 'highlight-start', end: 'highlight-end'},
+          },
+          {
             className: 'code-block-add-line',
             line: 'highlight-add-line',
+          },
+          {
+            className: 'code-block-warn-line',
+            line: 'highlight-warn-line',
+            block: {start: 'highlight-warn-start', end: 'highlight-warn-end'},
           },
         ],
       },

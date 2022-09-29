@@ -47,10 +47,16 @@
     no-repeat;
 }
 
-.code-block-add-line {
-  background-color: #003100;
+.code-block-add-line, .code-block-warn-line {
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+.code-block-add-line {
+  background-color: #003100;
   border-left: 3px solid #009400;
+}
+.code-block-warn-line {
+  background-color: #4d3800;
+  border-left: 3px solid #e6a700;
 }
