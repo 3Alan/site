@@ -7,9 +7,11 @@ categories:
   - React
 date: 2020-11-04 18:13:56
 keywords:
-  - React入门教程
+  - React 入门教程
   - React Redux
-description: React入门教程
+  - React Router
+  - React 生命周期
+description: React 入门教程，包含了 React 的常见生态
 ---
 
 import Tabs from '@theme/Tabs';
@@ -364,7 +366,8 @@ npm i immutable redux-immutable -S
 - `redux-immutable` 也提供了 `combineReducers` ，结合不同模块的 `reducers` 的同时还可以将 `state` 转化成 `immutable` 对象。
 
 <Admonition type="info">
-  当项目越来越大时，项目中的 reducer.js 文件也会越来越臃肿，这个时候我们可以通过 redux 提供的`combineReducers`来将 reducer 拆分成不同的模块
+  当项目越来越大时，项目中的 reducer.js 文件也会越来越臃肿，这个时候我们可以通过
+  redux 提供的`combineReducers`来将 reducer 拆分成不同的模块
 </Admonition>
 
 ```js
@@ -507,7 +510,6 @@ export default mySaga;
 </Provider>
 ```
 
-
 ```jsx title="Demo.js"
 import { deleteTodoItemAction } from '../../store/actionCreators';
 
@@ -561,9 +563,8 @@ react 不像 vue 那样可以优雅的在 vue 文件中写 css 代码，不过 r
 
 styled-components(使用 js 编写 css 代码)
 
-{%tabs 5%}
-
-<!-- tab style.js -->
+<Tabs>
+<TabItem value="style" label="style.js">
 
 ```js
 import styled from 'styled-components';
@@ -578,9 +579,8 @@ export const Logo = styled.a.attrs({
 `;
 ```
 
-<!-- endtab -->
-
-<!-- tab 使用方式 -->
+</TabItem>
+<TabItem value="使用方式" label="使用方式">
 
 ```jsx
 import React, { Component } from 'react';
@@ -599,17 +599,16 @@ class Header extends Component {
 export default Header;
 ```
 
-<!-- endtab -->
-
-{%endtabs%}
+</TabItem>
+</Tabs>
 
 上面这种写法等同于
 
 ```jsx
 render() {
-    return (
-        <a href="/" style={{position: "absolute", top: 0, left: 0}}></a>
-    );
+  return (
+    <a href="/" style={{position: "absolute", top: 0, left: 0}}></a>
+  );
 }
 ```
 
@@ -618,7 +617,6 @@ render() {
 ```
 npm i react-router-dom -S
 ```
-
 
 ```jsx title="使用方式"
 import React from 'react';
@@ -646,21 +644,19 @@ export default App;
 
 **exact 为精准匹配路由**
 
-页面跳转，使用`react-router-dom`中的`<Link to="xxx"></Link>`，重定向使用`<Redirect to="xxx"></Redirect>`
+页面跳转，使用 `react-router-dom` 中的 `<Link to="xxx"></Link>` ，重定向使用`<Redirect to="xxx"></Redirect>`
 
 编程式写法：
 
 `this.props.history.(push()/goBack(num)/go()/replace())`
 
-**动态路由**
-
-```jsx
+```jsx title="动态路由"
 <Route path="/post/:id" exact component={POST}></Route>
 // POST组件通过this.props.match.params.id来获取id值
 ```
 
 **可以使用 withRouter 包裹组件来获取 history**
 
-## 总结
+## React vs Vue
 
 React 对比 Vue 来说，学习成本比较高，但是比较灵活。而 vue 提供了很多封装好的 api，学习起来对小白比较友好。
