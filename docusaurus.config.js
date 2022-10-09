@@ -176,7 +176,11 @@ const config = {
           {
             from: '/posts/react-组件库搭建/',
             to: '/posts/react-components/react-组件库搭建'
-          }
+          },
+          {
+            from: '/posts/工作中遇到的问题记录/',
+            to: '/blog/工作中遇到的问题记录'
+          },
         ]
       }
     ]
