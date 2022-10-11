@@ -1,6 +1,6 @@
 {
   "index_name": "blog",
-  "start_urls": ["https://www.alanwang.site"],
+  "start_urls": ["https://www.alanwang.site/"],
   "sitemap_urls": ["https://www.alanwang.site/sitemap.xml"],
   "selectors": {
     "lvl0": ".page-heading",

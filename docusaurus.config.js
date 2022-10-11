@@ -98,7 +98,7 @@ const config = {
               {
                 label: 'webpack',
                 to: '/posts/webpack-tutorial/webpack4.0学习总结（一）'
-              },
+              }
             ]
           },
           {
@@ -115,7 +115,7 @@ const config = {
               {
                 label: 'Email',
                 href: 'mailto:1540703192@qq.com'
-              },
+              }
             ]
           }
         ],
@@ -128,18 +128,18 @@ const config = {
           {
             className: 'theme-code-block-highlighted-line',
             line: 'highlight-next-line',
-            block: {start: 'highlight-start', end: 'highlight-end'},
+            block: { start: 'highlight-start', end: 'highlight-end' }
           },
           {
             className: 'code-block-add-line',
-            line: 'highlight-add-line',
+            line: 'highlight-add-line'
           },
           {
             className: 'code-block-warn-line',
             line: 'highlight-warn-line',
-            block: {start: 'highlight-warn-start', end: 'highlight-warn-end'},
-          },
-        ],
+            block: { start: 'highlight-warn-start', end: 'highlight-warn-end' }
+          }
+        ]
       },
       docs: {
         sidebar: {
@@ -148,31 +148,14 @@ const config = {
         }
       },
       colorMode: {
-        disableSwitch: true
+        disableSwitch: true,
+        defaultMode: 'dark'
       },
       algolia: {
-        // Algolia 提供的应用 ID
         appId: '2XRFRLLWRR',
-  
-        //  公开 API 密钥：提交它没有危险
         apiKey: '9bc14c0a7f5cfdd461f0020fee33bfd9',
-  
-        indexName: 'blog',
-  
-        // 可选：见下文
-        contextualSearch: true,
-  
-        // 可选：声明哪些域名需要用 window.location 型的导航而不是 history.push。 适用于 Algolia 配置会爬取多个文档站点，而我们想要用 window.location.href 在它们之间跳转时。
-        externalUrlRegex: 'external\\.com|domain\\.com',
-  
-        // 可选：Algolia 搜索参数
-        searchParameters: {},
-  
-        // 可选：搜索页面的路径，默认启用（可以用 `false` 禁用）
-        searchPagePath: 'search',
-  
-        // ……其他 Algolia 参数
-      },
+        indexName: 'blog'
+      }
     }),
   plugins: [
     [
@@ -203,7 +186,7 @@ const config = {
           {
             from: '/posts/工作中遇到的问题记录/',
             to: '/blog/工作中遇到的问题记录'
-          },
+          }
         ]
       }
     ]
@@ -211,8 +194,8 @@ const config = {
   scripts: [
     {
       src: 'https://hm.baidu.com/hm.js?ff1856f91533fcea9c8c2fe5a1b06fe7',
-      async: true,
-    },
+      async: true
+    }
   ]
 };
 

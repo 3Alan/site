@@ -1,6 +1,9 @@
 import React from 'react';
 import Giscus from '@giscus/react';
 
+//  TODO: 配置提取到 docusaurus.config.js 文件中
+// 服务端不加载，相关api browserOnly useThemeConfig
+
 export const Comment = () => {
   return (
     <div style={{ paddingTop: 50 }}>
