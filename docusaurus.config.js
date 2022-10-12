@@ -36,7 +36,6 @@ const config = {
         docs: {
           routeBasePath: '/posts',
           sidebarPath: require.resolve('./sidebars.js'),
-          showLastUpdateTime: true
         },
         blog: {
           showReadingTime: true
