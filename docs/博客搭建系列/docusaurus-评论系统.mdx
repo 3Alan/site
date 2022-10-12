@@ -30,31 +30,37 @@ yarn add @giscus/react
 然后我们封装一个评论组件方便使用
 ```tsx title="src/components/comment/index.tsx"
 import React from 'react';
-import Giscus from '@giscus/react';
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import Giscus, { GiscusProps } from '@giscus/react';
+import { useThemeConfig, ThemeConfig } from '@docusaurus/theme-common';
+
+interface CustomThemeConfig extends ThemeConfig {
+  giscus: GiscusProps;
+}
 
 export const Comment = () => {
+  const { giscus } = useThemeConfig() as CustomThemeConfig;
+
   return (
-    <div style={{ paddingTop: 50 }}>
-      <Giscus
-        id="comments"
-        // highlight-warn-start
-        // 这部分填写你自己的
-        repo="3Alan/site"
-        repoId=""
-        category="Announcements"
-        categoryId=""
-        // highlight-warn-end
-        mapping="title"
-        strict="1"
-        term="Welcome to @giscus/react component!"
-        reactionsEnabled="1"
-        emitMetadata="0"
-        inputPosition="bottom"
-        theme="dark_dimmed"
-        lang="zh-CN"
-        loading="lazy"
-      />
-    </div>
+    <BrowserOnly fallback={<div>Loading Comments...</div>}>
+      {() => (
+        <div style={{ paddingTop: 50 }}>
+          <Giscus
+            id="comments"
+            mapping="title"
+            strict="1"
+            term="Welcome to @giscus/react component!"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="bottom"
+            theme="dark_dimmed"
+            lang="zh-CN"
+            loading="lazy"
+            {...giscus}
+          />
+        </div>
+      )}
+    </BrowserOnly>
   );
 };
 
@@ -120,6 +126,11 @@ function useDocTOC() {
 
 export default function DocItemLayout({ children }: Props): JSX.Element {
   const docTOC = useDocTOC();
+  // highlight-add-start
+  const { frontMatter } = useDoc();
+  const { hide_comment: hideComment } = frontMatter;
+  // highlight-add-end
+
   return (
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
@@ -136,7 +147,7 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
         </div>
 
         // highlight-add-line
-        <Comment />
+        {!hideComment && <Comment />}
       </div>
       {docTOC.desktop && <div className="col col--3">{docTOC.desktop}</div>}
     </div>
@@ -186,7 +197,10 @@ function BlogPostPageContent({
   const {
     hide_table_of_contents: hideTableOfContents,
     toc_min_heading_level: tocMinHeadingLevel,
-    toc_max_heading_level: tocMaxHeadingLevel
+    toc_max_heading_level: tocMaxHeadingLevel,
+    // highlight-add-start
+    hide_comment: hideComment
+    // highlight-add-end
   } = frontMatter;
   return (
     <BlogLayout
@@ -208,7 +222,7 @@ function BlogPostPageContent({
       )}
 
       // highlight-add-line
-      <Comment />
+      {!hideComment && <Comment />}
     </BlogLayout>
   );
 }
@@ -239,6 +253,26 @@ export default function BlogPostPage(props: Props): JSX.Element {
 Swizzling 后需要重新运行 Docusaurus ，不然是无法看到效果的
 
 :::
+
+:::tip 
+
+对于不需要评论的文章，在前言中加入 hide_comment: true
+
+:::
+
+## 配置 Giscus
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    giscus: {
+      repo: "xxx",
+      repoId: "xxx",
+      category: "Announcements",
+      categoryId: "xxx"
+    }
+  }
+};
+```
 
 ## 大功告成
 完成以上步骤后你就可以在每篇博客和每篇文档的底部看到评论功能了

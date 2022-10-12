@@ -31,7 +31,8 @@ function BlogPostPageContent({
   const {
     hide_table_of_contents: hideTableOfContents,
     toc_min_heading_level: tocMinHeadingLevel,
-    toc_max_heading_level: tocMaxHeadingLevel
+    toc_max_heading_level: tocMaxHeadingLevel,
+    hide_comment: hideComment
   } = frontMatter;
   return (
     <BlogLayout
@@ -52,7 +53,7 @@ function BlogPostPageContent({
         <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
       )}
 
-      <Comment />
+      {!hideComment && <Comment />}
     </BlogLayout>
   );
 }

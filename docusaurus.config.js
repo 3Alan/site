@@ -72,7 +72,7 @@ const config = {
             position: 'left',
             label: '面试总结'
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/blog', label: '博文', position: 'left' },
           {
             href: 'https://github.com/3Alan',
             position: 'right',
@@ -105,7 +105,7 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
+                label: '博文',
                 to: '/blog'
               },
               {
@@ -119,7 +119,7 @@ const config = {
             ]
           }
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Alan's Blog.`
+        copyright: `Copyright © 2022-${new Date().getFullYear()} Alan's Blog.`
       },
       prism: {
         theme: lightCodeTheme,
@@ -132,7 +132,8 @@ const config = {
           },
           {
             className: 'code-block-add-line',
-            line: 'highlight-add-line'
+            line: 'highlight-add-line',
+            block: { start: 'highlight-add-start', end: 'highlight-add-end' }
           },
           {
             className: 'code-block-warn-line',
@@ -150,6 +151,12 @@ const config = {
       colorMode: {
         disableSwitch: true,
         defaultMode: 'dark'
+      },
+      giscus: {
+        repo: "3Alan/site",
+        repoId: "R_kgDOH0FBrg",
+        category: "Announcements",
+        categoryId: "DIC_kwDOH0FBrs4CRscX"
       },
       algolia: {
         appId: '2XRFRLLWRR',

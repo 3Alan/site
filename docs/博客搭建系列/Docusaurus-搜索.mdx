@@ -12,6 +12,11 @@ keywords:
 description: 通过 Github Actions 运行 Algolia DocSearch 实现 Docusaurus 搜索功能
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+由于 `Docusaurus` 官网推荐的 `Algolia DocSearch` 我申请了3次都失败了，所以就照着官网自己搭建了一个DocSearch 爬虫。
+
 ## 创建 Algolia 账号
 
 创建好后获取下面三个 key 值
@@ -26,7 +31,38 @@ Admin API Key
 
 在博客仓库中创建一个 `Action`
 
-这里我提供了多重触发条件，大家根据需求使用，由于我的博客是部署在 `vercel` 上的，所以要等 `vercel` 部署完成后再触发 `action` 爬取内容，所以使用的是 `deployment` 触发
+下面我提供了多重触发条件，大家根据自己需求选择并替换 `yml` 文件中的内容即可。由于我的博客是部署在 `vercel` 上的，所以要等 `vercel` 部署完成后再触发 `action` 爬取内容，所以使用的是 `deployment` 触发
+
+<Tabs>
+<TabItem value="deployment" label="发布成功后触发">
+
+```yml
+on:
+  deployment
+```
+
+</TabItem>
+<TabItem value="main" label="提交代码触发">
+
+```yml
+on:
+  push:
+    branches:
+      - main
+```
+
+</TabItem>
+<TabItem value="cron" label="定时触发">
+
+```yml
+on:
+  schedule:
+    # 约每天早上8点触发（UTC时间0点）
+    - cron: '0 0 * * *'
+```
+
+</TabItem>
+</Tabs>
 
 ```yml title=.github/workflows/docsearch.yml
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
@@ -34,10 +70,10 @@ Admin API Key
 
 name: docsearch
 
+// highlight-add-start
 on:
-  push:
-    branches:
-      - main
+  deployment
+// highlight-add-end
 
 jobs:
   algolia:
@@ -60,6 +96,7 @@ jobs:
             --env API_KEY=${ALGOLIA_API_KEY} \
             --env "CONFIG=${CONFIG}" \
             algolia/docsearch-scraper
+
 ```
 
 并在仓库中新建两个密钥
@@ -73,13 +110,15 @@ ALGOLIA_API_KEY
 
 ## 创建 docsearch.json
 
-在项目根目录下新建 `docsearch.json` 文档
+在项目根目录下新建 `docsearch.json` 文档并将高亮部分替换成自己的。
 
 ```json
 {
+  // highlight-warn-start
   "index_name": "blog",
   "start_urls": ["https://www.alanwang.site/"],
   "sitemap_urls": ["https://www.alanwang.site/sitemap.xml"],
+  // highlight-warn-end
   "selectors": {
     "lvl0": {
       "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
@@ -175,6 +214,4 @@ module.exports = {
 };
 ```
 
-## 总结
-
-完成以上配置步骤即可实现搜索功能，之后每次提交时都会触发 `Github Actions` 爬取你的最新网站
+完成以上配置步骤即可实现搜索功能
