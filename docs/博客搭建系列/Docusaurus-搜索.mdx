@@ -1,0 +1,180 @@
+---
+title: Docusaurus DocSearch 搭建
+tags:
+  - 博客
+  - Docusaurus
+keywords:
+  - Docusaurus
+  - Docusaurus DocSearch
+  - Docusaurus 搜索
+  - Algolia
+  - Github Actions
+description: 通过 Github Actions 运行 Algolia DocSearch 实现 Docusaurus 搜索功能
+---
+
+## 创建 Algolia 账号
+
+创建好后获取下面三个 key 值
+
+```
+Application ID
+Search-Only API Key
+Admin API Key
+```
+
+## 创建 Github Actions
+
+在博客仓库中创建一个 `Action`
+
+这里我提供了多重触发条件，大家根据需求使用，由于我的博客是部署在 `vercel` 上的，所以要等 `vercel` 部署完成后再触发 `action` 爬取内容，所以使用的是 `deployment` 触发
+
+```yml title=.github/workflows/docsearch.yml
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: docsearch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  algolia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get the content of docsearch.json as config
+        id: algolia_config
+        run: echo "::set-output name=config::$(cat docsearch.json | jq -r tostring)"
+
+      - name: Run algolia/docsearch-scraper image
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          CONFIG: ${{ steps.algolia_config.outputs.config }}
+        run: |
+          docker run \
+            --env APPLICATION_ID=${ALGOLIA_APP_ID} \
+            --env API_KEY=${ALGOLIA_API_KEY} \
+            --env "CONFIG=${CONFIG}" \
+            algolia/docsearch-scraper
+```
+
+并在仓库中新建两个密钥
+
+```json
+// 前面的 Application ID
+ALGOLIA_APP_ID
+// 前面的 Admin API Key
+ALGOLIA_API_KEY
+```
+
+## 创建 docsearch.json
+
+在项目根目录下新建 `docsearch.json` 文档
+
+```json
+{
+  "index_name": "blog",
+  "start_urls": ["https://www.alanwang.site/"],
+  "sitemap_urls": ["https://www.alanwang.site/sitemap.xml"],
+  "selectors": {
+    "lvl0": {
+      "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
+      "type": "xpath",
+      "global": true,
+      "default_value": "Documentation"
+    },
+    "lvl1": "header h1, article h1",
+    "lvl2": "article h2",
+    "lvl3": "article h3",
+    "lvl4": "article h4",
+    "lvl5": "article h5, article td:first-child",
+    "lvl6": "article h6",
+    "text": "article p, article li, article td:last-child"
+  },
+  "custom_settings": {
+    "attributesForFaceting": [
+      "type",
+      "lang",
+      "language",
+      "version",
+      "docusaurus_tag"
+    ],
+    "attributesToRetrieve": [
+      "hierarchy",
+      "content",
+      "anchor",
+      "url",
+      "url_without_anchor",
+      "type"
+    ],
+    "attributesToHighlight": ["hierarchy", "content"],
+    "attributesToSnippet": ["content:10"],
+    "camelCaseAttributes": ["hierarchy", "content"],
+    "searchableAttributes": [
+      "unordered(hierarchy.lvl0)",
+      "unordered(hierarchy.lvl1)",
+      "unordered(hierarchy.lvl2)",
+      "unordered(hierarchy.lvl3)",
+      "unordered(hierarchy.lvl4)",
+      "unordered(hierarchy.lvl5)",
+      "unordered(hierarchy.lvl6)",
+      "content"
+    ],
+    "distinct": true,
+    "attributeForDistinct": "url",
+    "customRanking": [
+      "desc(weight.pageRank)",
+      "desc(weight.level)",
+      "asc(weight.position)"
+    ],
+    "ranking": [
+      "words",
+      "filters",
+      "typo",
+      "attribute",
+      "proximity",
+      "exact",
+      "custom"
+    ],
+    "highlightPreTag": "<span class='algolia-docsearch-suggestion--highlight'>",
+    "highlightPostTag": "</span>",
+    "minWordSizefor1Typo": 3,
+    "minWordSizefor2Typos": 7,
+    "allowTyposOnNumericTokens": false,
+    "minProximity": 1,
+    "ignorePlurals": true,
+    "advancedSyntax": true,
+    "attributeCriteriaComputedByMinProximity": true,
+    "removeWordsIfNoResults": "allOptional",
+    "separatorsToIndex": "_",
+    "synonyms": [
+      ["js", "javascript"],
+      ["ts", "typescript"]
+    ]
+  }
+}
+```
+
+## 配置 docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    algolia: {
+      // Application ID
+      appId: 'YOUR_APP_ID',
+      //  Search-Only API Key
+      apiKey: 'YOUR_SEARCH_API_KEY',
+      indexName: 'YOUR_INDEX_NAME'
+    }
+  }
+};
+```
+
+## 总结
+
+完成以上配置步骤即可实现搜索功能，之后每次提交时都会触发 `Github Actions` 爬取你的最新网站
