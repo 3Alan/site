@@ -154,7 +154,7 @@ const config = {
       algolia: {
         appId: '2XRFRLLWRR',
         apiKey: '9bc14c0a7f5cfdd461f0020fee33bfd9',
-        indexName: 'blog'
+        indexName: 'blog',
       }
     }),
   plugins: [
