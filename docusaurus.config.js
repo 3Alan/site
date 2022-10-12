@@ -35,7 +35,8 @@ const config = {
       ({
         docs: {
           routeBasePath: '/posts',
-          sidebarPath: require.resolve('./sidebars.js')
+          sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true
         },
         blog: {
           showReadingTime: true
@@ -153,15 +154,15 @@ const config = {
         defaultMode: 'dark'
       },
       giscus: {
-        repo: "3Alan/site",
-        repoId: "R_kgDOH0FBrg",
-        category: "Announcements",
-        categoryId: "DIC_kwDOH0FBrs4CRscX"
+        repo: '3Alan/site',
+        repoId: 'R_kgDOH0FBrg',
+        category: 'Announcements',
+        categoryId: 'DIC_kwDOH0FBrs4CRscX'
       },
       algolia: {
         appId: '2XRFRLLWRR',
         apiKey: '9bc14c0a7f5cfdd461f0020fee33bfd9',
-        indexName: 'blog',
+        indexName: 'blog'
       }
     }),
   plugins: [
