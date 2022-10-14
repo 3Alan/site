@@ -1,2 +1,2 @@
-- 配置eslint
-- 百度 & bing 收录
+- 配置 eslint
+- docs 也收录到 archive 中
