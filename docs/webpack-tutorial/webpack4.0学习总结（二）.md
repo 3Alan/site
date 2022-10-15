@@ -10,7 +10,6 @@ references:
     url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
   - name: webpack官网
     url: 'https://webpack.js.org/'
-abbrlink: cf86baf1
 date: 2020-05-15 20:00:22
 updated: 2020-05-16 13:33:00
 sidebar_position: 2

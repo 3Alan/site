@@ -12,7 +12,6 @@ references:
     url: 'https://webpack.js.org/'
   - name: babel官网
     url: 'https://www.babeljs.cn/docs/'
-abbrlink: f9d92613
 date: 2020-06-05 10:24:19
 updated: 2020-06-13 16:06:00,
 keywords: ['webpack学习总结', '手写loader', '手写plugin', 'webpack实现']

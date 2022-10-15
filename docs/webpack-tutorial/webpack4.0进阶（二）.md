@@ -10,7 +10,6 @@ references:
     url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
   - name: webpack官网
     url: 'https://webpack.js.org/'
-abbrlink: b4c78541
 date: 2020-06-03 15:58:33,
 keywords:
   - 'webpack学习总结'
