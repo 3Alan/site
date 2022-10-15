@@ -13,7 +13,7 @@ references:
   - name: babel官网
     url: 'https://www.babeljs.cn/docs/'
 date: 2020-06-05 10:24:19
-updated: 2020-06-13 16:06:00,
+updated: 2020-06-13 16:06:00
 keywords: ['webpack学习总结', '手写loader', '手写plugin', 'webpack实现']
 description: webpack学习总结
 sidebar_position: 7
