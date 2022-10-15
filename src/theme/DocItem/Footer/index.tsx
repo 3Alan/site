@@ -84,7 +84,7 @@ export default function DocItemFooter(): JSX.Element | null {
       {canDisplayEditMetaRow && (
         <EditMetaRow
           editUrl={editUrl}
-          lastUpdatedAt={lastUpdatedAt || date || updated}
+          lastUpdatedAt={date || updated || lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
           formattedLastUpdatedAt={formattedLastUpdatedAt}
         />
