@@ -1,0 +1,69 @@
+---
+title: Docusaurus 自动提交 url 到搜索引擎
+tags:
+  - 博客
+  - Docusaurus
+keywords:
+  - Docusaurus
+  - 搜索引擎收录
+  - Github Actions
+  - 百度
+  - 必应
+  - 谷歌
+date: 2022-10-15
+description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎
+sidebar_position: 3
+---
+
+之前使用 `Hexo` 时，有可用的三方包可用。于是调研了一下，发现 `Docusaurus` 没有类似三方可以使用，索性就自己写了个通用的 `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有 `sitemap` 就可以使用。
+
+## 使用方式
+
+### 使用前提
+你的网站已经生成了 sitemap
+
+### 创建 Github Action
+
+为你的项目创建一个 `Github Action`，内容如下
+
+```yml
+name: search-engines-urls-push
+
+on: deployment
+
+jobs:
+  search-engines-urls-push:
+    runs-on: ubuntu-latest
+    name: search-engines-urls-push
+    steps:
+      - name: search-engines-urls-push
+        id: search-engines-urls-push
+        // highlight-add-start
+        # 使用最新的版本
+        uses: 3Alan/search-engines-urls-push@v0.2.1
+        // highlight-add-end
+        with:
+          site: ${{ secrets.SITE }}
+          sitemap: ${{ secrets.SITEMAP }}
+          count: ${{ secrets.COUNT }}
+          bing-token: ${{ secrets.BING_TOKEN }}
+          baidu-token: ${{ secrets.BAIDU_TOKEN }}
+          google-client-email: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          google-private-key: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+```
+
+### 配置环境变量
+
+在你的项目中创建以下环境变量
+
+| Name | Description | Required |
+| ------------------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| SITE | 网站 url | true |
+| SITEMAP | sitemap url | true |
+| COUNT | 提交 url 的数目，不填的话全部提交 | false |
+| GOOGLE_CLIENT_EMAIL | client_email | false |
+| GOOGLE_PRIVATE_KEY | private_key | false |
+| BING_TOKEN | Bing API Key | false |
+| BAIDU_TOKEN | 百度 token | false |
+
+具体参数获取参照 `action` [文档](https://github.com/3Alan/search-engines-urls-push)，欢迎 star 和奉献代码。 
