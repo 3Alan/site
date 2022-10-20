@@ -37,7 +37,7 @@ const config = {
           showReadingTime: true
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css')
+          customCss: require.resolve('./src/css/custom.scss')
         },
         gtag: {
           trackingID: 'G-B7NWL5SZ52'
@@ -132,9 +132,9 @@ const config = {
             block: { start: 'highlight-add-start', end: 'highlight-add-end' }
           },
           {
-            className: 'code-block-warn-line',
-            line: 'highlight-warn-line',
-            block: { start: 'highlight-warn-start', end: 'highlight-warn-end' }
+            className: 'code-block-update-line',
+            line: 'highlight-update-line',
+            block: { start: 'highlight-update-start', end: 'highlight-update-end' }
           }
         ]
       },
@@ -192,7 +192,8 @@ const config = {
           }
         ]
       }
-    ]
+    ],
+    'docusaurus-plugin-sass'
   ],
   scripts: [
     {

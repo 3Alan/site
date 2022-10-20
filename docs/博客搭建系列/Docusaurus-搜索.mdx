@@ -116,11 +116,11 @@ ALGOLIA_API_KEY
 
 ```json
 {
-  // highlight-warn-start
+  // highlight-update-start
   "index_name": "blog",
   "start_urls": ["https://www.alanwang.site/"],
   "sitemap_urls": ["https://www.alanwang.site/sitemap.xml"],
-  // highlight-warn-end
+  // highlight-update-end
   "selectors": {
     "lvl0": {
       "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
