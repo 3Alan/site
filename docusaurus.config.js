@@ -31,7 +31,7 @@ const config = {
         docs: {
           routeBasePath: '/posts',
           sidebarPath: require.resolve('./sidebars.js'),
-          showLastUpdateTime: true,
+          showLastUpdateTime: true
         },
         blog: {
           showReadingTime: true
@@ -49,6 +49,16 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {
+          name: 'keywords',
+          content: 'Alan,博客,Blog,前端,React,Vue,Webpack,Node.js,Typescript'
+        },
+        {
+          name: 'description',
+          content: '一个专注于前端开发的小白, 分享前端开发知识'
+        },
+      ],
       navbar: {
         title: 'Alan',
         logo: {
@@ -134,7 +144,10 @@ const config = {
           {
             className: 'code-block-update-line',
             line: 'highlight-update-line',
-            block: { start: 'highlight-update-start', end: 'highlight-update-end' }
+            block: {
+              start: 'highlight-update-start',
+              end: 'highlight-update-end'
+            }
           }
         ]
       },

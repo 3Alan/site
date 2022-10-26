@@ -9,6 +9,7 @@ keywords:
   - Docusaurus 搜索
   - Algolia
   - Github Actions
+  - DocSearch 爬虫
 date: 2022-10-12
 description: 通过 Github Actions 运行 Algolia DocSearch 实现 Docusaurus 搜索功能
 sidebar_position: 2
@@ -17,7 +18,7 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-由于 `Docusaurus` 官网推荐的 `Algolia DocSearch` 我申请了3次都失败了，所以就照着官网自己搭建了一个DocSearch 爬虫。
+由于 `Docusaurus` 官网推荐的 `Algolia DocSearch` 我申请了 3 次都失败了，所以就照着官网自己搭建了一个 DocSearch 爬虫。
 
 ## 创建 Algolia 账号
 
@@ -39,8 +40,7 @@ Admin API Key
 <TabItem value="deployment" label="发布成功后触发">
 
 ```yml
-on:
-  deployment
+on: deployment
 ```
 
 </TabItem>

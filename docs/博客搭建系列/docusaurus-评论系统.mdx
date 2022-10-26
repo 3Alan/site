@@ -16,20 +16,23 @@ sidebar_position: 1
 ---
 
 ## 获取 Giscus 配置参数
-首先根据 [Giscus官网](https://giscus.app/zh-CN) 的步骤配置安装并获取配置后的参数。
+
+首先根据 [Giscus 官网](https://giscus.app/zh-CN) 的步骤配置安装并获取配置后的参数。
 
 > 选择 giscus 连接到的仓库。请确保：
 >
 > 1. 此仓库是公开的，否则访客将无法查看 discussion。
 > 2. giscus app 已安装否则访客将无法评论和回应。
-> 3. Discussions功能已在你的仓库中启用。
+> 3. Discussions 功能已在你的仓库中启用。
 
 ## Docusaurus 中安装 Giscus
+
 ```
 yarn add @giscus/react
 ```
 
 然后我们封装一个评论组件方便使用
+
 ```tsx title="src/components/comment/index.tsx"
 import React from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
@@ -70,7 +73,11 @@ export default Comment;
 ```
 
 ## Swizzling Docusaurus 内部组件
+
+Docusaurus 页面分为文档和博客，自己根据需求 Swizzling 对应的页面组件。
+
 ### Swizzling 文档页面对应组件
+
 ```
 yarn run swizzle @docusaurus/theme-classic DocItem/Layout -- --eject --typescript
 ```
@@ -82,11 +89,12 @@ yarn run swizzle @docusaurus/theme-classic DocItem/Layout -- --eject --typescrip
 :::
 
 Swizzling 后会生成 `src/theme/DocItem/Layout` 目录，我们需要对 `src/theme/DocItem/Layout/index.tsx` 进行修改
+
 ```tsx
 import React from 'react';
 import clsx from 'clsx';
 import { useWindowSize } from '@docusaurus/theme-common';
-  // @ts-ignore
+// @ts-ignore
 import { useDoc } from '@docusaurus/theme-common/internal';
 import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
@@ -147,7 +155,6 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
           </article>
           <DocItemPaginator />
         </div>
-
         // highlight-add-line
         {!hideComment && <Comment />}
       </div>
@@ -157,13 +164,14 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
 }
 ```
 
-
 ### Swizzling 博客页面对应组件
+
 ```
-yarn run swizzle @docusaurus/theme-classic BlogPostPage -- --eject --typescript 
+yarn run swizzle @docusaurus/theme-classic BlogPostPage -- --eject --typescript
 ```
 
 同样修改文件
+
 ```tsx title="src/theme/BlogPostPage/index.tsx"
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
@@ -218,11 +226,9 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>{children}</BlogPostItem>
-
       {(nextItem || prevItem) && (
         <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
       )}
-
       // highlight-add-line
       {!hideComment && <Comment />}
     </BlogLayout>
@@ -247,7 +253,6 @@ export default function BlogPostPage(props: Props): JSX.Element {
     </BlogPostProvider>
   );
 }
-
 ```
 
 :::caution
@@ -256,25 +261,27 @@ Swizzling 后需要重新运行 Docusaurus ，不然是无法看到效果的
 
 :::
 
-:::tip 
+:::tip
 
 对于不需要评论的文章，在前言中加入 hide_comment: true
 
 :::
 
 ## 配置 Giscus
+
 ```js title=docusaurus.config.js
 module.exports = {
   themeConfig: {
     giscus: {
-      repo: "xxx",
-      repoId: "xxx",
-      category: "Announcements",
-      categoryId: "xxx"
+      repo: 'xxx',
+      repoId: 'xxx',
+      category: 'Announcements',
+      categoryId: 'xxx'
     }
   }
 };
 ```
 
 ## 大功告成
+
 完成以上步骤后你就可以在每篇博客和每篇文档的底部看到评论功能了

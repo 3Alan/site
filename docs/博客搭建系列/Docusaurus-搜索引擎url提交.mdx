@@ -15,7 +15,7 @@ description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎�
 sidebar_position: 3
 ---
 
-之前使用 `Hexo` 时，有可用的三方包可用。于是调研了一下，发现 `Docusaurus` 没有类似三方可以使用，索性就自己写了个通用的 `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有 `sitemap` 就可以使用。
+之前使用 `Hexo` 时，有三方包可用。于是调研了一下，发现 `Docusaurus` 没有类似三方可以使用，索性就自己写了个通用的 `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有 `sitemap` 就可以使用。
 
 ## 使用方式
 
@@ -26,6 +26,12 @@ sidebar_position: 3
 ### 创建 Github Action
 
 为你的项目创建一个 `Github Action`，内容如下
+
+:::info
+
+触发条件可自行配置，触发条件可参考我的这篇 [*文章*](https://www.alanwang.site/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E7%B3%BB%E5%88%97/Docusaurus-%E6%90%9C%E7%B4%A2#%E5%88%9B%E5%BB%BA-github-actions)
+
+:::
 
 ```yml
 name: search-engines-urls-push
