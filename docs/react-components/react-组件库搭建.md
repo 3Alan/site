@@ -7,7 +7,7 @@ categories:
   - 前端
   - React
 date: 2021-08-22 16:22:55
-keywords: 
+keywords:
   - react组件库开发
   - react组件库打包
   - 单元测试
@@ -22,6 +22,7 @@ sidebar_position: 1
 <!--truncate-->
 
 ## 技术选型
+
 - react
 - sass
 - typescript
@@ -30,42 +31,49 @@ sidebar_position: 1
 - jest
 - lerna
 
-
 ## 积累的知识点
+
 - `package.json` 中的 `peerDependencies` 三方库版本依赖于宿主环境，三方库不提供。
-- node-sass已经弃用，现在使用sass(dart-sass) [issue](https://stackoverflow.com/questions/63943756/replace-node-sass-with-dart-sass-in-create-react-app-v3-x)
-- [`rollup` 打包](https://www.codefeetime.com/post/rollup-config-for-react-component-library-with-typescript-scss/) 
+- node-sass 已经弃用，现在使用 sass(dart-sass) [issue](https://stackoverflow.com/questions/63943756/replace-node-sass-with-dart-sass-in-create-react-app-v3-x)
+- [`rollup` 打包](https://www.codefeetime.com/post/rollup-config-for-react-component-library-with-typescript-scss/)
 
 ## 待了解
-package.json 的 module和types
+
+package.json 的 module 和 types
 
 ## 代码质量相关
-配置eslint
-npx eslint --init
 
-配置prettier
+配置 eslint
+`npx eslint --init`
+
+配置 prettier
 `eslint-plugin-prettier` `eslint-config-prettier`
 
-配置husky + lint-staged
+配置 husky + lint-staged
+
 ```
 npx mrm@2 lint-staged
 ```
 
-配置commitlint
+配置 commitlint
 使用`commitizen`简化流程
 
 ## 奇怪的问题
-rollup打包后进程没有关闭： https://github.com/rollup/rollup/issues/4213
 
-## npm发布
+rollup 打包后进程没有关闭： https://github.com/rollup/rollup/issues/4213
+
+## npm 发布
+
 ### 先置条件
 
-- npm账号
+- npm 账号
 - 打包后的组件文件
-- **npm已经绑定账号**
+- **npm 已经绑定账号**
 
 ### 先置知识
+
 #### package.json
+
 ```json
   "name": "@3alan/ui", // 包名，@后跟的是组织名
   "version": "0.2.10", // 包版本号，每次发版需要自行变更版本号
@@ -98,13 +106,11 @@ rollup打包后进程没有关闭： https://github.com/rollup/rollup/issues/421
   }, // 宿主（即需要使用改包的项目）需要具备的依赖
 ```
 
-![image-20210910105028280](https://raw.githubusercontent.com/3Alan/images/master/img/image-20210910105028280.png)
-
-
+![参数对应npm的部分](https://raw.githubusercontent.com/3Alan/images/master/img/image-20210910105028280.png)
 
 ### 打包组件库
 
-#### 使用rollup打包
+#### 使用 rollup 打包
 
 在根目录下创建`rollup.config.js`文件
 
@@ -169,13 +175,11 @@ export default {
 
 #### 打包脚本
 
-安装删除工具（用来每次打包前清除dist目录）
+安装删除工具（用来每次打包前清除 dist 目录）
 
 ```shell
-yarn add rimraf -D 
+yarn add rimraf -D
 ```
-
-
 
 ```json
 "build:sass": "sass ./src/components/style/index.scss ./dist/index.css
@@ -195,22 +199,20 @@ dist
  └── types
 ```
 
-### 发布npm
+### 发布 npm
 
 #### 先置条件
 
-- npm已登录
+- npm 已登录
 
-- npm镜像源没有切换过，可以使用`npm whoami`验证，如果能正确返回npm用户名即可
+- npm 镜像源没有切换过，可以使用`npm whoami`验证，如果能正确返回 npm 用户名即可
 - `package.json`中`version`高于上次发布的版本号
-
-
 
 #### 发布脚本
 
 - npm publish
 
-- 可在package.json中配置钩子发布前自动打包
+- 可在 package.json 中配置钩子发布前自动打包
 
   ```json
   "prepublishOnly": "yarn build",
