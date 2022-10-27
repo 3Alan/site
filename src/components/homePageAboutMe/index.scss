@@ -20,5 +20,8 @@ $namespace: hp-about-me;
 
 @media screen and (max-width: 996px) {
   .#{$namespace} {
+    img {
+      margin-right: 30px;
+    }
   }
 }

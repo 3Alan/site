@@ -45,6 +45,12 @@ $namespace: home-page;
   &-section {
     margin-bottom: 240px;
   }
+
+  section {
+    &.#{$namespace}-last-section {
+      padding-bottom: 100px;
+    }
+  }
 }
 
 @media screen and (max-width: 996px) {
@@ -53,7 +59,12 @@ $namespace: home-page;
       display: block;
     }
 
+    .container {
+      padding: 0 10px;
+    }
+
     &-code {
+      width: 100%;
       margin-top: 30px;
     }
   }

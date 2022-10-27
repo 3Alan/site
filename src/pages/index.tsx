@@ -44,8 +44,8 @@ export default function Home(): JSX.Element {
           <Intro />
           <AboutMe className={`${cls}-section`} />
           <Projects className={`${cls}-section`} />
-          <Skills className={`${cls}-section`} />
-          {/* TODO:
+          <Skills className={`${cls}-last-section`} />
+          {/* TODO: 需要通过扩展插件来实现
           <div>最近博文： 查看更多</div> */}
         </main>
       </div>

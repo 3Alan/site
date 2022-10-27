@@ -58,7 +58,7 @@ const config = {
         {
           name: 'description',
           content: '一个专注于前端开发的小白, 分享前端开发知识'
-        },
+        }
       ],
       navbar: {
         title: 'Alan',
