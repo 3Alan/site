@@ -34,7 +34,8 @@ const config = {
           showLastUpdateTime: true
         },
         blog: {
-          showReadingTime: true
+          showReadingTime: true,
+          blogSidebarTitle: '历史博文'
         },
         theme: {
           customCss: require.resolve('./src/css/custom.scss')

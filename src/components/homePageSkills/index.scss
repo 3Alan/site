@@ -1,0 +1,57 @@
+$namespace: hp-skills;
+
+.#{$namespace} {
+  padding-bottom: 20px;
+
+  &-title {
+    text-align: center;
+    padding-bottom: 30px;
+    font-size: 26px;
+  }
+
+  &-skill-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-hl-svg {
+    display: block;
+    box-sizing: border-box;
+    flex: 1;
+    height: 100px;
+    padding: 20px;
+    text-align: center;
+
+    svg {
+      fill: var(--ifm-color-primary-darkest);
+      width: auto;
+      height: 100%;
+    }
+  }
+
+  &-svg {
+    display: block;
+    box-sizing: border-box;
+    height: 50px;
+    padding: 10px;
+    text-align: center;
+
+    svg {
+      fill: #314255;
+      width: auto;
+      height: 100%;
+    }
+  }
+
+  &-skill-wrap {
+    padding-top: 10px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .#{$namespace} {
+    &-intro-wrap {
+      display: block;
+    }
+  }
+}
