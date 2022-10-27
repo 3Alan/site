@@ -59,7 +59,7 @@ const Projects: FC<ProjectsProps> = ({ className }) => {
 
       <div className={`${cls}-wrap`}>
         {projectList.map(item => (
-          <Card {...item} onClick={() => onCardClick(item.url)} />
+          <Card key={item.name} {...item} onClick={() => onCardClick(item.url)} />
         ))}
       </div>
     </section>
