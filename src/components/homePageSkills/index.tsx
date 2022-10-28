@@ -58,7 +58,7 @@ const highLightSkillList: SkillItem[] = [
 const Skills: FC<SkillsProps> = ({ className }) => {
   return (
     <section className={clsx(cls, className)}>
-      <h2 className={`${cls}-title`}>我的技术栈</h2>
+      <h2 id='my-skills' className={`${cls}-title`}>我的技术栈</h2>
       <div className="row">
         {highLightSkillList.map(({ Svg, title }) => (
           <span key={title} className={`${cls}-hl-svg`} title={title}>

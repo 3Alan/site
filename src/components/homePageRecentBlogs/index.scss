@@ -1,10 +1,16 @@
-$namespace: hp-projects;
+$namespace: hp-blog;
 
 .#{$namespace} {
   &-title {
-    text-align: center;
-    padding-bottom: 30px;
-    font-size: 26px;
+    padding-bottom: 46px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    h2 {
+      font-size: 26px;
+      margin: 0;
+    }
   }
 
   &-wrap {
@@ -12,7 +18,17 @@ $namespace: hp-projects;
     justify-content: space-between;
     flex-wrap: wrap;
 
+    a {
+      overflow: hidden;
+      display: block;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
     .card {
+      justify-content: space-between;
+
       &:first-child {
         margin-left: 0;
       }
@@ -21,6 +37,12 @@ $namespace: hp-projects;
         margin-right: 0;
       }
     }
+  }
+
+  &-content {
+    display: block;
+    padding-top: 20px;
+    font-size: 14px;
   }
 }
 

@@ -33,10 +33,7 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           showLastUpdateTime: true
         },
-        blog: {
-          showReadingTime: true,
-          blogSidebarTitle: '历史博文'
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.scss')
         },
@@ -207,7 +204,17 @@ const config = {
         ]
       }
     ],
-    'docusaurus-plugin-sass'
+    'docusaurus-plugin-sass',
+    [
+      './src/plugins/plugin-content-blog-enhance.js',
+      {
+        id: 'blog',
+        routeBasePath: 'blog',
+        path: './blog',
+        showReadingTime: true,
+        blogSidebarTitle: '历史博文'
+      }
+    ]
   ],
   scripts: [
     {

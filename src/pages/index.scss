@@ -1,37 +1,53 @@
 $namespace: home-page;
 
+@keyframes wave {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(5deg);
+  }
+  40% {
+    transform: rotate(-5deg);
+  }
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .#{$namespace} {
-  background: #373b44; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    #23303d,
-    #4286f4
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    #23303d,
-    #02132c
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  // #1c2631
+  background: #373b44;
+  background: linear-gradient(#23303d, #02132c);
+
   &-intro {
     display: flex;
     align-items: center;
     height: calc(100vh - var(--ifm-navbar-height));
+    position: relative;
+    overflow: hidden;
   }
 
   &-intro-wrap {
     display: flex;
     justify-content: space-between;
+    z-index: 1;
 
     p {
       margin-bottom: 0;
-    }
-
-    h1 {
-      margin: 0.1rem 0;
     }
   }
 
   &-code {
     width: 500px;
+
+    pre,
+    span {
+      background-color: #04344e !important;
+    }
   }
 
   &-center-title {
@@ -40,15 +56,49 @@ $namespace: home-page;
 
   &-hello {
     font-size: 2rem;
+    display: inline-block;
+    animation: wave 1s linear infinite alternate;
   }
 
-  &-section {
-    margin-bottom: 240px;
+  .container {
+    padding-bottom: 50px;
   }
 
-  section {
-    &.#{$namespace}-last-section {
-      padding-bottom: 100px;
+  &-bg {
+    width: 400px;
+    height: 400px;
+    background-color: #0b8fd9;
+    border-radius: 60px;
+    position: absolute;
+    left: -100px;
+    top: -180px;
+    z-index: 0;
+    transform: rotate(110deg);
+  }
+
+  &-t-wave {
+    margin-bottom: -10px;
+  }
+
+  &-wave-bg {
+    background-color: #23303d;
+  }
+
+  &-blog {
+    margin-bottom: 150px;
+  }
+
+  &-me {
+    h1 {
+      font-size: 36px;
+      background: linear-gradient(
+        to right,
+        var(--ifm-color-primary),
+        #23303d
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0.1rem 0;
     }
   }
 }
@@ -60,7 +110,8 @@ $namespace: home-page;
     }
 
     .container {
-      padding: 0 10px;
+      padding-left: 15px;
+      padding-right: 15px;
     }
 
     &-code {

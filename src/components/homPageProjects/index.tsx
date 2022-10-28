@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC } from 'react';
+import Card from '../card';
 import './index.scss';
 
 const cls = 'hp-projects';
@@ -12,10 +13,6 @@ interface ProjectItem {
   name: string;
   description: string;
   url: string;
-}
-
-interface CardProps extends ProjectItem {
-  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const projectList: ProjectItem[] = [
@@ -37,16 +34,6 @@ const projectList: ProjectItem[] = [
   }
 ];
 
-const Card: FC<CardProps> = ({ name, description, url, onClick }) => {
-  return (
-    <div className={`${cls}-card`} onClick={onClick}>
-      <a href={url} target="__blank">
-        {name}
-      </a>
-      <p>{description}</p>
-    </div>
-  );
-};
 
 const Projects: FC<ProjectsProps> = ({ className }) => {
   const onCardClick = url => {
@@ -55,7 +42,7 @@ const Projects: FC<ProjectsProps> = ({ className }) => {
 
   return (
     <section className={clsx(cls, className)}>
-      <h2 className={`${cls}-title`}>我的项目</h2>
+      <h2 id='my-projects' className={`${cls}-title`}>我的项目</h2>
 
       <div className={`${cls}-wrap`}>
         {projectList.map(item => (
