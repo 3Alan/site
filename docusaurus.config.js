@@ -166,9 +166,9 @@ const config = {
         categoryId: 'DIC_kwDOH0FBrs4CRscX'
       },
       algolia: {
-        appId: '2XRFRLLWRR',
-        apiKey: '9bc14c0a7f5cfdd461f0020fee33bfd9',
-        indexName: 'blog'
+        appId: '3ADKUPU1LI',
+        apiKey: '313f27fd54c251b088fccb9ccd7b2917',
+        indexName: 'alanwang'
       }
     }),
   plugins: [
