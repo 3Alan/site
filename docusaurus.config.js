@@ -123,7 +123,7 @@ const config = {
             ]
           }
         ],
-        copyright: `Copyright © 2022-${new Date().getFullYear()} Alan's Blog.`
+        copyright: `Copyright © 2020-${new Date().getFullYear()} Alan's Blog.`
       },
       prism: {
         theme: lightCodeTheme,
