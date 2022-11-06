@@ -45,17 +45,13 @@ import {
 } from '@docusaurus/theme-common';
 
 interface CustomThemeConfig extends ThemeConfig {
-  giscus: GiscusProps;
+  giscus: GiscusProps & { darkTheme: string };
 }
 
-interface CommentProps {
-  theme?: string;
-  darkTheme?: string;
-}
-
-export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
+export const Comment = () => {
   const { giscus } = useThemeConfig() as CustomThemeConfig;
   const { colorMode } = useColorMode();
+  const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
   const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
 
   return (
@@ -70,20 +66,15 @@ export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="bottom"
-            theme={giscusTheme}
             lang="zh-CN"
             loading="lazy"
             {...giscus}
+            theme={giscusTheme}
           />
         </div>
       )}
     </BrowserOnly>
   );
-};
-
-Comment.defaultProps = {
-  theme: 'light',
-  darkTheme: 'dark_dimmed'
 };
 
 export default Comment;
@@ -301,23 +292,17 @@ module.exports = {
 
 ## 黑夜模式
 
-根据自己喜好修改 `Comment` 组件中的这部分代码
+根据自己喜好修改配置
 
-```tsx
-// 默认的主题
-Comment.defaultProps = {
-  theme: 'light',
-  darkTheme: 'dark_dimmed'
-};
+```js title=docusaurus.config.js
+giscus: {
+  theme: 'light_high_contrast',
+  darkTheme: 'dark_tritanopia'
+},
 ```
 
 :::info
-如果你想在文档和博客页面应用不同的 `Giscus` 主题，只需要在使用 `Comment` 组件的地方传入对应主题即可。
-
-```tsx
-<Comment theme="light" darkTheme="dark_dimmed" />
-```
-
+默认的主题分别是：light, dark_dimmed
 :::
 
 ## 大功告成

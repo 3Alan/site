@@ -8,17 +8,13 @@ import {
 } from '@docusaurus/theme-common';
 
 interface CustomThemeConfig extends ThemeConfig {
-  giscus: GiscusProps;
+  giscus: GiscusProps & { darkTheme: string };
 }
 
-interface CommentProps {
-  theme?: string;
-  darkTheme?: string;
-}
-
-export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
+export const Comment = () => {
   const { giscus } = useThemeConfig() as CustomThemeConfig;
   const { colorMode } = useColorMode();
+  const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
   const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
 
   return (
@@ -33,20 +29,15 @@ export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="bottom"
-            theme={giscusTheme}
             lang="zh-CN"
             loading="lazy"
             {...giscus}
+            theme={giscusTheme}
           />
         </div>
       )}
     </BrowserOnly>
   );
-};
-
-Comment.defaultProps = {
-  theme: 'light',
-  darkTheme: 'dark_dimmed'
 };
 
 export default Comment;
