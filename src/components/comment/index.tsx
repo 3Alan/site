@@ -12,8 +12,8 @@ interface CustomThemeConfig extends ThemeConfig {
 }
 
 interface CommentProps {
-  theme: string;
-  darkTheme: string;
+  theme?: string;
+  darkTheme?: string;
 }
 
 export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
