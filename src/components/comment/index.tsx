@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { FC } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Giscus, { GiscusProps } from '@giscus/react';
-import { useThemeConfig, ThemeConfig } from '@docusaurus/theme-common';
+import {
+  useThemeConfig,
+  useColorMode,
+  ThemeConfig
+} from '@docusaurus/theme-common';
 
 interface CustomThemeConfig extends ThemeConfig {
   giscus: GiscusProps;
 }
 
-export const Comment = () => {
+interface CommentProps {
+  theme: string;
+  darkTheme: string;
+}
+
+export const Comment: FC<CommentProps> = ({ theme, darkTheme }) => {
   const { giscus } = useThemeConfig() as CustomThemeConfig;
+  const { colorMode } = useColorMode();
+  const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
 
   return (
     <BrowserOnly fallback={<div>Loading Comments...</div>}>
@@ -22,7 +33,7 @@ export const Comment = () => {
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="bottom"
-            theme="dark_dimmed"
+            theme={giscusTheme}
             lang="zh-CN"
             loading="lazy"
             {...giscus}
@@ -31,6 +42,11 @@ export const Comment = () => {
       )}
     </BrowserOnly>
   );
+};
+
+Comment.defaultProps = {
+  theme: 'light',
+  darkTheme: 'dark_dimmed'
 };
 
 export default Comment;
