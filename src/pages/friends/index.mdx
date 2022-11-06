@@ -1,0 +1,47 @@
+---
+title: 友情链接
+keywords:
+  - 友情链接
+description: Alan 的友情链接
+---
+
+import FriendHeader from './components/Header';
+import FriendCardList from './components/friendCardList';
+import Comment from '../../components/comment';
+
+<FriendHeader />
+
+<FriendCardList />
+
+:::caution 提示
+tag 尽量不要超过 3 个
+:::
+
+```ts title=回复格式
+{
+  title: 'Alan Wang',
+  url: 'https://www.alanwang.site/',
+  description: '此刻想举重若轻，之前必要负重前行',
+  tags: ['前端开发']
+}
+```
+
+:::info 申请条件
+
+1. 至少发布过 5 篇原创文章
+2. 有独立域名
+3. 网站已经开发完成且已稳定
+
+:::
+
+:::tip 优先添加条件
+
+1. 拥有高质量原创文章，更新频率高
+2. 已添加我为友链，非动态加载、非 nofollow
+3. 分享开发相关文章
+
+:::
+
+<div id="comment-anchor" />
+
+<Comment />

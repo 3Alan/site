@@ -91,14 +91,22 @@ $namespace: home-page;
   &-me {
     h1 {
       font-size: 36px;
-      background: linear-gradient(
-        to right,
-        var(--ifm-color-primary),
-        #23303d
-      );
+      background: linear-gradient(to right, var(--ifm-color-primary), #23303d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0.1rem 0;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &-gh-btn {
+    display: inline-flex;
+    align-items: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
     }
   }
 }
@@ -117,6 +125,10 @@ $namespace: home-page;
     &-code {
       width: 100%;
       margin-top: 30px;
+    }
+
+    &-blog {
+      margin-bottom: 80px;
     }
   }
 }

@@ -12,7 +12,11 @@ $namespace: hp-projects;
     justify-content: space-between;
     flex-wrap: wrap;
 
-    .card {
+    .a-card {
+      margin: 10px;
+      min-width: 300px;
+      flex: 1;
+
       &:first-child {
         margin-left: 0;
       }
@@ -27,7 +31,7 @@ $namespace: hp-projects;
 @media screen and (max-width: 996px) {
   .#{$namespace} {
     &-wrap {
-      .card {
+      .a-card {
         width: 100%;
         margin: 0 0 20px 0;
 

@@ -3,7 +3,7 @@ import Link from '@docusaurus/Link';
 import './index.scss';
 import clsx from 'clsx';
 
-const cls = 'card';
+const cls = 'a-card';
 
 interface CardProps extends PropsWithChildren {
   name: string;
@@ -20,7 +20,7 @@ const Card: FC<CardProps> = props => {
     <div className={clsx(`${className}`, `${cls}`)} onClick={onClick}>
       <Link to={url}>{name}</Link>
 
-      {description && <p>{description}</p>}
+      {description && <p className={`${cls}-desc`}>{description}</p>}
       {children}
     </div>
   );
@@ -28,6 +28,6 @@ const Card: FC<CardProps> = props => {
 
 Card.defaultProps = {
   className: ''
-}
+};
 
 export default Card;

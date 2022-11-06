@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import {
   HtmlClassNameProvider,

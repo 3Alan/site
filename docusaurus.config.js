@@ -57,6 +57,11 @@ const config = {
           content: '一个专注于前端开发的小白, 分享前端开发知识'
         }
       ],
+      announcementBar: {
+        id: 'friend_link',
+        content:
+          '⭐️ 欢迎前来交换 🔗 <a rel="noopener noreferrer" href="/friends">友链</a>！'
+      },
       navbar: {
         title: 'Alan',
         logo: {
@@ -76,13 +81,7 @@ const config = {
             position: 'left',
             label: '面试总结'
           },
-          { to: '/blog', label: '博文', position: 'left' },
-          {
-            href: 'https://github.com/3Alan',
-            position: 'right',
-            className: 'header-github-link',
-            'aria-label': 'GitHub profile'
-          }
+          { to: '/blog', label: '博文', position: 'left' }
         ]
       },
       footer: {

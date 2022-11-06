@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import {
   useDoc,
-  type DocContextValue
+  DocContextValue
   // @ts-ignore
 } from '@docusaurus/theme-common/internal';
 import LastUpdated from '@theme/LastUpdated';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
-  type Props as TagsListInlineProps
+  Props as TagsListInlineProps
 } from '@theme/TagsListInline';
 
 import styles from './styles.module.css';

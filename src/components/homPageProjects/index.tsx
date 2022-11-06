@@ -34,19 +34,16 @@ const projectList: ProjectItem[] = [
   }
 ];
 
-
 const Projects: FC<ProjectsProps> = ({ className }) => {
-  const onCardClick = url => {
-    window.open(url);
-  };
-
   return (
     <section className={clsx(cls, className)}>
-      <h2 id='my-projects' className={`${cls}-title`}>我的项目</h2>
+      <h2 id="my-projects" className={`${cls}-title`}>
+        我的项目
+      </h2>
 
       <div className={`${cls}-wrap`}>
         {projectList.map(item => (
-          <Card key={item.name} {...item} onClick={() => onCardClick(item.url)} />
+          <Card key={item.name} {...item} />
         ))}
       </div>
     </section>

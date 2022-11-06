@@ -1,0 +1,46 @@
+$namespace: fc-list;
+
+.#{$namespace} {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 30px 0;
+
+  .a-card {
+    margin: 12px 0;
+    padding: 15px;
+    width: 32%;
+    height: 120px;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 0;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &-tag {
+    font-size: 12px;
+    display: inline-block;
+    padding-right: 10px;
+    color: var(--ifm-color-primary-lightest);
+  }
+
+  &-c-content {
+    padding-left: 2px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .#{$namespace} {
+    padding: 30px 0;
+
+    .a-card {
+      width: 100%;
+      margin: 10px 0;
+    }
+  }
+}

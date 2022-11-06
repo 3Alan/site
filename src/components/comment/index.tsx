@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Giscus, { GiscusProps } from '@giscus/react';
 import {
@@ -11,7 +11,7 @@ interface CustomThemeConfig extends ThemeConfig {
   giscus: GiscusProps & { darkTheme: string };
 }
 
-export const Comment = () => {
+export const Comment = forwardRef<HTMLDivElement>((_props, ref) => {
   const { giscus } = useThemeConfig() as CustomThemeConfig;
   const { colorMode } = useColorMode();
   const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
@@ -20,7 +20,7 @@ export const Comment = () => {
   return (
     <BrowserOnly fallback={<div>Loading Comments...</div>}>
       {() => (
-        <div style={{ paddingTop: 50 }}>
+        <div ref={ref} id="comment" style={{ paddingTop: 50 }}>
           <Giscus
             id="comments"
             mapping="title"
@@ -38,6 +38,6 @@ export const Comment = () => {
       )}
     </BrowserOnly>
   );
-};
+});
 
 export default Comment;
