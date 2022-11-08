@@ -22,7 +22,7 @@ sidebar_position: 2
 
 ## 效果查看
 
-- [效果预览](https://alan-ui.vercel.app/?path=/docs/components-upload--text-list)
+- [效果预览](https://alan-ui.alanwang.site/?path=/docs/components-upload--text-list)
 - [Upload 源码](https://github.com/3Alan/alan-ui)
 
 ## 需求分析

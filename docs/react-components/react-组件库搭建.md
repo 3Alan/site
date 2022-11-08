@@ -84,7 +84,7 @@ rollup 打包后进程没有关闭： https://github.com/rollup/rollup/issues/42
   "license": "MIT", // 开源协议
   "description": "hand drawn react components", // 包描述
   "author": "3Alan", // 作者
-  "homepage": "https://alan-ui.vercel.app/", // 网站
+  "homepage": "https://alan-ui.alanwang.site/", // 网站
   "repository": {
     "type": "git",
     "url": "https://github.com/3Alan/alan-ui"

@@ -27,7 +27,7 @@ Guide 新手引导组件
 >
 > https://github.com/bytedance/guide
 
-[效果预览](https://alan-ui.vercel.app/?path=/docs/components-guide--guide)
+[效果预览](https://alan-ui.alanwang.site/?path=/docs/components-guide--guide)
 
 本文章只介绍大致思路，一些细节的实现请查看[Guide 源码](https://github.com/3Alan/alan-ui/tree/main/src/components/guide)
 
