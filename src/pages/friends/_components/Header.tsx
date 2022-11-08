@@ -4,6 +4,7 @@ export default function FriendHeader() {
   const onAddClick = () => {
     const commentTarget = document.querySelector('#comment-anchor');
     commentTarget.scrollIntoView({ behavior: 'smooth' });
+    window.gtag?.('event', 'add_friend_click');
   };
 
   return (
