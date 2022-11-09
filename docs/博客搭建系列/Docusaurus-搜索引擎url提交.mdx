@@ -10,7 +10,7 @@ keywords:
   - 百度
   - 必应
   - 谷歌
-date: 2022-10-15
+date: 2022-11-10
 description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎（百度、必应、谷歌）
 sidebar_position: 3
 ---
@@ -47,7 +47,7 @@ jobs:
         id: search-engines-urls-push
         // highlight-add-start
         # 使用最新的版本
-        uses: 3Alan/search-engines-urls-push@v0.2.1
+        uses: 3Alan/search-engines-urls-push@v0.2.2
         // highlight-add-end
         with:
           site: ${{ secrets.SITE }}
@@ -77,4 +77,8 @@ jobs:
 | BING_TOKEN          | Bing API Key                      | false    |
 | BAIDU_TOKEN         | 百度 token                        | false    |
 
-具体参数获取参照 `action` [search-engines-urls-push](https://github.com/3Alan/search-engines-urls-push)文档，欢迎 star 和奉献代码。
+具体参数获取参照 `action` [search-engines-urls-push](https://github.com/3Alan/search-engines-urls-push) 文档，欢迎 star 和奉献代码。
+
+:::caution 若你的 bing 每日配额大于你提交 url 总数请忽略此条警告
+如果你配置了 BING_TOKEN，那么 COUNT 数值应小于 10，由于 BING 每日配额数只有 10 条（大部分小流量网站应该都是 10 条），超出 10 条将导致所有 url 提交失败。
+:::
