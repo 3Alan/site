@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: search-engines-urls-push
         id: search-engines-urls-push
-        uses: 3Alan/search-engines-urls-push@v0.2.2
+        uses: 3Alan/search-engines-urls-push@v0.2.3
         with:
           site: ${{ secrets.SITE }}
           sitemap: ${{ secrets.SITEMAP }}
