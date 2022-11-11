@@ -213,7 +213,8 @@ const config = {
         showReadingTime: true,
         blogSidebarTitle: '历史博文'
       }
-    ]
+    ],
+    './src/plugins/plugin-indexing-urls.js'
   ],
   scripts: [
     {
