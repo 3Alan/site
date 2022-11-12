@@ -2,6 +2,12 @@ const fs = require('fs-extra');
 const path = require('path');
 const logger = require('@docusaurus/logger');
 
+function getFrontMatterDate(blogPost) {
+  return (
+    blogPost.metadata.frontMatter.updated || blogPost.metadata.frontMatter.date
+  );
+}
+
 module.exports = function pluginIndexingUrls() {
   return {
     name: 'docusaurus-plugin-indexing-urls',
@@ -16,14 +22,13 @@ module.exports = function pluginIndexingUrls() {
       );
       const { blogPosts } = contentBlogPluginContext.content;
 
-      // TODO: 有updated根据updated排序
       const sortedBlogPosts = blogPosts.sort(
-        (a, b) => Date.parse(a.metadata.date) - Date.parse(b.metadata.date)
+        (a, b) => getFrontMatterDate(b) - getFrontMatterDate(a)
       );
 
-      const recentBlogPostsPath = sortedBlogPosts
-        .map(item => item.metadata.permalink)
-        .slice(0, 10);
+      const recentBlogPostsPath = sortedBlogPosts.map(
+        item => item.metadata.permalink
+      );
 
       if (recentBlogPostsPath.length === 0) {
         return;
