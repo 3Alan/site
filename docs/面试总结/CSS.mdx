@@ -1,0 +1,163 @@
+---
+title: CSS
+date: 2021-02-24 23:14:08
+tags:
+  - 前端面试总结
+keywords:
+  - 前端面试总结
+  - CSS
+description: 前端面试总结 - CSS
+displayed_sidebar: interviewSidebar
+sidebar_label: CSS
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## 单位
+
+- `rem`：相对于根元素的字体大小（html/:root）css3
+
+  如果 html 的 font-size 为 16px（默认），那么 1rem=16px
+
+- `em`：如果该元素有设置 font-size，那么相对于该元素。如果没有设置则相对于父元素。
+
+  例如，div 设置了 font-size 为 10px，那么该 div 中使用 em 时，1em 为 10px
+
+  如果该元素没有设置 font-size 且父元素设置 font-size 为 20px，那么 1em 为 20px
+
+- `vh/vw` 相对于视窗，10vh=1/10 的屏幕高
+
+## translate 和使用绝对定位的区别
+
+translate 会占据原来的位置，绝对定位会脱离文档流。
+
+## BFC
+
+概念：很模糊抽象，是页面上一个隔离的独立容器，容器中的子元素不会影响到外面的元素。
+
+试用场景：清理浮动，解决 margin 重叠
+
+**一个元素不能同时存在两个 BFC 中**
+
+### 创建方式：
+
+- 根元素
+- float 不为 none
+- position: absolute/fixed
+- display: inline-block/table-cell
+- overflow 不为 visible
+- 弹性盒子（`display: flex/inline-flex`）
+
+## 清理浮动
+
+- 伪类元素
+
+```css
+.clearfix::after {
+  content: '';
+  display: blcok;
+  clear: both;
+}
+```
+
+- 创建 BFC
+
+```css
+overflow: hidden;
+
+overflow: auto;
+```
+
+- 空盒子
+
+```html
+<div style="clear: both;"></div>
+```
+
+## 选择器优先级
+
+`!important > style > id > class > 标签 > * > 继承`
+
+## 垂直居中
+
+```html title=html
+<div class="outer">
+  <div class="inner"></div>
+</div>
+```
+
+- flex 布局
+
+- 绝对定位
+
+<Tabs>
+  <TabItem value="已知子元素宽高" label="已知子元素宽高">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px; /* 宽度一半 */
+  margin-top: -50px; /* 高度一半 */
+}
+```
+
+  </TabItem>
+  <TabItem value="未知子元素宽高" label="未知子元素宽高">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+  </TabItem>
+  <TabItem value="margin" label="margin">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+```
+
+  </TabItem>
+</Tabs>
+
+- table-cell
+
+```css
+.outer {
+  width: 400px;
+  height: 400px;
+  background: aqua;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.inner {
+  width: 100px;
+  height: 100px;
+  background: brown;
+  display: inline-block;
+}
+```
