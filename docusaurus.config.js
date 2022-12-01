@@ -77,7 +77,7 @@ const config = {
           },
           {
             type: 'doc',
-            docId: '面试总结/前端面试题-2020',
+            docId: '面试总结/工程化',
             position: 'left',
             label: '面试总结'
           },
