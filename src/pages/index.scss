@@ -102,12 +102,10 @@ $namespace: home-page;
   &-gh-btn {
     display: inline-flex;
     align-items: center;
+  }
 
-    img {
-      width: 24px;
-      height: 24px;
-      margin-right: 10px;
-    }
+  &-github {
+    margin-right: 10px;
   }
 }
 
