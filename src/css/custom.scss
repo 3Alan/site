@@ -15,6 +15,10 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-surface-border-color: rgb(60, 60, 60);
+  --ifm-toc-padding-vertical: 0.375rem;
+  --ifm-toc-padding-horizontal: 0.375rem;
+  --ifm-tabs-padding-vertical: 0.5rem;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -29,42 +33,112 @@
 }
 
 html[data-theme='dark'] {
-  --ifm-background-color: #141c22;
-  --ifm-background-surface-color: #23303d;
+  --ifm-background-color: rgb(31, 31, 34);
+  --ifm-background-surface-color: rgba(255, 255, 255, 0.05);
+  --ifm-navbar-background-color: var(--ifm-background-color);
+
+  .navbar {
+    border-bottom: 1px solid var(--ifm-surface-border-color);
+  }
+
+  .navbar__link {
+    border-radius: 4px;
+    &:hover {
+      background-color: var(--ifm-background-surface-color);
+    }
+
+    &--active {
+      background-color: var(--ifm-background-surface-color);
+    }
+  }
+
+  .theme-admonition-caution {
+    background-color: rgb(47, 43, 34);
+    border: 1px solid rgb(92, 72, 31);
+  }
+  .theme-admonition-tip {
+    background-color: rgb(34, 47, 36);
+    border: 1px solid rgb(31, 92, 39);
+  }
+  .theme-admonition-info {
+    background-color: rgb(34, 42, 47);
+    border: 1px solid rgb(31, 65, 92);
+  }
+
+  details[class*='details'] {
+    --docusaurus-details-decoration-color: rgb(90, 90, 90);
+    border: 1px solid var(--ifm-surface-border-color);
+    background-color: var(--ifm-background-surface-color);
+  }
+
+  .markdown {
+    & h1:first-child {
+      --ifm-h1-font-size: 2.5rem;
+    }
+
+    & > h2 {
+      --ifm-h2-font-size: 1.5rem;
+    }
+
+    & > h3 {
+      --ifm-h3-font-size: 1.25rem;
+    }
+  }
+}
+
+.table-of-contents__left-border {
+  border-left: none;
+}
+.table-of-contents__link {
+  padding-left: 4px;
+}
+.table-of-contents__link:hover,
+.table-of-contents__link:hover code,
+.table-of-contents__link--active,
+.table-of-contents__link--active code {
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 3px;
+}
+
+.tabs-container {
+  ul {
+    color: var(--ifm-color-content);
+    border-radius: var(--ifm-global-radius);
+    border: 1px solid var(--ifm-surface-border-color);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+div[class*='codeBlockContainer'] {
+  --prism-background-color: rgb(36, 36, 40) !important;
+  --prism-color: var(--ifm-color-content) !important;
+  border: 1px solid var(--ifm-surface-border-color);
+}
+div[class*='codeBlockTitle'] {
+  background-color: rgb(32, 32, 34);
+  border-bottom-color: var(--ifm-surface-border-color);
+}
+pre[class*='codeBlock'] {
+  font-size: 14px;
 }
 
 .footer--dark {
-  --ifm-footer-background-color: #23303d;
+  border-top: 1px solid var(--ifm-surface-border-color);
+  --ifm-footer-background-color: var(--ifm-background-color);
 }
 
-span[class*='codeLineContent'] {
-  padding-left: var(--ifm-pre-padding);
-}
-.code-block-add-line,
-.code-block-update-line {
-  display: block;
-  position: relative;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 calc(var(--ifm-pre-padding));
-
-  span[class*='codeLineContent'] {
-    display: block;
-  }
-}
 .code-block-add-line {
   background-color: #003100;
-  box-shadow: inset 3px 0 #009400;
 
-  span[class*='codeLineContent'] {
-    box-shadow: inset 3px 0 #009400;
+  span[class*='codeLineNumber'] {
+    background-color: #003100;
   }
 }
 .code-block-update-line {
   background-color: #4d3800;
-  box-shadow: inset 3px 0 #e6a700;
 
-  span[class*='codeLineContent'] {
-    box-shadow: inset 3px 0 #e6a700;
+  span[class*='codeLineNumber'] {
+    background-color: #4d3800;
   }
 }
 
