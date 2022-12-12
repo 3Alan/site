@@ -23,13 +23,13 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #29abf4;
-  --ifm-color-primary-dark: #0ea0f3;
-  --ifm-color-primary-darker: #0c98e6;
-  --ifm-color-primary-darkest: #0b8fd9;
-  --ifm-color-primary-light: #44b6f5;
-  --ifm-color-primary-lighter: #52bbf6;
-  --ifm-color-primary-lightest: #6dc6f7;
+  --ifm-color-primary: #66adff;
+  --ifm-color-primary-dark: #429aff;
+  --ifm-color-primary-darker: #3090ff;
+  --ifm-color-primary-darkest: #0074fa;
+  --ifm-color-primary-light: #8ac0ff;
+  --ifm-color-primary-lighter: #9ccaff;
+  --ifm-color-primary-lightest: #d1e6ff;
 }
 
 html[data-theme='dark'] {
@@ -52,17 +52,18 @@ html[data-theme='dark'] {
     }
   }
 
+  // from github
   .theme-admonition-caution {
-    background-color: rgb(47, 43, 34);
-    border: 1px solid rgb(92, 72, 31);
+    background-color: rgba(187, 128, 9, 0.15);
+    border: 1px solid rgba(187, 128, 9, 0.4);
   }
   .theme-admonition-tip {
-    background-color: rgb(34, 47, 36);
-    border: 1px solid rgb(31, 92, 39);
+    background-color: rgba(46, 160, 67, 0.15);
+    border: 1px solid rgba(46, 160, 67, 0.4);
   }
   .theme-admonition-info {
-    background-color: rgb(34, 42, 47);
-    border: 1px solid rgb(31, 65, 92);
+    background-color: rgba(56, 139, 253, 0.15);
+    border: 1px solid rgba(56, 139, 253, 0.4);
   }
 
   details[class*='details'] {
@@ -128,17 +129,17 @@ pre[class*='codeBlock'] {
 }
 
 .code-block-add-line {
-  background-color: #003100;
+  background-color: #213227;
 
   span[class*='codeLineNumber'] {
-    background-color: #003100;
+    background-color: #213227;
   }
 }
 .code-block-update-line {
-  background-color: #4d3800;
+  background-color: #362d1e;
 
   span[class*='codeLineNumber'] {
-    background-color: #4d3800;
+    background-color: #362d1e;
   }
 }
 
