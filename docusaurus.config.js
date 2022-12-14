@@ -93,15 +93,15 @@ const config = {
             items: [
               {
                 label: '博客搭建',
-                to: '/posts/博客搭建系列/Hexo博客定制'
+                to: '/posts/index/blog-guides'
               },
               {
                 label: 'react 组件库',
-                to: '/posts/react-components/react-组件库搭建'
+                to: '/posts/index/react-component-guides'
               },
               {
                 label: 'webpack',
-                to: '/posts/webpack-tutorial/webpack4.0学习总结（一）'
+                to: '/posts/index/webpack-guides'
               }
             ]
           },
