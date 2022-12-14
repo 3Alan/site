@@ -17,18 +17,18 @@ interface ProjectItem {
 
 const projectList: ProjectItem[] = [
   {
-    name: 'alan-ui',
+    name: '🎨 alan-ui',
     description: '基于 React 开发的手绘风格组件库',
     url: 'https://github.com/3Alan/alan-ui'
   },
   {
-    name: 'search-engines-urls-push',
+    name: '🕷️ search-engines-urls-push',
     description:
       'Github Action: 提交网站 sitemap 中的 url 到搜索引擎，以加快搜索引擎的收录',
     url: 'https://github.com/3Alan/search-engines-urls-push'
   },
   {
-    name: 'Hackintosh-i5-10400-B460M-MORTAR-WIFI',
+    name: '💿 Hackintosh-i5-10400-B460M-MORTAR-WIFI',
     description: '黑苹果 EFI',
     url: 'https://github.com/3Alan/Hackintosh-i5-10400-B460M-MORTAR-WIFI'
   }

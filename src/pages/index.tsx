@@ -9,7 +9,7 @@ import Projects from '../components/homPageProjects';
 import RecentBlogs, { RecentBlogItem } from '../components/homePageRecentBlogs';
 import { useAllPluginInstancesData } from '@docusaurus/useGlobalData';
 import clsx from 'clsx';
-import Wave from '../components/ware';
+import Wave from '../components/wave';
 
 const cls = 'home-page';
 
@@ -28,7 +28,7 @@ const HomePageSection: FC<HomePageSectionProps> = ({
 }) => {
   return (
     <>
-      {hasWave && <Wave className={`${cls}-t-wave`} />}
+      {hasWave && <Wave />}
       <div className={clsx({ [`${cls}-wave-bg`]: hasWave })}>
         {header}
         <div className="container">{content}</div>
@@ -58,7 +58,7 @@ function Intro(): JSX.Element {
           </a>
         </div>
 
-        <CodeBlock className={`${cls}-code`} language="js" showLineNumbers>
+        <CodeBlock title="About" className={`${cls}-code`} language="js">
           {`const siteInfo = {
   maintainer: {
     name: 'Alan',

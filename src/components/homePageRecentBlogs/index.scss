@@ -7,6 +7,16 @@ $namespace: hp-blog;
     justify-content: space-between;
     align-items: flex-end;
 
+    a {
+      padding: 4px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: var(--ifm-background-surface-color);
+      }
+    }
+
     h2 {
       font-size: 26px;
       margin: 0;

@@ -20,9 +20,6 @@ $namespace: home-page;
 }
 
 .#{$namespace} {
-  background: #373b44;
-  background: linear-gradient(#23303d, #02132c);
-
   &-intro {
     display: flex;
     align-items: center;
@@ -43,11 +40,6 @@ $namespace: home-page;
 
   &-code {
     width: 500px;
-
-    pre,
-    span {
-      background-color: #04344e !important;
-    }
   }
 
   &-center-title {
@@ -76,12 +68,8 @@ $namespace: home-page;
     transform: rotate(110deg);
   }
 
-  &-t-wave {
-    margin-bottom: -10px;
-  }
-
   &-wave-bg {
-    background-color: #23303d;
+    background-color: var(--ifm-background-surface-color);
   }
 
   &-blog {
@@ -89,8 +77,10 @@ $namespace: home-page;
   }
 
   &-me {
+    font-size: 24px;
+
     h1 {
-      font-size: 36px;
+      font-size: 45px;
       background: linear-gradient(to right, var(--ifm-color-primary), #23303d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
