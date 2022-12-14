@@ -1,0 +1,484 @@
+---
+title: webpack loader 的基本使用
+sidebar_label: loader 的基本使用
+tags:
+  - webpack4.0
+categories:
+  - 前端
+  - webpack4.0学习总结
+description: webpack loader 的基本使用
+keywords:
+  - webpack
+  - webpack loader
+references:
+  - name: 从基础到实战 手把手带你掌握新版Webpack4.0
+    url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
+  - name: webpack官网
+    url: 'https://webpack.js.org/'
+date: 2020-05-15 20:00:22
+updated: 2020-05-16 13:33:00
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+这节主要讲一讲一些常见的 Loader 的使用。包括 `file-loader`、`url-loader`以及`css-loader`和`style-loader`。
+
+<!--truncate-->
+
+## Loader
+
+### file-loader
+
+上一节简单介绍了 webpack 是什么，webpack 是一个模块打包器，可以将 es 的模块文件进行打包。上一节我们只打包了 js 文件，那我们能不能打包其他类型的文件呢，先来试一试打包图片吧。
+
+这里使用到了 `file-loader`
+
+```shell title="安装 file-loader"
+npm i file-loader -D
+```
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js title="index.js"
+// ES Moudule 模块化引入
+import ComponentB from './componentB';
+
+var root = document.getElementById('root');
+
+// CommonJs 模块引入
+var ComponentA = require('./componentA');
+var img1 = require('./IMG_3294.jpg');
+console.log(img1);
+var img = new Image();
+img.src = img1;
+root.append(img);
+
+new ComponentA();
+new ComponentB();
+```
+
+</TabItem>
+<TabItem value="webpack.config.js" label="webpack.config.js">
+
+```js
+const path = require('path');
+
+module.exports = {
+  mode: 'development', // 默认为production
+  entry: {
+    main: './src/index.js' // 打包入口文件
+  },
+  module: {
+    rules: [
+      // 匹配 jpg 结尾的文件使用 file-loader 处理
+      {
+        test: /\.jpg$/,
+        use: {
+          loader: 'file-loader'
+        }
+      }
+    ]
+  },
+  output: {
+    // 输出文件配置
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+</TabItem>
+</Tabs>
+
+`npm run build` 进行打包，我们看一下控制台打印出来的 img1
+
+![img module](https://raw.githubusercontent.com/3Alan/images/master/img/20200515205827.png)
+
+这里可以看到 img1 是一个`Module`。
+
+我们可以通过 `img1.default` 来获取路径或者直接通过 import 形式来引入，这样图片就成功得显示出来了 😄
+
+```js
+import img1 from './IMG_3294.jpg';
+```
+
+通过这个例子可以知道了 loader 的大致作用方法了，通过 `test` 来匹配特定文件使用(`use`) 特定的 `loader` 来对文件进行打包处理。
+
+我们再看一下打包出来的文件
+
+```
+dist
+ ├── a2099657cfcaf9f019ccf08e9dc8747d.jpg
+ ├── bundle.js
+ └── index.html
+```
+
+发现我们的图片名称被改变成了一长串字符，那我怎么让它不改变名字呢。这时候 loader 的**options**就派上用场了 😎
+
+```js title="webpack.config.js"
+rules: [
+  {
+    test: /\.(jpg|png)$/,
+    use: {
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]'
+      }
+    }
+  }
+];
+```
+
+这里的 `[name]` 和 `[ext]` 是 loader 中的**placeholder**,分别表示文件的名字和后缀名，当然 loader 中还有很多的 [placeholder](https://webpack.js.org/loaders/file-loader/#placeholders)。
+
+设置好后进行打包得到如下结果，可以看到打包后的文件名和打包前的保持一致了。
+
+```
+dist
+ ├── bundle.js
+ ├── IMG_3294.jpg
+ └── index.html
+```
+
+现在有一个问题，当我们的图片一旦多起来那全部打包放在根目录下拿岂不是很乱，这个时候就可以使用 options 中的 output 来设置经过 loader 处理后的输出路径了。
+
+```js
+options: {
+  name: '[name].[ext]',
+  outputPath: 'images/'
+}
+```
+
+打包看一下结果成功 👌，运行一下 html 文件图片也可以正常显示。
+
+```
+dist
+ ├── bundle.js
+ ├── images
+ │   └── IMG_3294.jpg
+ └── index.html
+```
+
+到这里我们就了解了 **file-loader** 的基本使用了。
+
+### url-loader
+
+url-loader 也可以打包文件，但是和 file-loader 不同的是，它会将我们的图片转化成 base64 编码，那如果我不想转化呢，我们可以使用 options 中的 limit 属性来限制文件在小于多少时转化成 base64 编码，一旦大于这个值打包出来的效果就和 file-loader 一样了。
+
+看一下例子就清楚了
+
+```
+npm i url-loader -D
+```
+
+这里准备两个图片，一个大小 300k，一个大小 7k
+
+```js title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development', // 默认为production
+  entry: {
+    main: './src/index.js' // 打包入口文件
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'images/',
+            limit: 10240
+          }
+        }
+      }
+    ]
+  },
+  output: {
+    // 输出文件配置
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+看一下打包后的文件
+
+```
+dist
+ ├── bundle.js
+ ├── images
+ │   └── 300k.jpg
+ └── index.html
+```
+
+结果是大于 10240 的 300k.jpg 文件被以图片形式打包出来了，那 7k.jpg 文件去哪了呢，我们在 `bundle.js` 文件中可以找到了它，它被转化成了 base64 编码。
+
+```
+data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...
+```
+
+当然 limit 也可以设置为 true/false，[更多配置](https://webpack.js.org/loaders/url-loader/#limit)
+
+我在操作中发现了如果 html 中没有使用到 7k.jpg，url-loader 是不会对它进行打包的。
+
+:::tip
+这里并不建议把大文件转化为 base64，这样会增加 bundle.js 的体积，对项目优化不太友好
+:::
+
+### 样式文件
+
+接着上面的例子，我现在想要为页面中的图片添加一些样式
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js
+// ES Moudule 模块化引入
+import ComponentB from './componentB';
+import './index.css';
+
+var root = document.getElementById('root');
+
+// CommonJs 模块引入
+var ComponentA = require('./componentA');
+import img1 from './300k.jpg';
+console.log(img1);
+
+var img = new Image();
+img.src = img1;
+img.classList.add('circle');
+root.append(img);
+
+new ComponentA();
+new ComponentB();
+```
+
+</TabItem>
+<TabItem value="index.css" label="index.css">
+
+```css
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+```
+
+</TabItem>
+</Tabs>
+
+现在我想要打包 css 文件该怎么办呢 😶，我们要用到两个 loader，`css-loader` 和 `style-loader`
+
+安装
+
+```
+npm i style-loader css-loader -D
+```
+
+```js title="webpack.config.js"
+{
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader']
+}
+```
+
+打包成功，打开网页看一看效果生效了
+
+![index.html](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200515222855901.png)
+
+这里简单介绍一下 style-loader 和 css-loader 的作用，首先它们执行有先后顺序的，
+1. 使用 css-loader 对 css 文件进行打包
+2. 再用 style-loader 把打包后的 css 文件内容以`<style></style>`加到页面的 header 中
+
+![解释图](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200515223148666.png)
+
+:::info
+有时候我们要为css加上浏览器引擎前缀-webkit，postcss-loader 可以帮助我们实现
+
+```
+npm i postcss-loader autoprefixer -D
+```
+
+```js title="webpack.config.js"
+{
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader', {
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      pulgins: [
+        require('autoprefixer')
+      ]
+    }
+  }],
+},
+```
+
+:::
+
+## 扩展
+
+### css 模块化
+
+先看一个场景
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js
+import './index.css';
+import img1 from './300k.jpg';
+import ComponentA from './componentA';
+
+var root = document.getElementById('root');
+
+var img = new Image();
+img.src = img1;
+img.classList.add('circle');
+root.append(img);
+
+ComponentA();
+```
+
+</TabItem>
+<TabItem value="ComponentA" label="ComponentA">
+
+```js
+import img1 from './300k.jpg';
+
+function ComponentA() {
+  var img = new Image();
+  img.src = img1;
+  img.classList.add('circle');
+  var root = document.getElementById('root');
+  root.append(img);
+}
+
+export default ComponentA;
+```
+
+</TabItem>
+</Tabs>
+
+![image-20200516121515523](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516121515523.png)
+
+我们看到 circle 样式同样作用在了 componentA 上了，也就是说 circle 已经等同于是全局样式了 😥。还好我们可以通过配置 `css-loader` 的 options 来使用 css 的模块化来解决这个问题。
+
+```js
+{
+  test: /\.css$/,
+  use: [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        // 开启 css module
+        modules: true,
+      }
+    }
+  ],
+},
+```
+
+配置好后我们在要使用样式的地方使用下面这种写法
+
+```js
+import circle from './index.css';
+
+img.classList.add(circle.circle);
+```
+
+这样我们再修改样式就不会影响到其他地方了。
+
+### css 外部引入
+
+这里主要介绍 css-loader 的 options `importLoaders`。
+
+我们在 index.css 文件中引入外部 css 文件
+
+```css
+@import './import.css';
+```
+
+假设我们有以下几个 loader 处理 css 文件
+
+`['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']`
+
+当 webpack 处理 index.css 文件时按照 postcss-loader->sass-loader->css-loader 顺序来执行 css 文件的
+
+当遇到@import 时处理 import.css 时，如果不做处理的话，import.css 将直接从 css-loader 开始处理的，那我想让它从 postcss-loader 从头处理的话就要设置 imortLoaders 数目了。
+
+```js
+{
+  loader: 'css-loader',
+  options: {
+    importLoaders: 1,
+  }
+},
+```
+
+这里的 1 表示处理@import 引入的 css 文件是，先要被前面的 1 个 loader 处理，也就是 import.css 的处理顺序是 sass-loader->css-loader-style-loader。
+
+### 处理字体文件
+
+直接使用 `file-loader` 处理就可以了
+
+<Tabs>
+<TabItem value="webpack.config.js" label="webpack.config.js">
+
+```js
+{
+  test: /\.(eot|ttf|svg|woff)$/,
+  use: {
+    loader: 'file-loader',
+  },
+},
+```
+
+</TabItem>
+<TabItem value="index.js" label="index.js">
+
+```js
+import './font/iconfont.css';
+
+var root = document.getElementById('root');
+
+root.innerHTML = '<div class="iconfont icon-smile"></div>';
+```
+
+</TabItem>
+<TabItem value="iconfont.css" label="iconfont.css">
+
+```js
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1589604469136'); /* IE9 */
+  src: url('iconfont.eot?t=1589604469136#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,这里base64代码太长删除掉了') format('woff2'),
+  url('iconfont.woff?t=1589604469136') format('woff'),
+  url('iconfont.ttf?t=1589604469136') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1589604469136#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-smile:before {
+  content: "\e783";
+}
+```
+
+</TabItem>
+</Tabs>
+
+ok!这章到此介绍。现在我们已经能够处理一些常见文件的打包了，对 webpack 的认识也应该算一个简单的入门了。😁

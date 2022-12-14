@@ -66,7 +66,8 @@ const config = {
         title: 'Alan',
         logo: {
           alt: 'Alan|前端博客',
-          src: 'img/logo.svg'
+          src: 'img/logo.svg',
+          width: 30
         },
         items: [
           {

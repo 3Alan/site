@@ -1,5 +1,6 @@
 ---
-title: webpack4.0学习总结（三）
+title: webpack plugin 的基本使用
+sidebar_label: plugin 的基本使用
 tags:
   - webpack4.0
 categories:
