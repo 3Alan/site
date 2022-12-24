@@ -293,13 +293,14 @@ npm i style-loader css-loader -D
 ![index.html](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200515222855901.png)
 
 这里简单介绍一下 style-loader 和 css-loader 的作用，首先它们执行有先后顺序的，
+
 1. 使用 css-loader 对 css 文件进行打包
 2. 再用 style-loader 把打包后的 css 文件内容以`<style></style>`加到页面的 header 中
 
 ![解释图](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200515223148666.png)
 
 :::info
-有时候我们要为css加上浏览器引擎前缀-webkit，postcss-loader 可以帮助我们实现
+有时候我们要为 css 加上浏览器引擎前缀-webkit，postcss-loader 可以帮助我们实现
 
 ```
 npm i postcss-loader autoprefixer -D
