@@ -67,7 +67,7 @@ const sidebars = {
       ],
       link: {
         type: 'generated-index',
-        title: 'Docusaurus 搭建系列',
+        title: '博客搭建系列',
         description: '包含了所有我曾经使用过的博客工具及其相关教程，包括 Hexo, Next.js, Docusaurus。',
         slug: '/index/blog-guides',
         keywords: ['Docusaurus', 'Next.js', 'Docusaurus'],
