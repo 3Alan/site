@@ -1,12 +1,7 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Giscus, { GiscusProps } from '@giscus/react';
-import {
-  useThemeConfig,
-  useColorMode,
-  ThemeConfig
-} from '@docusaurus/theme-common';
-
+import { useThemeConfig, useColorMode, ThemeConfig } from '@docusaurus/theme-common';
 interface CustomThemeConfig extends ThemeConfig {
   giscus: GiscusProps & { darkTheme: string };
 }
@@ -16,6 +11,23 @@ export const Comment = forwardRef<HTMLDivElement>((_props, ref) => {
   const { colorMode } = useColorMode();
   const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
   const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
+  const [routeDidUpdate, setRouteDidUpdate] = useState(false);
+
+  useEffect(() => {
+    function eventHandler(e) {
+      setRouteDidUpdate(true);
+    }
+
+    window.emitter.on('onRouteDidUpdate', eventHandler);
+
+    return () => {
+      window.emitter.off('onRouteDidUpdate', eventHandler);
+    };
+  }, []);
+
+  if (!routeDidUpdate) {
+    return null;
+  }
 
   return (
     <BrowserOnly fallback={<div>Loading Comments...</div>}>
@@ -25,7 +37,6 @@ export const Comment = forwardRef<HTMLDivElement>((_props, ref) => {
             id="comments"
             mapping="title"
             strict="1"
-            term="Welcome to @giscus/react component!"
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="bottom"
