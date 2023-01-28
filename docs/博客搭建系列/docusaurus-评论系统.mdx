@@ -11,7 +11,7 @@ keywords:
   - Github discussion
   - Docusaurus Swizzling
 date: 2022-09-29
-updated: 2022-11-06
+updated: 2023-01-28
 description: 通过 Docusaurus Swizzling 为博客和文档添加 Giscus 评论功能
 sidebar_position: 1
 ---
@@ -26,43 +26,84 @@ sidebar_position: 1
 > 2. giscus app 已安装否则访客将无法评论和回应。
 > 3. Discussions 功能已在你的仓库中启用。
 
-## Docusaurus 中安装 Giscus
+## 安装所需包
 
 ```
-yarn add @giscus/react
+yarn add @giscus/react mitt
 ```
 
-然后我们封装一个评论组件方便使用
+## 封装评论组件
+
+### 配置生命周期函数
+
+由于 `Docusaurus` bug 导致 `Giscus` 有时获取的仍然是上一篇文章的评论，为解决这一问题我们创建一个 `clientModule`
+
+```tsx title="src/clientModules/routeModules.ts"
+import mitt from 'mitt';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+const emitter = mitt();
+
+if (ExecutionEnvironment.canUseDOM) {
+  window.emitter = emitter;
+}
+
+export function onRouteDidUpdate() {
+  if (ExecutionEnvironment.canUseDOM) {
+    setTimeout(() => {
+      window.emitter.emit('onRouteDidUpdate');
+    });
+  }
+  // https://github.com/facebook/docusaurus/issues/8278
+}
+```
+
+:::info
+相关 [issue](https://github.com/facebook/docusaurus/issues/8278)
+:::
+
+### 创建一个组件
 
 ```tsx title="src/components/comment/index.tsx"
-import React from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Giscus, { GiscusProps } from '@giscus/react';
-import {
-  useThemeConfig,
-  useColorMode,
-  ThemeConfig
-} from '@docusaurus/theme-common';
-
+import { useThemeConfig, useColorMode, ThemeConfig } from '@docusaurus/theme-common';
 interface CustomThemeConfig extends ThemeConfig {
   giscus: GiscusProps & { darkTheme: string };
 }
 
-export const Comment = () => {
+export const Comment = forwardRef<HTMLDivElement>((_props, ref) => {
   const { giscus } = useThemeConfig() as CustomThemeConfig;
   const { colorMode } = useColorMode();
   const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
   const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
+  const [routeDidUpdate, setRouteDidUpdate] = useState(false);
+
+  useEffect(() => {
+    function eventHandler(e) {
+      setRouteDidUpdate(true);
+    }
+
+    window.emitter.on('onRouteDidUpdate', eventHandler);
+
+    return () => {
+      window.emitter.off('onRouteDidUpdate', eventHandler);
+    };
+  }, []);
+
+  if (!routeDidUpdate) {
+    return null;
+  }
 
   return (
     <BrowserOnly fallback={<div>Loading Comments...</div>}>
       {() => (
-        <div style={{ paddingTop: 50 }}>
+        <div ref={ref} id="comment" style={{ paddingTop: 50 }}>
           <Giscus
             id="comments"
             mapping="title"
             strict="1"
-            term="Welcome to @giscus/react component!"
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="bottom"
@@ -75,7 +116,7 @@ export const Comment = () => {
       )}
     </BrowserOnly>
   );
-};
+});
 
 export default Comment;
 ```
@@ -183,10 +224,7 @@ yarn run swizzle @docusaurus/theme-classic BlogPostPage -- --eject --typescript
 ```tsx title="src/theme/BlogPostPage/index.tsx"
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
-import {
-  HtmlClassNameProvider,
-  ThemeClassNames
-} from '@docusaurus/theme-common';
+import { HtmlClassNameProvider, ThemeClassNames } from '@docusaurus/theme-common';
 
 import {
   BlogPostProvider,
@@ -234,9 +272,7 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>{children}</BlogPostItem>
-      {(nextItem || prevItem) && (
-        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-      )}
+      {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
       // highlight-add-line
       {!hideComment && <Comment />}
     </BlogLayout>
@@ -248,10 +284,7 @@ export default function BlogPostPage(props: Props): JSX.Element {
   return (
     <BlogPostProvider content={props.content} isBlogPostPage>
       <HtmlClassNameProvider
-        className={clsx(
-          ThemeClassNames.wrapper.blogPages,
-          ThemeClassNames.page.blogPostPage
-        )}
+        className={clsx(ThemeClassNames.wrapper.blogPages, ThemeClassNames.page.blogPostPage)}
       >
         <BlogPostPageMetadata />
         <BlogPostPageContent sidebar={props.sidebar}>
@@ -286,7 +319,8 @@ module.exports = {
       category: 'Announcements',
       categoryId: 'xxx'
     }
-  }
+  },
+  clientModules: [require.resolve('./src/clientModules/routeModules.ts')]
 };
 ```
 
