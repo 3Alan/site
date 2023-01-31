@@ -22,7 +22,7 @@ authors: Alan
 TypeScript 常用知识点总结
 
 > [TypeScript 中文手册](https://typescript.bootcss.com/basic-types.html)
-> 
+>
 > [TypeScript－系统入门到项目实战](https://coding.imooc.com/class/412.html)
 
 <!-- truncate -->
@@ -330,10 +330,8 @@ interface worker {
   seniority: number;
 }
 function Recruit(candidate: worker | student): void {
-  'education' in candidate &&
-    console.log(`your education is ${candidate.education}`);
-  'seniority' in candidate &&
-    console.log(`your seniority is ${candidate.seniority}`);
+  'education' in candidate && console.log(`your education is ${candidate.education}`);
+  'seniority' in candidate && console.log(`your seniority is ${candidate.seniority}`);
 }
 
 const a: student = { isStudent: true, education: 4 };
@@ -344,6 +342,20 @@ Recruit(b);
 
 - typeof
 - instanceof
+
+## 非空断言
+
+`!.` 对应 `--strictNullChecks`
+
+```ts
+interface person {
+  name: string;
+}
+function work(personObj?: person) {
+  // 由于 personObj 可能不传，所以 personObj 可能为 undefined，使用 !. 可以断言 personObj 不为空
+  console.log(personObj!.name);
+}
+```
 
 ## 接口 interface
 
@@ -409,7 +421,7 @@ console.log(Recruit(person2));
 
 :::tip
 
-当然也可以使用setter/getter来实现
+当然也可以使用 setter/getter 来实现
 
 :::
 
@@ -436,11 +448,7 @@ interface attendanceFunc {
   (name: string, startTime: number, endTime: number): boolean;
 }
 let checkAttendance: attendanceFunc;
-checkAttendance = function (
-  name: string,
-  startTime: number,
-  endTime: number
-): boolean {
+checkAttendance = function (name: string, startTime: number, endTime: number): boolean {
   let result = startTime < 9 && endTime > 18;
   return result;
 };
@@ -613,11 +621,7 @@ interface Address {
   province: string;
 }
 
-function Recruit<C extends Contact, A extends Address>(
-  name: string,
-  contact: C,
-  address: A
-) {
+function Recruit<C extends Contact, A extends Address>(name: string, contact: C, address: A) {
   return `${name}'s mobile is ${contact.mobile}, live in ${address.province}`;
 }
 
