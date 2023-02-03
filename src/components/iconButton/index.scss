@@ -1,0 +1,19 @@
+$namespace: icon-btn;
+
+.#{$namespace} {
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  color: rgb(120, 120, 120);
+
+  &:hover {
+    background: rgb(60, 60, 60);
+  }
+}
