@@ -16,4 +16,11 @@ $namespace: icon-btn;
   &:hover {
     background: rgb(60, 60, 60);
   }
+
+  &:disabled {
+    color: rgb(80, 80, 80);;
+    cursor: not-allowed;
+    background: rgb(45, 45, 45);
+    pointer-events: none;
+  }
 }

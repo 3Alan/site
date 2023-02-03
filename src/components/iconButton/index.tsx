@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import './index.scss';
 
 const cls = 'icon-btn';
 
-const IconButton = ({ children }) => {
-  return <button className={cls}>{children}</button>;
+interface IconButtonProps extends PropsWithChildren {
+  disabled?: boolean;
+  onClick?: () => void;
+}
+
+const IconButton: FC<IconButtonProps> = ({ children, onClick, disabled }) => {
+  return (
+    <button className={cls} onClick={onClick} disabled={disabled}>
+      {children}
+    </button>
+  );
 };
 
 export default IconButton;
