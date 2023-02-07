@@ -3,10 +3,13 @@ import BaseXarrow, { xarrowPropsType } from 'react-xarrows';
 
 interface XarrowProps extends Omit<xarrowPropsType, 'labels'> {
   label?: string;
+  isLabelEnd?: boolean;
 }
 
 const Xarrow: FC<XarrowProps> = props => {
-  if (!props.showXarrow) {
+  const { isLabelEnd, showXarrow } = props;
+
+  if (!showXarrow) {
     return null;
   }
 
@@ -19,7 +22,11 @@ const Xarrow: FC<XarrowProps> = props => {
       tailShape="circle"
       tailSize={4}
       {...props}
-      labels={{ start: <span style={{ fontSize: 12 }}>{props.label}</span> }}
+      labels={
+        isLabelEnd
+          ? { end: <span style={{ fontSize: 12 }}>{props.label}</span> }
+          : { start: <span style={{ fontSize: 12 }}>{props.label}</span> }
+      }
     />
   );
 };

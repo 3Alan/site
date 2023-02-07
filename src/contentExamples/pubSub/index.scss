@@ -1,4 +1,4 @@
-$namespace: a-content-wrap;
+$namespace: pb-base-ex;
 
 .#{$namespace} {
   border: 1px solid var(--ifm-surface-border-color);
@@ -23,5 +23,12 @@ $namespace: a-content-wrap;
     padding: 8px;
     border-top: 1px solid var(--ifm-surface-border-color);
     border-bottom: 1px solid var(--ifm-surface-border-color);
+  }
+
+  &-left {
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    justify-content: space-between;
   }
 }

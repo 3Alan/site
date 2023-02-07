@@ -18,13 +18,17 @@ $namespace: pb-stack;
     border-bottom: 1px solid rgba(56, 139, 253, 0.4);
     width: 100%;
     text-align: center;
+    padding: 3px 0;
   }
 
   &-node {
     width: 100%;
     display: flex;
     justify-content: center;
+    border: none;
     border-bottom: 1px solid rgba(56, 139, 253, 0.4);
+    font-size: 12px;
+    border-radius: 0;
 
     &:last-child {
       border-bottom: none;
