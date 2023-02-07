@@ -1,0 +1,20 @@
+$namespace: pb-control;
+
+.#{$namespace} {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: #27272a;
+
+  
+  &-left {
+    display: flex;
+    align-items: center;
+  }
+
+  &-count {
+    padding-left: 10px;
+    color: #ccc;
+    font-size: 14px;
+  }
+}

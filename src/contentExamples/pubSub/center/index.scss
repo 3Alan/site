@@ -1,0 +1,25 @@
+$namespace: pb-center;
+
+.#{$namespace} {
+  &-center {
+    width: 200px;
+    min-height: 150px;
+    padding: 4px;
+
+    &.pb-node {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    i {
+      font-size: 12px;
+    }
+  }
+
+  &-center-content {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: flex-start;
+  }
+}

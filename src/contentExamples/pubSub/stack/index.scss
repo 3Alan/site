@@ -1,0 +1,33 @@
+$namespace: pb-stack;
+
+.#{$namespace} {
+  background: #222f43;
+  border: 2px solid rgba(56, 139, 253, 0.4);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50px;
+  max-width: 100px;
+
+  &-title {
+    font-style: italic;
+    background-color: rgba(56, 139, 253, 0.1);
+    border-bottom: 1px solid rgba(56, 139, 253, 0.4);
+    width: 100%;
+    text-align: center;
+  }
+
+  &-node {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(56, 139, 253, 0.4);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
