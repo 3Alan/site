@@ -9,10 +9,9 @@ import ConsoleLogger from '../../consoleLogger';
 
 const cls = 'pb-base-ex';
 
-const PubSubAllExample = () => {
+const PubSubScreenExample = () => {
   const ARef = useRef();
   const BRef = useRef();
-  const CRef = useRef();
   const centerRef = useRef();
   const [currentArrowStatus, setCurrentArrowStatus] = useState(PubSubSteps[0]);
 
@@ -27,19 +26,14 @@ const PubSubAllExample = () => {
   return (
     <div className={cls}>
       <div className={`${cls}-content`}>
-        <div className={`${cls}-left`}>
-          <Node ref={ARef} className={`${cls}-node`} active={currentArrowStatus.activeA}>
-            A
-          </Node>
-          <Node ref={CRef} className={`${cls}-node`}>
-            C
-          </Node>
-        </div>
+        <Node ref={ARef} className={`${cls}-node`} active={currentArrowStatus.activeA}>
+          小明
+        </Node>
 
-        <EventBus ref={centerRef} option={currentArrowStatus.eventBus} />
+        <EventBus ref={centerRef} title="APP" option={currentArrowStatus.eventBus} />
 
         <Node ref={BRef} className={`${cls}-node`}>
-          B
+          小红
         </Node>
       </div>
 
@@ -47,26 +41,20 @@ const PubSubAllExample = () => {
         showXarrow={currentArrowStatus.AToCenter}
         start={ARef}
         end={centerRef}
-        label="on('*', cbA)"
+        label="小明求购屏幕"
       />
       <Xarrow
         showXarrow={currentArrowStatus.BToCenter}
         start={BRef}
         end={centerRef}
-        label="emit('foo', 'foo data')"
-      />
-      <Xarrow
-        showXarrow={currentArrowStatus.CToCenter}
-        start={CRef}
-        end={centerRef}
-        label="emit('bar', 'bar data')"
+        label="小红出售屏幕"
       />
       <Xarrow
         showXarrow={currentArrowStatus.CenterToA}
         start={centerRef}
         end={ARef}
         isLabelEnd
-        label="notify A"
+        label="通知小明有人出售屏幕"
       />
 
       <ConsoleLogger>{currentArrowStatus.log}</ConsoleLogger>
@@ -79,4 +67,4 @@ const PubSubAllExample = () => {
   );
 };
 
-export default PubSubAllExample;
+export default PubSubScreenExample;

@@ -15,18 +15,19 @@ interface EventItem {
   [eventName: string]: EventItemProps[];
 }
 
-export interface EventCenterProps extends PropsWithChildren {
+export interface EventBusProps extends PropsWithChildren {
   option: EventItem;
   active?: boolean;
+  title?: string;
   className?: string;
 }
 
-const EventCenter = forwardRef<HTMLDivElement, EventCenterProps>((props, ref) => {
-  const { option, active } = props;
+const EventBus = forwardRef<HTMLDivElement, EventBusProps>((props, ref) => {
+  const { option, active, title = 'EventBus' } = props;
 
   return (
     <Node ref={ref} active={active} className={`${cls}-center`}>
-      <i>EventCenter</i>
+      <i>{title}</i>
       <div className={`${cls}-center-content`}>
         {option &&
           Object.keys(option).map(key => <Stack key={key} title={key} list={option[key]} />)}
@@ -35,4 +36,4 @@ const EventCenter = forwardRef<HTMLDivElement, EventCenterProps>((props, ref) =>
   );
 });
 
-export default EventCenter;
+export default EventBus;

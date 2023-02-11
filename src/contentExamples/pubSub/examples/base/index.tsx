@@ -3,7 +3,7 @@ import '../../index.scss';
 import Xarrow from '../../xarrow';
 import Node from '../../node';
 import ControlMenu from '../../controlMenu';
-import EventCenter from '../../eventCenter';
+import EventBus from '../../eventBus';
 import { PubSubSteps } from './steps';
 import ConsoleLogger from '../../consoleLogger';
 
@@ -36,7 +36,7 @@ const PubSubBaseExample = () => {
           </Node>
         </div>
 
-        <EventCenter ref={centerRef} option={currentArrowStatus.eventCenter} />
+        <EventBus ref={centerRef} option={currentArrowStatus.eventBus} />
 
         <Node ref={BRef} className={`${cls}-node`}>
           B

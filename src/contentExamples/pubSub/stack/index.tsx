@@ -3,7 +3,7 @@ import React, { forwardRef, PropsWithChildren } from 'react';
 import { motion } from 'framer-motion';
 import './index.scss';
 import Node from '../node';
-import { EventItemProps } from '../eventCenter';
+import { EventItemProps } from '../eventBus';
 
 const cls = 'pb-stack';
 

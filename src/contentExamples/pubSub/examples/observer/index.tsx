@@ -9,10 +9,8 @@ import ConsoleLogger from '../../consoleLogger';
 
 const cls = 'pb-base-ex';
 
-const PubSubAllExample = () => {
+const ObserverExample = () => {
   const ARef = useRef();
-  const BRef = useRef();
-  const CRef = useRef();
   const centerRef = useRef();
   const [currentArrowStatus, setCurrentArrowStatus] = useState(PubSubSteps[0]);
 
@@ -27,46 +25,30 @@ const PubSubAllExample = () => {
   return (
     <div className={cls}>
       <div className={`${cls}-content`}>
-        <div className={`${cls}-left`}>
-          <Node ref={ARef} className={`${cls}-node`} active={currentArrowStatus.activeA}>
-            A
-          </Node>
-          <Node ref={CRef} className={`${cls}-node`}>
-            C
-          </Node>
-        </div>
-
-        <EventBus ref={centerRef} option={currentArrowStatus.eventBus} />
-
-        <Node ref={BRef} className={`${cls}-node`}>
-          B
+        <Node ref={ARef} className={`${cls}-node`} active={currentArrowStatus.activeA}>
+          小明
         </Node>
+
+        <EventBus
+          title="老板"
+          ref={centerRef}
+          option={currentArrowStatus.eventBus}
+          active={currentArrowStatus.activeCenter}
+        />
       </div>
 
       <Xarrow
         showXarrow={currentArrowStatus.AToCenter}
         start={ARef}
         end={centerRef}
-        label="on('*', cbA)"
-      />
-      <Xarrow
-        showXarrow={currentArrowStatus.BToCenter}
-        start={BRef}
-        end={centerRef}
-        label="emit('foo', 'foo data')"
-      />
-      <Xarrow
-        showXarrow={currentArrowStatus.CToCenter}
-        start={CRef}
-        end={centerRef}
-        label="emit('bar', 'bar data')"
+        label="买酸奶"
       />
       <Xarrow
         showXarrow={currentArrowStatus.CenterToA}
         start={centerRef}
         end={ARef}
         isLabelEnd
-        label="notify A"
+        label="打电话通知小明"
       />
 
       <ConsoleLogger>{currentArrowStatus.log}</ConsoleLogger>
@@ -79,4 +61,4 @@ const PubSubAllExample = () => {
   );
 };
 
-export default PubSubAllExample;
+export default ObserverExample;

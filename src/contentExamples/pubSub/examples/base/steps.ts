@@ -7,7 +7,7 @@ export const PubSubSteps = [
     CenterToC: false,
     activeA: false,
     activeC: false,
-    eventCenter: null,
+    eventBus: null,
     log: 'A,B,C 为不同组件'
   },
   {
@@ -18,7 +18,7 @@ export const PubSubSteps = [
     CenterToC: false,
     activeA: false,
     activeC: false,
-    eventCenter: { foo: [{ content: 'A: fooCbA', active: false }] },
+    eventBus: { foo: [{ content: 'A: fooCbA', active: false }] },
     log: 'A 订阅了 foo 事件，添加到事件中心'
   },
   {
@@ -29,7 +29,7 @@ export const PubSubSteps = [
     CenterToC: false,
     activeA: false,
     activeC: false,
-    eventCenter: {
+    eventBus: {
       foo: [
         { content: 'A: fooCbA', active: false },
         { content: 'C: fooCbC', active: false }
@@ -45,7 +45,7 @@ export const PubSubSteps = [
     CenterToC: false,
     activeA: false,
     activeC: false,
-    eventCenter: {
+    eventBus: {
       foo: [
         { content: 'A: fooCbA', active: false },
         { content: 'C: fooCbC', active: false }
@@ -61,7 +61,7 @@ export const PubSubSteps = [
     CenterToC: true,
     activeA: true,
     activeC: true,
-    eventCenter: {
+    eventBus: {
       foo: [
         { content: 'A: fooCbA', active: true, delay: 0 },
         { content: 'C: fooCbC', active: true, delay: 0 }

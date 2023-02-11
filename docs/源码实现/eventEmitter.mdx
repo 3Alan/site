@@ -9,10 +9,14 @@ keywords:
   - 事件派发器
 date: 2023-02-07
 description: 实现一个简易的事件派发器
-# draft: true
 ---
 
-import { PubSubBaseExample, PubSubAllExample } from '../../src/contentExamples/pubSub';
+import {
+  PubSubBaseExample,
+  PubSubAllExample,
+  PubSubScreenExample,
+  ObserverExample
+} from '../../src/contentExamples/pubSub';
 
 Mitt 的源码非常简易只有不到 100 行，整篇文章将围绕例子来解释。
 
@@ -36,4 +40,8 @@ Mitt 的源码非常简易只有不到 100 行，整篇文章将围绕例子来�
   - `map.set(key, value)`
   - `map.get(key)`
   - `map.clear()`
-- 发布订阅者模式
+- 发布订阅模式
+
+### 发布订阅模式
+
+具体解释可以参考我的这篇文章[_发布订阅-观察者模式_](/blog/发布订阅模式-观察者模式)
