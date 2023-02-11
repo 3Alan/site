@@ -19,7 +19,7 @@ export const PubSubSteps = [
     activeA: false,
     activeC: false,
     eventBus: { foo: [{ content: 'A: fooCbA', active: false }] },
-    log: 'A 订阅了 foo 事件，添加到事件中心'
+    log: 'A 订阅了 foo 事件，添加到事件中心，运行代码 all.set("foo", [fooCbA])'
   },
   {
     AToCenter: false,
@@ -35,7 +35,7 @@ export const PubSubSteps = [
         { content: 'C: fooCbC', active: false }
       ]
     },
-    log: 'C 订阅了 foo 事件，添加到事件中心'
+    log: 'C 订阅了 foo 事件，添加到事件中心，运行代码 all.get("foo").push(fooCbC)'
   },
   {
     AToCenter: false,
@@ -51,7 +51,7 @@ export const PubSubSteps = [
         { content: 'C: fooCbC', active: false }
       ]
     },
-    log: 'B 派发了 foo 事件，Center 处理 foo 事件'
+    log: 'B 派发了 foo 事件，Center 处理 foo 事件，运行代码 all.get("foo")'
   },
   {
     AToCenter: false,
@@ -67,6 +67,6 @@ export const PubSubSteps = [
         { content: 'C: fooCbC', active: true, delay: 0 }
       ]
     },
-    log: 'Center 通知订阅了 foo 事件的组件'
+    log: 'Center 通知订阅了 foo 事件的组件，代码实现中并没有通知这一步而是直接执行 foo 事件队列中的所有函数 all.get("foo").slice().map(handler => handler("emit data"))'
   }
 ];
