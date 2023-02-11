@@ -7,7 +7,7 @@ const ConsoleLogger = props => {
   return (
     <div className={cls}>
       <span className={`${cls}-prefix`}>log: </span>
-      {props.children}
+      <span dangerouslySetInnerHTML={{__html: props.children}}></span>
     </div>
   );
 };
