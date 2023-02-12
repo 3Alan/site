@@ -9,7 +9,7 @@ import ConsoleLogger from '../../consoleLogger';
 
 const cls = 'pb-base-ex';
 
-const PubSubBaseExample = () => {
+const PubSubBaseExample = props => {
   const ARef = useRef();
   const BRef = useRef();
   const CRef = useRef();
@@ -36,7 +36,12 @@ const PubSubBaseExample = () => {
           </Node>
         </div>
 
-        <EventBus ref={centerRef} option={currentArrowStatus.eventBus} />
+        <EventBus
+          ref={centerRef}
+          active={currentArrowStatus.activeBus}
+          option={currentArrowStatus.eventBus}
+          title={props.eventBusTitle}
+        />
 
         <Node ref={BRef} className={`${cls}-node`}>
           B
@@ -47,7 +52,7 @@ const PubSubBaseExample = () => {
         showXarrow={currentArrowStatus.AToCenter}
         start={ARef}
         end={centerRef}
-        label="on('foo', fooCbA)"
+        label={currentArrowStatus.AToCenterLabel}
       />
       <Xarrow
         showXarrow={currentArrowStatus.BToCenter}

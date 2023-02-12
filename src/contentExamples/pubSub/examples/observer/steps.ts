@@ -13,7 +13,7 @@ export const PubSubSteps = [
     activeA: false,
     activeCenter: false,
     eventBus: { 记事本: [{ content: '小明电话', active: false }] },
-    log: '酸奶卖完了，小明留下了电话'
+    log: '商店关门了，小明留下了电话'
   },
   {
     AToCenter: false,
