@@ -1,0 +1,14 @@
+$namespace: pb-logger;
+
+.#{$namespace} {
+  font-size: 12px;
+  padding: 8px;
+  border-top: 1px solid var(--ifm-surface-border-color);
+  border-bottom: 1px solid var(--ifm-surface-border-color);
+
+  &-prefix {
+    font-weight: bold;
+    color: rgb(141, 200, 145);
+    font-size: 14px;
+  }
+}

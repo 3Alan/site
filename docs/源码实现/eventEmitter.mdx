@@ -1,24 +1,30 @@
 ---
-# title: Mitt 源码实现
-title: 124
+title: Mitt 源码动画解析
 tags:
   - 源码阅读
 keywords:
   - Mitt
-  - 源码实现
+  - 源码解析
   - Event emitter
   - 事件派发器
-date: 2023-02-02
-description: 实现一个简易的事件派发器
-draft: true
+  - 发布订阅模式
+  - 观察者模式
+date: 2023-02-12
+description: 利用发布订阅模式实现一个简易的事件派发器
 ---
 
-import PubSub from '../../src/contentExamples/pubSub';
+import {
+  PubSubBaseExample,
+  PubSubAllExample,
+  PubSubScreenExample,
+  ObserverExample
+} from '../../src/contentExamples/pubSub';
 
-参考了 Mitt 的源码，非常简易只有 100 行左右
-TODO: 图解
+Mitt 的源码非常简易只有不到 100 行，整篇文章将结合动画来解释。
 
-<PubSub />
+:::tip
+请使用 PC 阅读该文章以获得最好的阅读体验
+:::
 
 ## 前置知识
 
@@ -26,4 +32,96 @@ TODO: 图解
   - `map.set(key, value)`
   - `map.get(key)`
   - `map.clear()`
-- 发布订阅者模式
+- 发布订阅模式
+
+## 具体编码
+
+代码非常简单，主要就是维护一个 `all` Map，对其进行增（`mitt.on`）删（`mitt.off`）改（`mitt.on`）查（`mitt.emit`）的操作
+
+```js
+export default function mitt(all) {
+  const all = all || new Map();
+
+  const on = (type, handler) => {
+    const handlers = all.get(type);
+    if (handlers) {
+      handlers.push(handler);
+    } else {
+      all.set(type, [handler]);
+    }
+  };
+
+  const off = (type, handler) => {
+    const handlers = all.get(type);
+    if (!handlers) {
+      return;
+    }
+
+    if (handler) {
+      const handlerIndex = handlers.indexOf(handler);
+      const hasHandler = handlerIndex !== -1;
+      if (hasHandler) {
+        handlers.splice(handlerIndex, 1);
+      }
+    } else {
+      all.set(type, []);
+    }
+  };
+
+  const emit = (type, params) => {
+    let handlers = all.get(type);
+    if (handlers) {
+      handlers.slice().map(handler => handler(params));
+    }
+
+    // 没有查找到监听事件，判断是否监听了所有事件 *
+    handlers = all.get('*');
+    if (handlers) {
+      handlers.slice().map(handler => handler(params));
+    }
+  };
+
+  // 清除所有订阅则使用 Map 自身的 clear 函数
+
+  return {
+    all,
+    on,
+    off,
+    emit
+  };
+}
+```
+
+结合上面的代码看一遍动画
+
+<PubSubBaseExample eventBusTitle="EventBus(all)" />
+
+### `on('*')`
+
+`mitt.on` 有一种特殊情况那就是监听所有的事件，这个只需要在 `emit` 函数中特殊处理一下，当没有找到相关的订阅者时，则去执行 `all.get('*')` 下的所有函数
+
+<PubSubAllExample />
+
+## 扩展
+
+代码运用了发布订阅模式，下面通过一下场景简单介绍一下发布订阅模式以及和它非常相似的观察者模式
+
+### 观察者模式
+
+这一天，小明像往常一样去门口的便利店买酸奶，可谁知老板有事歇业了，于是他拨通了店门上的电话，老板说等开门了会打电话通知他，于是老板在记事本中保存了小明的电话。2 天后小明接到了老板开门的电话，于是他立刻前往便利店去购买自己最爱吃的酸奶。
+
+在上面这个场景中，观察者（Observer）就是小明，被观察者（Subject）就是老板，而老板记事本中记录的电话就是观察者清单（ObserverList）
+
+<ObserverExample />
+
+### 发布订阅模式
+
+小明在回家的路上看到门口贴着一个广告，上面写着二手交易软件并附上了一个 APP 下载二维码，正好小明最近因为居家办公缺少一个屏幕，于是他抱着试一试的态度下载了这个 APP。打开 APP 一看，用户只需要在 APP 上发上自己的需求或者要出手的二手物品，平台就会帮你寻找买家或者卖家并且保证双方的隐私，于是小明在 APP 上上传了自己的需求等待平台通知他。
+
+小红正好有一个闲置的屏幕于是在 APP 上发布了出售需求。
+
+在小红发布需求后，系统匹配到有人需要屏幕于是发送通知给相应的人，于是小明接收到了通知。
+
+上面的场景中，小明作为订阅者（sub）订阅了屏幕的需求，而小红则作为发布者（pub）发布了屏幕的需求，APP 则作为事件总线（eventBus）来处理这些需求，对于小红和小明而言，他们是不知道双方的相关信息的，所有的交流都是通过 APP 作为中间者来完成的，实现了两者间的解耦。
+
+<PubSubScreenExample />
