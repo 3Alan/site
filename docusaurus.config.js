@@ -78,9 +78,9 @@ const config = {
           },
           {
             type: 'doc',
-            docId: '面试总结/工程化',
+            docId: '知识体系/工程化',
             position: 'left',
-            label: '面试总结'
+            label: '知识体系'
           },
           { to: '/blog', label: '博文', position: 'left' }
         ]
