@@ -95,7 +95,7 @@ export const PubSubSteps = [
         { content: 'C: fooCbC', active: true, delay: 0 }
       ]
     },
-    log: 'C 取消订阅了 foo 事件'
+    log: 'A 取消订阅了 foo 事件'
   },
   {
     AToCenter: true,
