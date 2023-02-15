@@ -1,0 +1,24 @@
+$namespace: c-references;
+
+.#{$namespace} {
+  border: 1px solid var(--ifm-surface-border-color);
+  padding: 16px;
+  border-radius: 5px;
+  background-color: rgb(36, 36, 40);
+  margin-bottom: 50px;
+
+  &-header {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+
+  &-list {
+    margin: 0;
+    padding: 10px 0 6px 30px;
+    font-size: 14px;
+  }
+}

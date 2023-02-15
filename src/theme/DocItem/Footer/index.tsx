@@ -8,20 +8,14 @@ import {
 } from '@docusaurus/theme-common/internal';
 import LastUpdated from '@theme/LastUpdated';
 import EditThisPage from '@theme/EditThisPage';
-import TagsListInline, {
-  Props as TagsListInlineProps
-} from '@theme/TagsListInline';
+import TagsListInline, { Props as TagsListInlineProps } from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
+import References from '../../../components/references';
 
 function TagsRow(props: TagsListInlineProps) {
   return (
-    <div
-      className={clsx(
-        ThemeClassNames.docs.docFooterTagsRow,
-        'row margin-bottom--sm'
-      )}
-    >
+    <div className={clsx(ThemeClassNames.docs.docFooterTagsRow, 'row margin-bottom--sm')}>
       <div className="col">
         <TagsListInline {...props} />
       </div>
@@ -33,11 +27,7 @@ type EditMetaRowProps = Pick<
   DocContextValue['metadata'],
   'editUrl' | 'lastUpdatedAt' | 'lastUpdatedBy'
 >;
-function EditMetaRow({
-  editUrl,
-  lastUpdatedAt,
-  lastUpdatedBy
-}: EditMetaRowProps) {
+function EditMetaRow({ editUrl, lastUpdatedAt, lastUpdatedBy }: EditMetaRowProps) {
   const date = new Date(lastUpdatedAt);
   return (
     <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, 'row')}>
@@ -61,7 +51,7 @@ function EditMetaRow({
 export default function DocItemFooter(): JSX.Element | null {
   const { metadata, frontMatter } = useDoc();
   const { editUrl, lastUpdatedBy, tags } = metadata;
-  const { date, updated } = frontMatter;
+  const { date, updated, references } = frontMatter;
 
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || date || lastUpdatedBy);
@@ -73,9 +63,8 @@ export default function DocItemFooter(): JSX.Element | null {
   }
 
   return (
-    <footer
-      className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}
-    >
+    <footer className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}>
+      {references && <References options={references} />}
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <EditMetaRow
