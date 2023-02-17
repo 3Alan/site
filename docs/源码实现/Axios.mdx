@@ -1,0 +1,308 @@
+---
+title: Axios 源码解析
+tags:
+  - 源码阅读
+keywords:
+  - Axios 源码解析
+  - Axios 拦截器
+  - fetch 请求库
+date: 2023-02-17
+description: Axios 源码解析之基于 fetch 从零实现一个请求库
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+本文在参考 `Axios` 源码的基础上实现一个简易版的请求库（仅用于学习），将包含以下功能
+
+- [x] 基本请求
+- [x] 适配器，引出设计模式
+- [x] 拦截器
+- [x] 请求中断
+- [x] 超时中断
+
+[Demo 地址](https://stackblitz.com/github/3Alan/simple-source/tree/main/axios?file=package.json)
+
+## 前置知识
+
+- 适配器模式
+- [Fetch 的简单使用](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch)
+- [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController/AbortController)
+- [Promise 链](https://zh.javascript.info/promise-chaining)
+
+## 适配器
+
+通过适配器来使 `Axios` 在 Browser/Node 平台使用不同的 API 来发送请求，`Axios` Browser 使用的是 `ajax`，Node 端用的是 `http`，本文在 Browser 将用 `fetch` 来替代，Node 端暂时不实现。下面代码中的 `adapter` 其实最后返回的就是 `fetch` 函数了。
+
+<Tabs>
+<TabItem value="adapters" label="adapters/index.js">
+
+```js
+import xhr from './xhr';
+import http from './http';
+
+const knownAdapters = {
+  http,
+  xhr
+};
+
+export default async function adapters(config) {
+  let adapter;
+  for (const key in knownAdapters) {
+    if (knownAdapters[key]) {
+      adapter = knownAdapters[key];
+    }
+  }
+
+  return adapter(config);
+}
+```
+
+</TabItem>
+<TabItem value="xhr" label="adapters/xhr.js">
+
+```js
+const isXHRAdapterSupported = typeof fetch !== 'undefined';
+
+export default isXHRAdapterSupported &&
+  async function xhrAdapter(config) {
+    return fetch(config.url, config);
+  };
+```
+
+</TabItem>
+<TabItem value="http" label="adapters/http.js">
+
+```js
+const isHttpAdapterSupported = typeof process !== 'undefined';
+
+export default isHttpAdapterSupported &&
+  function httpAdapter(config) {
+    // TODO: 暂未实现
+    return config;
+  };
+```
+
+</TabItem>
+</Tabs>
+
+## dispatchRequest
+
+该部分主要用于发送请求并处理将 fetch 接口进行 `json()` 处理
+
+```js title="dispatchRequest.js"
+import adapters from './adapters/index.js';
+
+export default function dispatchRequest(config) {
+  const adapter = adapters(config);
+
+  return adapter.then(
+    async function onAdapterResolution(response) {
+      try {
+        const res = await response.json();
+        return { ...res, config };
+      } catch (error) {
+        return Promise.reject(response);
+      }
+    },
+    function onAdapterRejection(reason) {
+      return Promise.reject(reason);
+    }
+  );
+}
+```
+
+## 基本请求
+
+我们先实现一个简单的 `axios.get(url, [config])`
+
+```js title="Axios.js"
+import adapters from './adapters';
+
+export default class Axios {
+  constructor(config) {
+    this.defaultConfig = config;
+  }
+
+  request(config) {
+    // 相当于 let promise = fetch(config.url, { ...this.defaultConfig, ...config });
+    let promise = dispatchRequest({ ...this.defaultConfig, ...config });
+    return promise;
+  }
+
+  get(url, config) {
+    const mergedConfig = { ...config, url };
+    return this.request(mergedConfig);
+  }
+}
+```
+
+## 拦截器
+
+### 示例
+
+先看下示例代码明确要实现的功能
+
+```js
+const axios = new Axios();
+
+axios.interceptors.request.use(
+  function requestInterceptorFulfilled(config) {
+    config.headers = {
+      token: 'add by request interceptors'
+    };
+    config.metadata = { startTime: Date.now() };
+    return config;
+  },
+  function requestInterceptorRejected(error) {
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  function responseInterceptorFulfilled(response) {
+    response.extraData = 'add by response interceptors';
+    // 接口请求耗时
+    response.duration = Date.now() - response.config.metadata.startTime;
+    return response;
+  },
+  function responseInterceptorRejected(error) {
+    if (error.status === 404) {
+      alert('返回状态码为404，重定向到404页面');
+    }
+    return Promise.reject(error);
+  }
+);
+```
+
+上面的实例中我们在请求的参数上加上`header.token` 和 `metadata`，在请求返回体上加上了 `extraData` 和 `duration`(请求耗时) 以及处理 404 状态码。可见，有了拦截器后我们能做的事情就非常多了
+
+- request 拦截器：修改 header 如添加 token 之类的，处理接口缓存等等...
+- response 拦截器：处理 code 码（301 重定向，404 转到 notFound 页面），针对失败请求收集错误日志，mock 数据，统一处理数据返回格式，记录请求耗时等等...
+
+### 具体实现
+
+这里我们针对上面的代码中的 `request` 方法进行修改
+
+```js
+constructor(config) {
+  this.defaultConfig = config;
+  // highlight-add-start
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+  // highlight-add-end
+}
+
+request(config) {
+  let promise;
+  let i = 0;
+  const requestInterceptorChain = [];
+  const responseInterceptorChain = [];
+
+  this.interceptors.request.handlers.forEach(({ fulfilled, rejected }) => {
+    requestInterceptorChain.unshift(fulfilled, rejected);
+  });
+  this.interceptors.response.handlers.forEach(({ fulfilled, rejected }) => {
+    responseInterceptorChain.push(fulfilled, rejected);
+  });
+
+  // chain为成对出现的fulfilled, rejected
+  const chain = [
+    ...requestInterceptorChain,
+    dispatchRequest,
+    undefined,
+    ...responseInterceptorChain
+  ];
+
+  let len = chain.length;
+
+  // 将config转化成promise对象以方便后面组成 Promise 链
+  promise = Promise.resolve({...this.defaultConfig, ...config});
+
+  while (i < len) {
+    promise = promise.then(chain[i++], chain[i++]);
+  }
+
+  return promise;
+}
+```
+
+这里有一个特别的地方就是，request 是使用 `unshift` 为 response 是使用 `push`，也就是说先加入的 request 后调用，先加入的 response 先调用
+
+针对前面的示例最终会转化成以下核心代码
+
+```js
+// undefined 用来占位的，和 dispatchRequest 组成一对 fulfilled, rejected
+const chain = [
+  requestInterceptorFulfilled,
+  requestInterceptorRejected,
+  dispatchRequest,
+  undefined,
+  responseInterceptorFulfilled,
+  responseInterceptorRejected
+];
+let len = chain.length;
+
+// 将config转化成promise对象以组成 Promise 链
+promise = Promise.resolve({ ...this.defaultConfig, ...config });
+
+while (i < len) {
+  promise = promise.then(chain[i++], chain[i++]);
+}
+```
+
+### 总结
+
+当我们运行 `axios.get('https://run.mocky.io/v3/0a4e2970-39b4-4bb5-9a12-06e47408e2a3')` 时，Axios 内部其实做了下面这些事情
+
+```js
+// 将 config 转化成 promise 对象以方便后面组成 Promise 链
+Promise.resolve({
+  url: 'https://run.mocky.io/v3/0a4e2970-39b4-4bb5-9a12-06e47408e2a3'
+})
+  .then(
+    // request 拦截器
+    config => {
+      config.headers = {
+        token: 'add by request interceptors'
+      };
+      config.metadata = { startTime: Date.now() };
+      return config;
+    },
+    error => Promise.reject(error)
+  )
+  .then(config => {
+    // 请求函数 dispatchRequest
+    return fetch(config.url, config).then(async response => {
+      const json = await response.json();
+      return { ...json, config };
+    });
+    // undefined 占位
+  }, undefined)
+  .then(
+    // response 拦截器
+    response => {
+      response.extraData = 'add by response interceptors';
+      // 接口请求耗时
+      response.duration = Date.now() - response.config.metadata.startTime;
+      return response;
+    },
+    error => {
+      if (error.status === 404) {
+        alert('返回状态码为404，重定向到404页面');
+      }
+      return Promise.reject(error);
+    }
+  )
+  .then(res => console.log(res));
+```
+
+## 请求中断
+
+TODO：
+
+## 超时中断
+
+TODO：
