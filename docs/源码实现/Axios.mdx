@@ -6,17 +6,17 @@ keywords:
   - Axios 源码解析
   - Axios 拦截器
   - fetch 请求库
-date: 2023-02-17
+date: 2023-02-18
 description: Axios 源码解析之基于 fetch 从零实现一个请求库
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-本文在参考 `Axios` 源码的基础上实现一个简易版的请求库（仅用于学习），将包含以下功能
+本文在参考 `Axios`(v1.3.3) 源码的基础上实现一个简易版的请求库（仅用于学习），将包含以下功能
 
 - [x] 基本请求
-- [x] 适配器，引出设计模式
+- [x] 适配器
 - [x] 拦截器
 - [x] 请求中断
 - [x] 超时中断
@@ -88,7 +88,7 @@ export default isHttpAdapterSupported &&
 
 ## dispatchRequest
 
-该部分主要用于发送请求并处理将 fetch 接口进行 `json()` 处理
+该部分主要用于发送请求并将 fetch 接口进行 `json()` 处理
 
 ```js title="dispatchRequest.js"
 import adapters from './adapters/index.js';
@@ -137,11 +137,20 @@ export default class Axios {
 }
 ```
 
+到这一步我们基本就实现了一个非常简易的请求库了，无非就是将`fetch`封装成`axios` api 的样子
+
 ## 拦截器
+
+拦截器是我们平常用的比较多的一个功能，
+
+使用拦截器我们可以实现以下功能
+
+- request 拦截器：修改 header 如添加 token 之类的，处理接口缓存等等...
+- response 拦截器：处理 code 码（301 重定向，404 转到 notFound 页面），针对失败请求收集错误日志，mock 数据，统一处理数据返回格式，记录请求耗时等等...
 
 ### 示例
 
-先看下示例代码明确要实现的功能
+在实现之前先看下示例代码明确要实现的功能以及 api 长什么样
 
 ```js
 const axios = new Axios();
@@ -175,14 +184,37 @@ axios.interceptors.response.use(
 );
 ```
 
-上面的实例中我们在请求的参数上加上`header.token` 和 `metadata`，在请求返回体上加上了 `extraData` 和 `duration`(请求耗时) 以及处理 404 状态码。可见，有了拦截器后我们能做的事情就非常多了
-
-- request 拦截器：修改 header 如添加 token 之类的，处理接口缓存等等...
-- response 拦截器：处理 code 码（301 重定向，404 转到 notFound 页面），针对失败请求收集错误日志，mock 数据，统一处理数据返回格式，记录请求耗时等等...
+上面的实例中我们在请求的参数上加上`header.token` 和 `metadata`，在请求返回体上加上了 `extraData` 和 `duration`(记录请求耗时) 以及处理 404 状态码。
 
 ### 具体实现
 
-这里我们针对上面的代码中的 `request` 方法进行修改
+`InterceptorManager` 内部维护着一个数组，对拦截器进行增加(`use`)和删除(`eject`)操作
+
+```js title="InterceptorManager.js"
+export default class InterceptorManager {
+  constructor() {
+    this.handlers = [];
+  }
+
+  use(fulfilled, rejected) {
+    this.handlers.push({
+      fulfilled,
+      rejected
+    });
+
+    // 返回当前的 handler 在数组中的 index，用于eject
+    return this.handlers.length - 1;
+  }
+
+  eject(index) {
+    if (this.handlers[index]) {
+      this.handlers[index] = null;
+    }
+  }
+}
+```
+
+为`Axios` `this.interceptors.request` 和 `this.interceptors.response` 各自添加`InterceptorManager`对象
 
 ```js
 constructor(config) {
@@ -194,7 +226,11 @@ constructor(config) {
   };
   // highlight-add-end
 }
+```
 
+接下来是最核心的 `request` 方法编写
+
+```js
 request(config) {
   let promise;
   let i = 0;
@@ -229,9 +265,9 @@ request(config) {
 }
 ```
 
-这里有一个特别的地方就是，request 是使用 `unshift` 为 response 是使用 `push`，也就是说先加入的 request 后调用，先加入的 response 先调用
+这里有一个特别的地方就是，在加入 chain 的操作中，request 是使用 `unshift` 为 response 是使用 `push`，也就是说先加入的 request 后调用，而先加入的 response 先调用
 
-针对前面的示例最终会转化成以下核心代码
+针对前面的[示例](#示例)最终会转化成以下核心代码
 
 ```js
 // undefined 用来占位的，和 dispatchRequest 组成一对 fulfilled, rejected
@@ -274,6 +310,7 @@ Promise.resolve({
     error => Promise.reject(error)
   )
   .then(config => {
+    console.log('request 拦截器处理后的参数：', config);
     // 请求函数 dispatchRequest
     return fetch(config.url, config).then(async response => {
       const json = await response.json();
@@ -284,6 +321,7 @@ Promise.resolve({
   .then(
     // response 拦截器
     response => {
+      console.log('fetch 返回的数据 + config：', JSON.stringify(response));
       response.extraData = 'add by response interceptors';
       // 接口请求耗时
       response.duration = Date.now() - response.config.metadata.startTime;
@@ -296,13 +334,51 @@ Promise.resolve({
       return Promise.reject(error);
     }
   )
-  .then(res => console.log(res));
+  .then(res => console.log('最终获得的数据：', res));
 ```
+
+可以将上方代码复制到控制台查看输出结果
 
 ## 请求中断
 
-TODO：
+请求中断不需要我们做其他操作，只需要在使用时传入 `signal` 参数即可
+
+```js
+const abortController = new AbortController();
+const signal = abortController.signal;
+
+axios.get(`https://run.mocky.io/v3/0a4e2970-39b4-4bb5-9a12-06e47408e2a3?mocky-delay=10000ms`, {
+  signal
+});
+
+// 中断请求
+abortController.abort();
+```
 
 ## 超时中断
 
-TODO：
+在请求时添加一个计时器来调用 `abort()` 即可
+
+```js
+const isXHRAdapterSupported = typeof fetch !== 'undefined';
+
+export default isXHRAdapterSupported &&
+  async function xhrAdapter(config) {
+    // highlight-add-start
+    if (config.timeout) {
+      const controller = new AbortController();
+      const abortId = setTimeout(() => {
+        controller.abort();
+      }, config.timeout);
+
+      const res = await fetch(config.url, { ...config, signal: controller.signal });
+
+      clearTimeout(abortId);
+
+      return res;
+    }
+    // highlight-add-end
+
+    return fetch(config.url, config);
+  };
+```
