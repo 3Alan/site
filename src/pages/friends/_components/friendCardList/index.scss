@@ -6,17 +6,29 @@ $namespace: fc-list;
   flex-wrap: wrap;
   padding: 30px 0;
 
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 30px;
+    margin-right: 10px;
+  }
+
   .a-card {
     margin: 12px 0;
     padding: 15px;
-    width: 32%;
+    width: 49%;
     height: 120px;
+    display: flex;
+
+    a {
+      color: var(--ifm-color-primary);
+    }
   }
 
   p {
     font-size: 14px;
     margin-bottom: 0;
-    margin-top: 10px;
+    margin-top: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -31,6 +43,8 @@ $namespace: fc-list;
 
   &-c-content {
     padding-left: 2px;
+    flex: 1;
+    overflow: hidden;
   }
 }
 

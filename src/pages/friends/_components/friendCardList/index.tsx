@@ -2,13 +2,22 @@ import React, { FC } from 'react';
 import friendList, { FriendItem } from '@site/src/data/friends';
 import './index.scss';
 import Card from '../../../../components/card';
+import Link from '@docusaurus/Link';
 
 const cls = 'fc-list';
 
-const FriendCard: FC<FriendItem> = ({ title, description, url, tags }) => {
+const FriendCard: FC<FriendItem> = ({ title, description, url, tags, avatar }) => {
+  const onCardClick = () => {
+    window.open(url);
+  };
+
   return (
-    <Card url={url} name={title}>
+    <Card onClick={onCardClick}>
+      <img src={avatar} alt={title} />
       <div className={`${cls}-c-content`}>
+        <Link to={url}>
+          <strong>{title}</strong>
+        </Link>
         <p title={description}>{description}</p>
         {tags &&
           tags.map(tag => (

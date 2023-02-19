@@ -6,8 +6,8 @@ import clsx from 'clsx';
 const cls = 'a-card';
 
 interface CardProps extends PropsWithChildren {
-  name: string;
-  url: string;
+  name?: string;
+  url?: string;
   description?: string;
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -18,7 +18,7 @@ const Card: FC<CardProps> = props => {
 
   return (
     <div className={clsx(`${className}`, `${cls}`)} onClick={onClick}>
-      <Link to={url}>{name}</Link>
+      {name && <Link to={url}>{name}</Link>}
 
       {description && <p className={`${cls}-desc`}>{description}</p>}
       {children}
