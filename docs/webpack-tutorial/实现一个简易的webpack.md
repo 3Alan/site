@@ -1,4 +1,5 @@
 ---
+slug: simple-webpack
 title: 实现一个简易的webpack
 tags:
   - webpack4.0
@@ -19,11 +20,11 @@ description: webpack学习总结
 sidebar_position: 7
 ---
 
-手写简单的loader、Plugin、简单的webpack
+手写简单的 loader、Plugin、简单的 webpack
 
 <!--truncate-->
 
-### 手写简单的loader
+### 手写简单的 loader
 
 目录
 
@@ -50,29 +51,31 @@ console.log('hello webpack!');
 <!-- tab webpack.config.js -->
 
 ```js
-const path =require('path');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: path.resolve(__dirname, './loaders/myLoader.js'),
-          options: {
-            key: 'my option value',
-          },
-        },
-      ],
-    }],
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: path.resolve(__dirname, './loaders/myLoader.js'),
+            options: {
+              key: 'my option value'
+            }
+          }
+        ]
+      }
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-  },
+    filename: '[name].js'
+  }
 };
 ```
 
@@ -83,68 +86,66 @@ module.exports = {
 ```js
 module.exports = function (source) {
   return source.replace('webpack', this.query.key);
-}
+};
 ```
 
 <!-- endtab -->
 
 {% endtabs %}
 
-这个例子非常简单，就是通过自建的loader将项目中的**webpack**字符串替换成webpack中配置的字符串。`myLoader.js`中可以通过`this.query`接受webpack中配置的options参数。更多this上的[属性参考](https://webpack.js.org/api/loaders/#the-loader-context)（包括异步处理、回调...）
+这个例子非常简单，就是通过自建的 loader 将项目中的**webpack**字符串替换成 webpack 中配置的字符串。`myLoader.js`中可以通过`this.query`接受 webpack 中配置的 options 参数。更多 this 上的[属性参考](https://webpack.js.org/api/loaders/#the-loader-context)（包括异步处理、回调...）
 
 上面的例子通过打包后代码如下
 
 ```js
-console.log('hello my option value!')
+console.log('hello my option value!');
 ```
 
-**webpack5**中可以直接通过`this.getOptions (schema)`来获取options参数
-
-
+**webpack5**中可以直接通过`this.getOptions (schema)`来获取 options 参数
 
 **webpack resolveLoader:**
 
-和之前提到的resolve的使用类似，就是用来偷懒的😂
+和之前提到的 resolve 的使用类似，就是用来偷懒的 😂
 
-使用`resolveLoader`改写后的wepack.config.js
+使用`resolveLoader`改写后的 wepack.config.js
 
 ```js
-const path =require('path');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
   resolveLoader: {
-    modules: ['node_modules', './loaders'],
+    modules: ['node_modules', './loaders']
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: 'myLoader',
-          options: {
-            key: 'my option',
-          },
-        },
-      ],
-    }],
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'myLoader',
+            options: {
+              key: 'my option'
+            }
+          }
+        ]
+      }
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-  },
+    filename: '[name].js'
+  }
 };
 ```
 
-上面这个例子可以直接使用`myLoader`名，webpack会在`node_modules` 和`./loaders`中寻找对应的Loader。
+上面这个例子可以直接使用`myLoader`名，webpack 会在`node_modules` 和`./loaders`中寻找对应的 Loader。
 
 {% note warning , 自定义的loader中不要使用箭头函数，会产生this指向问题 %}
 
-
-
-### 手写简单的Plugin
+### 手写简单的 Plugin
 
 目录
 
@@ -158,11 +159,9 @@ myPlugin
  └── webpack.config.js
 ```
 
+[complier 提供了许多钩子](https://webpack.js.org/api/compiler-hooks/)，可以让我们在打包的不同时刻来进行不同的处理，这里使用了`emit`钩子
 
-
-[complier提供了许多钩子](https://webpack.js.org/api/compiler-hooks/)，可以让我们在打包的不同时刻来进行不同的处理，这里使用了`emit`钩子
-
-下面通过手写的plugin来实现在dist目录下生成一个`author.txt`文件
+下面通过手写的 plugin 来实现在 dist 目录下生成一个`author.txt`文件
 
 {% tabs 2 %}
 
@@ -190,7 +189,7 @@ class DateWebpackPlugin {
       };
       // 由于emit是异步操作，所以最后要执行回调函数
       cb();
-    })
+    });
   }
 }
 
@@ -210,13 +209,13 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: '[name].js'
   },
   plugins: [
     new DateWebpackPlugin({
-      author: 'Alan',
-    }),
-  ],
+      author: 'Alan'
+    })
+  ]
 };
 ```
 
@@ -224,22 +223,18 @@ module.exports = {
 
 {% endtabs %}
 
-打包后会在dist目录下自动生成一个author.txt文件，内容如下
+打包后会在 dist 目录下自动生成一个 author.txt 文件，内容如下
 
 ```
 created by AlanSun Jun 07 2020 11:49:42 GMT+0800 (GMT+08:00)
 ```
 
+### react 和 vue 脚手架 webpack 配置
 
+- create-react-app 通过`npm run eject`暴露 webpack 配置
+- vue-cli 通过[vue.config.js](https://cli.vuejs.org/zh/config/#vue-config-js)配置 webpack(可以通过 configureWebpack 自定义 webpack 配置)
 
-### react和vue脚手架webpack配置
-
-- create-react-app通过`npm run eject`暴露webpack配置
-- vue-cli通过[vue.config.js](https://cli.vuejs.org/zh/config/#vue-config-js)配置webpack(可以通过configureWebpack自定义webpack配置)
-
-
-
-### 手写一个简单的webpack打包工具
+### 手写一个简单的 webpack 打包工具
 
 先提前安装以下需要的插件
 
@@ -303,15 +298,15 @@ export const course = 'webpack';
 
 {% endtabs %}
 
-我将整个项目拆分成2个部分来分析
+我将整个项目拆分成 2 个部分来分析
 
-#### 处理入口文件找到所有import文件
+#### 处理入口文件找到所有 import 文件
 
 思路：
 
-1. 通过fs.readFileSync读取index.js的内容
-2. 使用@babel/parser将读取的内容转化为AST抽象语法树
-3. 使用@babel/traverse遍历找到所有import语句
+1. 通过 fs.readFileSync 读取 index.js 的内容
+2. 使用@babel/parser 将读取的内容转化为 AST 抽象语法树
+3. 使用@babel/traverse 遍历找到所有 import 语句
 4. 分析出引用的文件，保存其路径
 
 代码：
@@ -321,9 +316,9 @@ const fs = require('fs');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 // 命令行高亮工具
-const highlight = require('cli-highlight').highlight
+const highlight = require('cli-highlight').highlight;
 
-const moduleAnalysis = (filename) => {
+const moduleAnalysis = filename => {
   // 读取出index.js文件内容
   const content = fs.readFileSync(filename, 'utf-8');
   // 将文件内容转化为抽象语法树
@@ -335,20 +330,20 @@ const moduleAnalysis = (filename) => {
     ImportDeclaration({ node }) {
       console.log(node);
     }
-  })
+  });
   // console.log(highlight(ast));
   console.log(ast.program.body);
-}
+};
 moduleAnalysis('./src/index.js');
 ```
 
 ![通过parser转化成的抽象语法树](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200612111622662.png)
 
-通过上图可以清楚看到我们现在要做的事情就是找到所有为type为`importDeclaration`的node属性
+通过上图可以清楚看到我们现在要做的事情就是找到所有为 type 为`importDeclaration`的 node 属性
 
 ![使用traverse得到的ImportDeclaration](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200612112106327.png)
 
-最后对js文件进行babel处理，转化成浏览器能够识别的代码
+最后对 js 文件进行 babel 处理，转化成浏览器能够识别的代码
 
 完整代码
 
@@ -359,9 +354,9 @@ const traverse = require('@babel/traverse').default;
 const path = require('path');
 const babel = require('@babel/core');
 // 命令行高亮工具
-const highlight = require('cli-highlight').highlight
+const highlight = require('cli-highlight').highlight;
 
-const moduleAnalysis = (filename) => {
+const moduleAnalysis = filename => {
   // 读取出index.js文件内容
   const content = fs.readFileSync(filename, 'utf-8');
   // 将文件内容转化为抽象语法树
@@ -390,8 +385,8 @@ const moduleAnalysis = (filename) => {
     filename,
     dependencies,
     code
-  }
-}
+  };
+};
 moduleAnalysis('./src/index.js');
 ```
 
@@ -413,12 +408,12 @@ moduleAnalysis('./src/index.js');
 }
 ```
 
-我们只需要遍历对象中的dependencies属性，把里面的路径名传入到上面的`moduleAnalysis`函数中，最终获取所有的依赖信息。
+我们只需要遍历对象中的 dependencies 属性，把里面的路径名传入到上面的`moduleAnalysis`函数中，最终获取所有的依赖信息。
 
 具体代码如下
 
 ```js
-const analysisDependenciesGraph = (entry) => {
+const analysisDependenciesGraph = entry => {
   const entryModule = moduleAnalysis(entry);
   const graphList = [entryModule];
   for (let i = 0; i < graphList.length; i++) {
@@ -426,7 +421,7 @@ const analysisDependenciesGraph = (entry) => {
     const { dependencies } = item;
     if (dependencies) {
       for (let i in dependencies) {
-        graphList.push(moduleAnalysis(dependencies[i]))
+        graphList.push(moduleAnalysis(dependencies[i]));
       }
     }
   }
@@ -435,10 +430,10 @@ const analysisDependenciesGraph = (entry) => {
     graph[filename] = {
       dependencies,
       code
-    }
+    };
   });
   return graph;
-}
+};
 ```
 
 分析出的所有依赖对象
@@ -487,9 +482,9 @@ const analysisDependenciesGraph = (entry) => {
 #### 生成代码
 
 ```js
-const generateCode = (entry) => {
-	const graph = JSON.stringify(analysisDependenciesGraph(entry));
-	return `
+const generateCode = entry => {
+  const graph = JSON.stringify(analysisDependenciesGraph(entry));
+  return `
 		(function(graph){
 			function require(module) { 
 				function localRequire(relativePath) {
@@ -504,7 +499,7 @@ const generateCode = (entry) => {
 			require('${entry}')
 		})(${graph});
 	`;
-}
+};
 ```
 
 生成后的代码就可以直接在浏览器运行了
@@ -520,9 +515,9 @@ const traverse = require('@babel/traverse').default;
 const path = require('path');
 const babel = require('@babel/core');
 // 命令行高亮工具
-const highlight = require('cli-highlight').highlight
+const highlight = require('cli-highlight').highlight;
 
-const moduleAnalysis = (filename) => {
+const moduleAnalysis = filename => {
   // 读取出index.js文件内容
   const content = fs.readFileSync(filename, 'utf-8');
   // 将文件内容转化为抽象语法树
@@ -550,10 +545,10 @@ const moduleAnalysis = (filename) => {
     filename,
     dependencies,
     code
-  }
-}
+  };
+};
 
-const analysisDependenciesGraph = (entry) => {
+const analysisDependenciesGraph = entry => {
   const entryModule = moduleAnalysis(entry);
   const graphList = [entryModule];
   for (let i = 0; i < graphList.length; i++) {
@@ -561,7 +556,7 @@ const analysisDependenciesGraph = (entry) => {
     const { dependencies } = item;
     if (dependencies) {
       for (let j in dependencies) {
-        graphList.push(moduleAnalysis(dependencies[j]))
+        graphList.push(moduleAnalysis(dependencies[j]));
       }
     }
   }
@@ -570,14 +565,14 @@ const analysisDependenciesGraph = (entry) => {
     graph[filename] = {
       dependencies,
       code
-    }
+    };
   });
   return graph;
-}
+};
 
-const generateCode = (entry) => {
-	const graph = JSON.stringify(analysisDependenciesGraph(entry));
-	return `
+const generateCode = entry => {
+  const graph = JSON.stringify(analysisDependenciesGraph(entry));
+  return `
 		(function(graph){
 			function require(module) { 
 				function localRequire(relativePath) {
@@ -592,18 +587,15 @@ const generateCode = (entry) => {
 			require('${entry}')
 		})(${graph});
 	`;
-}
+};
 
 const code = generateCode('./src/index.js');
 
 console.log(highlight(code));
 ```
 
-
-
 ### 总结
 
-到这里总算是对webpack有了大体的了解了。奈何当我学完webpack后看到了**vite**这个东西😒。。。
+到这里总算是对 webpack 有了大体的了解了。奈何当我学完 webpack 后看到了**vite**这个东西 😒。。。
 
 ![image-20200615160241265](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200615160241265.png)
-

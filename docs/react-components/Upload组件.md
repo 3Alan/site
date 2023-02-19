@@ -1,4 +1,5 @@
 ---
+slug: upload
 title: react Upload 组件
 date: 2022-01-10 22:31:58
 tags:
@@ -264,9 +265,7 @@ const post = async (currentTask: UploadFile): Promise<ResponseData> => {
 
 ```ts
 const onRemove = (file: UploadFile) => {
-  const removedFileList = internalFileList.filter(
-    item => item.uid !== file.uid
-  );
+  const removedFileList = internalFileList.filter(item => item.uid !== file.uid);
 
   setInternalFileList(removedFileList);
 };

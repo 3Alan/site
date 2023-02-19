@@ -1,4 +1,5 @@
 ---
+slug: react-ssr
 title: React 服务端渲染简单实现
 date: 2022-01-14 14:45:02
 tags:
@@ -82,9 +83,7 @@ app.get('*', (req, res) => {
   const store = configureStore(reduxState);
 
   // renderMatches是react-router提供的渲染matchRoutes结果的api，最后的content为注入了redux数据的组件，缩水/脱水过程
-  const content = renderToString(
-    <Provider store={store}>{renderMatches(matches)}</Provider>
-  );
+  const content = renderToString(<Provider store={store}>{renderMatches(matches)}</Provider>);
 
   // 将content拼接到提前设置好的html模板中
   const response = template(store.getState(), content);

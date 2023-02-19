@@ -1,7 +1,8 @@
 ---
+slug: bundler
 title: webpack4.0进阶（一）
 tags: [webpack4.0]
-categories: [前端,webpack4.0学习总结]
+categories: [前端, webpack4.0学习总结]
 references:
   - name: 从基础到实战 手把手带你掌握新版Webpack4.0
     url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
@@ -12,7 +13,7 @@ updated: 2020-05-30 17:20:00
 sidebar_position: 5
 ---
 
-webpack4.0进阶学习
+webpack4.0 进阶学习
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -20,38 +21,38 @@ import Admonition from '@theme/Admonition';
 
 <!--truncate-->
 
-### Tree Shaking按需打包文件
+### Tree Shaking 按需打包文件
 
 <Tabs>
   <TabItem value="index" label="index.js">
 
-  ```js
-  import { used } from './moment';
+```js
+import { used } from './moment';
 
-  used();
-  ```
+used();
+```
 
   </TabItem>
   <TabItem value="moment" label="moment.js">
 
-  ```js
-  export function used() {
-    console.log('used function');
-  }
+```js
+export function used() {
+  console.log('used function');
+}
 
-  export function notUsed() {
-    console.log('notUsed funtion');
-  }
-  ```
+export function notUsed() {
+  console.log('notUsed funtion');
+}
+```
 
   </TabItem>
 </Tabs>
 
-上面这个例子中我们只使用到了moment中的`used`，但是打包后连同`notUsed`一起被打包进了main.js文件中
+上面这个例子中我们只使用到了 moment 中的`used`，但是打包后连同`notUsed`一起被打包进了 main.js 文件中
 
 ![image-20200525151309388](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200525151309388.png)
 
-Tree Shaking可以帮我们解决这个问题。
+Tree Shaking 可以帮我们解决这个问题。
 
 <Admonition type="caution">
   <div>1.Tree Shaking只在production模式下生效。</div>
@@ -92,13 +93,11 @@ optimization: {
 
 {% endtabs%}
 
-
-
 ### 开发环境和生产环境配置文件
 
 由于开发环境需要调试代码所以会引入`devServer`之类的插件，那么这部分插件在生产环境中是不需要使用到的，我们可以对开发环境和生产环境分别设置不同的配置文件。
 
-首先安装插件`webpack-merge`用来将拼接common配置
+首先安装插件`webpack-merge`用来将拼接 common 配置
 
 ```
 npm i webpack-merge -D
@@ -128,7 +127,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development', // 默认为production
   entry: {
-    main: './src/index.js', // 打包入口文件
+    main: './src/index.js' // 打包入口文件
   },
   module: {
     rules: [
@@ -139,24 +138,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   output: {
     // 输出文件配置
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   optimization: {
-    usedExports: true,
+    usedExports: true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/index.html'
     }),
-    new CleanWebpackPlugin(),
-  ],
+    new CleanWebpackPlugin()
+  ]
 };
 ```
 
@@ -173,7 +172,7 @@ const devConfig = {
     contentBase: './dist',
     open: true, // 自动打开浏览器
     port: 3001, // 服务器端口号
-    hot: true, // 开启HRM
+    hot: true // 开启HRM
   }
 };
 
@@ -186,7 +185,7 @@ webpack.prod.js
 const merge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
-const prodConfig =  {
+const prodConfig = {
   mode: 'development', // 默认为production
   devtool: 'cheap-module-source-map'
 };
@@ -205,23 +204,21 @@ npm script
 
 配置好后，开发环境使用`npm run dev`进行打包，生产环境用`npm run build`进行打包。
 
-
-
 ### 代码分割
 
 代码分割有利于性能的优化。何为代码分割：
 
-有这么一个场景，我在`index.js`中使用到了一些公共代码库/工具库（lodash），`index.js`中的代码是依赖于lodash中的一些工具的。当我们打包时，lodash也是被打包到了`main.js`文件中，并且一旦`index.js`中的业务代码改变了，连同lodash也要一同重新打包加载，但是我们一般是不会去改动lodash这类工具库的。于是我们可以借助代码分割来将业务代码和lodash进行分割，这样下次再修改业务代码时，我们就无需重新加载lodash的内容了。
+有这么一个场景，我在`index.js`中使用到了一些公共代码库/工具库（lodash），`index.js`中的代码是依赖于 lodash 中的一些工具的。当我们打包时，lodash 也是被打包到了`main.js`文件中，并且一旦`index.js`中的业务代码改变了，连同 lodash 也要一同重新打包加载，但是我们一般是不会去改动 lodash 这类工具库的。于是我们可以借助代码分割来将业务代码和 lodash 进行分割，这样下次再修改业务代码时，我们就无需重新加载 lodash 的内容了。
 
-先安装lodash
+先安装 lodash
 
 ```
 npm i lodash -S
 ```
 
-这里为了便于查看打包后的文件内容，我们加上一条npm script`"start": "webpack --config webpack.dev.js"`(由于devServer不会生成打包内容)
+这里为了便于查看打包后的文件内容，我们加上一条 npm script`"start": "webpack --config webpack.dev.js"`(由于 devServer 不会生成打包内容)
 
-*index.js*
+_index.js_
 
 ```js
 import _ from 'lodash';
@@ -229,19 +226,19 @@ import _ from 'lodash';
 console.log(_.compact([0, 1, false, 2, '', 3]));
 ```
 
-`npm run start`打包，发现打包后的main.js文件中包含lodash内容。
+`npm run start`打包，发现打包后的 main.js 文件中包含 lodash 内容。
 
-那如何实现代码分割呢，只需配置webpack.common.js文件
+那如何实现代码分割呢，只需配置 webpack.common.js 文件
 
 ```js
 optimization: {
-    splitChunks: {
-        chunks: 'all'
-    }
+  splitChunks: {
+    chunks: 'all';
+  }
 }
 ```
 
-再次打包，发现打包后的文件中多了一个`vendor~main.js`，webpack自动将lodash内容打包进去了，而main.js文件中就没有了lodash的内容了。
+再次打包，发现打包后的文件中多了一个`vendor~main.js`，webpack 自动将 lodash 内容打包进去了，而 main.js 文件中就没有了 lodash 的内容了。
 
 ```
 dist
@@ -254,7 +251,7 @@ dist
 
 ```js
 async function createElement() {
-  const { default: _ } = await import(/* webpackChunkName: "lodash" */'lodash');
+  const { default: _ } = await import(/* webpackChunkName: "lodash" */ 'lodash');
   const element = document.createElement('div');
   element.innerHTML = _.compact([0, 1, false, 2, '', 3]);
   return element;
@@ -263,14 +260,11 @@ async function createElement() {
 document.addEventListener('click', () => {
   createElement().then(element => {
     document.body.appendChild(element);
-  })
-})
-
+  });
+});
 ```
 
 `/* webpackChunkName: "lodash" */`设置打包后的文件名为`vendors~lodash.js`，打开浏览器可以看到只有点击页面时，才会引入`vendors~lodash.js`，实现了**懒加载**。
-
-
 
 打包后的目录
 
@@ -286,11 +280,9 @@ dist
 
 {%note success, 代码分割[更多配置](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)%}
 
-
-
 ### 打包分析工具
 
-首先要拿到`status.json`文件，具体获取方式只需配置npm script即可
+首先要拿到`status.json`文件，具体获取方式只需配置 npm script 即可
 
 ```json
 "start": "webpack --profile --json > status.json --config webpack.dev.js",
@@ -302,24 +294,22 @@ dist
 
 在写代码时，我们要尽可能的使用异步引入，这样可以提高代码的**使用率**，提升性能，减少加载不必要的代码。
 
-> 查看代码使用率的方法，浏览器控制台按下ctrl+shift+p，输入show coverage
-
-
+> 查看代码使用率的方法，浏览器控制台按下 ctrl+shift+p，输入 show coverage
 
 ### 代码优化
 
 现在有一个优化场景，我有一个登录按钮，当点击按钮后弹出登录框。这里的优化思路是，页面加载时只加载登录按钮的代码，当按钮代码加载完后。利用空闲时间去加载登录框的代码。这样既可以优化首屏加载速度，还可以解决因使用懒加载登录框（也就是点击按钮后再去加载）而带来的用户体验较差的问题。
 
-具体代码：(只需要在import中加入/* webpackPrefetch: true */)
+具体代码：(只需要在 import 中加入/_ webpackPrefetch: true _/)
 
 index.js
 
 ```js
 document.addEventListener('click', () => {
-  import(/* webpackPrefetch: true */'./loginModal.js').then(({default: login}) => {
+  import(/* webpackPrefetch: true */ './loginModal.js').then(({ default: login }) => {
     login();
-  })
-})
+  });
+});
 ```
 
 loginModal.js
@@ -330,15 +320,13 @@ export default function () {
 }
 ```
 
-
-
-### css文件处理
+### css 文件处理
 
 **MiniCssExtractPlugin**
 
 > This plugin should be used only on `production` builds without `style-loader` in the loaders chain, especially if you want to have HMR in `development`.
 
-官方推荐不要在开发环境中使用，因为不支持HMR，不利于提高开发效率。
+官方推荐不要在开发环境中使用，因为不支持 HMR，不利于提高开发效率。
 
 ```
 npm install --save-dev mini-css-extract-plugin
@@ -370,35 +358,35 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development', // 默认为production
   entry: {
-    main: './src/index.js', // 打包入口文件
+    main: './src/index.js' // 打包入口文件
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/, // 不对node_modules下的js文件处理
-        loader: 'babel-loader',
-      },
-    ],
+        loader: 'babel-loader'
+      }
+    ]
   },
   output: {
     // 输出文件配置
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/index.html'
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin()
   ],
   optimization: {
     usedExports: true,
     splitChunks: {
-      chunks: 'all',
-    },
-  },
+      chunks: 'all'
+    }
+  }
 };
 ```
 
@@ -417,16 +405,16 @@ const devConfig = {
     contentBase: './dist',
     open: true, // 自动打开浏览器
     port: 3001, // 服务器端口号
-    hot: true, // 开启HRM
+    hot: true // 开启HRM
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       }
-    ],
-  },
+    ]
+  }
 };
 
 module.exports = merge(commonConfig, devConfig);
@@ -441,20 +429,18 @@ const merge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const prodConfig =  {
+const prodConfig = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
-    ],
+    ]
   },
-  plugins: [
-    new MiniCssExtractPlugin({})
-  ]
+  plugins: [new MiniCssExtractPlugin({})]
 };
 
 module.exports = merge(commonConfig, prodConfig);
@@ -474,17 +460,15 @@ module.exports = merge(commonConfig, prodConfig);
 
 {% endtabs %}
 
-也可以使用**[optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin)**来压缩css代码
+也可以使用**[optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin)**来压缩 css 代码
 
+### 配置 output 解决浏览器 cache 问题
 
+浏览器是有缓存功能的，在我们第一次加载 main.js 后，浏览器会保有 main.js 的缓存，下次再加载时就直接从缓存获取了。但是当我们下次发布新版本时（修改了 main.js 文件），浏览器还是使用以前缓存的 main.js 内容，所以显示的内容并不是最新的。
 
-### 配置output解决浏览器cache问题
+_处理方法_
 
-浏览器是有缓存功能的，在我们第一次加载main.js后，浏览器会保有main.js的缓存，下次再加载时就直接从缓存获取了。但是当我们下次发布新版本时（修改了main.js文件），浏览器还是使用以前缓存的main.js内容，所以显示的内容并不是最新的。
-
-*处理方法*
-
-设置output的filename，添加`[contenthash]`占位符。
+设置 output 的 filename，添加`[contenthash]`占位符。
 
 ```js
 output: {
@@ -494,11 +478,9 @@ output: {
 },
 ```
 
-
-
 ### shimming
 
-看一个场景，假设library.js是一个比较老的第三方库。
+看一个场景，假设 library.js 是一个比较老的第三方库。
 
 {% tabs 6 %}
 
@@ -530,9 +512,9 @@ export function createText() {
 
 {%note error, Uncaught ReferenceError: _ is not defined%}
 
-如果`library.js`是我们自己写的库那还好说，直接自己手动引入lodash就可以了。但是由于是第三方库，源文件是在node_module中的，不利于修改，这个时候就可以用**shimming**来解决了。
+如果`library.js`是我们自己写的库那还好说，直接自己手动引入 lodash 就可以了。但是由于是第三方库，源文件是在 node_module 中的，不利于修改，这个时候就可以用**shimming**来解决了。
 
-**配置webpack.common.js**
+**配置 webpack.common.js**
 
 ```js
 // 记得引入const webpack =require('webpack');
@@ -547,40 +529,38 @@ plugins: [
 
 更多配置参考[shimming](https://www.webpackjs.com/guides/shimming/)
 
-
-
 **细粒度 shimming**
 
-试着在index.js中打印出**this**，发现**this**其实是指向模块本身。那如何把this指向**window**呢，这里要借助`imports-loader`
+试着在 index.js 中打印出**this**，发现**this**其实是指向模块本身。那如何把 this 指向**window**呢，这里要借助`imports-loader`
 
 ```
 npm i imports-loader -D
 ```
 
-配置好loader
+配置好 loader
 
 ```js
 rules: [
-    {
-        test: /\.js$/,
-        exclude: /node_modules/, // 不对node_modules下的js文件处理
-        use: [
-            {
-                loader: 'babel-loader',
-            },
-            {
-                loader: 'imports-loader?this=>window'
-            }
-        ]
-    },
-]
+  {
+    test: /\.js$/,
+    exclude: /node_modules/, // 不对node_modules下的js文件处理
+    use: [
+      {
+        loader: 'babel-loader'
+      },
+      {
+        loader: 'imports-loader?this=>window'
+      }
+    ]
+  }
+];
 ```
 
 ### 总结
 
-- Tree Shaking可以实现对js文件的按需打包，只在production下生效。
+- Tree Shaking 可以实现对 js 文件的按需打包，只在 production 下生效。
 - 为生产和开发环境分别创建不同配置文件。
 - 利用代码分割实现懒加载（利用魔法注释）。
-- 利用status.json来分析打包过程。
-- 单独生成css文件，减少mian.js体积。
-- 为output文件设置hash值，防止浏览器使用缓存。
+- 利用 status.json 来分析打包过程。
+- 单独生成 css 文件，减少 mian.js 体积。
+- 为 output 文件设置 hash 值，防止浏览器使用缓存。

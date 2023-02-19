@@ -1,4 +1,5 @@
 ---
+slug: babel
 title: webpack babel 的基本使用
 sidebar_label: babel 的基本使用
 tags:
@@ -19,9 +20,9 @@ updated: 2020-05-16 13:33:00
 sidebar_position: 4
 ---
 
-## 处理ES6语法
+## 处理 ES6 语法
 
-我们先用ES6写一些代码
+我们先用 ES6 写一些代码
 
 ```js
 const name = 'Alan';
@@ -31,38 +32,38 @@ const resultList = list.filter(item => item > 5);
 
 new Promise(() => {
   console.log('666');
-})
+});
 
 console.log(resultList);
 ```
 
-`npm run build`打包看一下chrome效果
+`npm run build`打包看一下 chrome 效果
 
 ![image-20200520142019038](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520142019038.png)
 
-奈何这个世界上还有IE这种东西😣，IE上看一下效果
+奈何这个世界上还有 IE 这种东西 😣，IE 上看一下效果
 
 ![image-20200520142207197](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520142207197.png)
 
 可以看一下报错的地方：
 
 ```js
-eval("const name = 'Alan';\r\nconst list = [1, 8, 4, 6];\r\n\r\nconst resultList = list.filter(item => item > 5);\r\n\r\nnew Promise(() => {\r\n  console.log('666');\r\n})\r\n\r\nconsole.log(resultList);\r\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval(
+  "const name = 'Alan';\r\nconst list = [1, 8, 4, 6];\r\n\r\nconst resultList = list.filter(item => item > 5);\r\n\r\nnew Promise(() => {\r\n  console.log('666');\r\n})\r\n\r\nconsole.log(resultList);\r\n\n\n//# sourceURL=webpack:///./src/index.js?"
+);
 ```
 
-
-
-**看来IE是识别不了ES6语法的**，那我们这里就要借助babel处理了。
+**看来 IE 是识别不了 ES6 语法的**，那我们这里就要借助 babel 处理了。
 
 ```js
 npm install --save-dev babel-loader @babel/core @babel/preset-env
 ```
 
-`@babel/preset-env`把ES6转化为ES5
+`@babel/preset-env`把 ES6 转化为 ES5
 
-`@babel/core`babel核心内容
+`@babel/core`babel 核心内容
 
-配置webpack
+配置 webpack
 
 ```js
 {
@@ -79,7 +80,7 @@ npm install --save-dev babel-loader @babel/core @babel/preset-env
 
 ![image-20200520143428061](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520143428061.png)
 
-打包后的index.js文件
+打包后的 index.js 文件
 
 ```js
 var name = 'Alan';
@@ -93,9 +94,9 @@ new Promise(function () {
 console.log(resultList);
 ```
 
-虽然处理了一些ES6语法（箭头函数，const），但是像filter和Promise还是没有处理的。
+虽然处理了一些 ES6 语法（箭头函数，const），但是像 filter 和 Promise 还是没有处理的。
 
-这里就要使用`@babel-polyfill`，它会模拟一个ES5环境
+这里就要使用`@babel-polyfill`，它会模拟一个 ES5 环境
 
 ```
 npm install --save @babel/polyfill
@@ -113,7 +114,7 @@ const resultList = list.filter(item => item > 5);
 
 new Promise(() => {
   console.log('666');
-})
+});
 
 console.log(resultList);
 ```
@@ -122,13 +123,13 @@ console.log(resultList);
 
 ![image-20200520144125415](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520144125415.png)
 
-虽然效果完成了，但是对比一下没使用`@babel/polyfil`l和使用了`@babel/polyfill`打包后的大小😮
+虽然效果完成了，但是对比一下没使用`@babel/polyfil`l 和使用了`@babel/polyfill`打包后的大小 😮
 
 ![image-20200520144511050](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520144511050.png)
 
 就引入了一个`@babel-polyfill`，体积就增加了这么多？
 
-其实是因为`@babel-polyfill`模拟了所有的ES5环境，而我们这里只使用了Promise和filter，所以我们可以通过配置`useBuiltIns`让它只模拟我们使用到的。
+其实是因为`@babel-polyfill`模拟了所有的 ES5 环境，而我们这里只使用了 Promise 和 filter，所以我们可以通过配置`useBuiltIns`让它只模拟我们使用到的。
 
 配置了`useBuiltIns`后，它是会自动帮我们引入`@babel/polyfill`所以这里我们无需再引入。
 
@@ -151,23 +152,22 @@ main.js   68.6 KiB    main  [emitted]  main
 
 再看一下打包后的文件小了很多有没有？
 
-
-
-babel的配置是可以单独放在`.babelrc`文件中的，直接将options中的内容放到.babelrc目录下即可
+babel 的配置是可以单独放在`.babelrc`文件中的，直接将 options 中的内容放到.babelrc 目录下即可
 
 ```json
 {
-  "presets": [["@babel/preset-env", {
-    "useBuiltIns": "usage"
-  }]]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
 }
 ```
 
-
-
-
-
-## 使用@babel/preset-react打包React文件
+## 使用@babel/preset-react 打包 React 文件
 
 ```
 npm install --save-dev @babel/preset-react
@@ -179,10 +179,14 @@ npm install --save-dev @babel/preset-react
 
 ```json
 {
-  "presets": [["@babel/preset-env", {
-    "useBuiltIns": "usage"
-  }],
-  "@babel/preset-react"
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ],
+    "@babel/preset-react"
   ]
 }
 ```
@@ -196,10 +200,8 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
 class App extends Component {
-  render() { 
-    return (
-      <div>Hello React</div>
-    );
+  render() {
+    return <div>Hello React</div>;
   }
 }
 
@@ -210,19 +212,17 @@ ReactDom.render(<App />, document.getElementById('root'));
 
 {% endtabs %}
 
-这里有一点需要注意一下，presets顺序是从后往前的，和css-loader一样，也就是js文件是先被`@babel/preset-react`处理的再被`@babel/preset-env`处理的。
+这里有一点需要注意一下，presets 顺序是从后往前的，和 css-loader 一样，也就是 js 文件是先被`@babel/preset-react`处理的再被`@babel/preset-env`处理的。
 
+## 总结使用的 babel
 
+`@babel/preset-react`处理 react 的 jsx 语法
 
-## 总结使用的babel
+`@babel-polyfill`处理低版本浏览器无法处理的语法，类似 Promise、Array.from、Object.assign
 
-`@babel/preset-react`处理react的jsx语法
+`@babel/preset-env`把 ES6 转化为 ES5
 
-`@babel-polyfill`处理低版本浏览器无法处理的语法，类似Promise、Array.from、Object.assign
-
-`@babel/preset-env`把ES6转化为ES5
-
-`@babel/core`babel核心内容
+`@babel/core`babel 核心内容
 
 `useBuiltIns:usage`按需引入
 

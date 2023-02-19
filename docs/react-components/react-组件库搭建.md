@@ -1,4 +1,5 @@
 ---
+slug: set-up
 title: react 组件库搭建
 tags:
   - React

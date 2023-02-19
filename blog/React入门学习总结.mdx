@@ -1,4 +1,5 @@
 ---
+slug: react-tutorial
 title: React入门学习总结
 tags:
   - React
@@ -349,10 +350,7 @@ export const INPUT_CHANGE = 'inputChange';
 </Tabs>
 
 <Admonition type="info">
-  <p>
-    reducers函数的返回值要是可预测，也就是说里面不能写类似new
-    Date,Ajax等的不可预测结果的代码
-  </p>
+  <p>reducers函数的返回值要是可预测，也就是说里面不能写类似new Date,Ajax等的不可预测结果的代码</p>
   <p>
     reducers不能修改原来的state，只能返回一个新的state，为了防止被误改造成bug，可以使用immutable.js来解决，它可以将state数据转化成一个特定的对象
   </p>
@@ -367,8 +365,8 @@ npm i immutable redux-immutable -S
 - `redux-immutable` 也提供了 `combineReducers` ，结合不同模块的 `reducers` 的同时还可以将 `state` 转化成 `immutable` 对象。
 
 <Admonition type="info">
-  当项目越来越大时，项目中的 reducer.js 文件也会越来越臃肿，这个时候我们可以通过
-  redux 提供的`combineReducers`来将 reducer 拆分成不同的模块
+  当项目越来越大时，项目中的 reducer.js 文件也会越来越臃肿，这个时候我们可以通过 redux
+  提供的`combineReducers`来将 reducer 拆分成不同的模块
 </Admonition>
 
 ```js

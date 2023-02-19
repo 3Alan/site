@@ -1,4 +1,5 @@
 ---
+slug: docusaurus-search
 title: Docusaurus DocSearch 搭建
 tags:
   - 博客
@@ -149,21 +150,8 @@ ALGOLIA_API_KEY
     "text": "article p, article li, article td:last-child"
   },
   "custom_settings": {
-    "attributesForFaceting": [
-      "type",
-      "lang",
-      "language",
-      "version",
-      "docusaurus_tag"
-    ],
-    "attributesToRetrieve": [
-      "hierarchy",
-      "content",
-      "anchor",
-      "url",
-      "url_without_anchor",
-      "type"
-    ],
+    "attributesForFaceting": ["type", "lang", "language", "version", "docusaurus_tag"],
+    "attributesToRetrieve": ["hierarchy", "content", "anchor", "url", "url_without_anchor", "type"],
     "attributesToHighlight": ["hierarchy", "content"],
     "attributesToSnippet": ["content:10"],
     "camelCaseAttributes": ["hierarchy", "content"],
@@ -179,20 +167,8 @@ ALGOLIA_API_KEY
     ],
     "distinct": true,
     "attributeForDistinct": "url",
-    "customRanking": [
-      "desc(weight.pageRank)",
-      "desc(weight.level)",
-      "asc(weight.position)"
-    ],
-    "ranking": [
-      "words",
-      "filters",
-      "typo",
-      "attribute",
-      "proximity",
-      "exact",
-      "custom"
-    ],
+    "customRanking": ["desc(weight.pageRank)", "desc(weight.level)", "asc(weight.position)"],
+    "ranking": ["words", "filters", "typo", "attribute", "proximity", "exact", "custom"],
     "highlightPreTag": "<span class='algolia-docsearch-suggestion--highlight'>",
     "highlightPostTag": "</span>",
     "minWordSizefor1Typo": 3,

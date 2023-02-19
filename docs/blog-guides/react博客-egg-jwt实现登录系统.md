@@ -1,4 +1,5 @@
 ---
+slug: react-auth-jwt
 title: react博客-egg-jwt实现登录系统
 tags:
   - 博客
@@ -11,26 +12,26 @@ categories:
 date: 2020-05-13 16:11:11
 ---
 
-react博客系列文章
+react 博客系列文章
 
 <!-- more-->
 
-## 何为jwt
+## 何为 jwt
 
 ## egg-jwt
 
-### 安装egg-jwt
+### 安装 egg-jwt
 
 `yarn add egg-jwt`
 
-### 配置egg-jwt
+### 配置 egg-jwt
 
 1. 配置`config/plugin.js`文件
 
 ```js
 exports.jwt = {
   enable: true,
-  package: 'egg-jwt',
+  package: 'egg-jwt'
 };
 ```
 
@@ -39,19 +40,19 @@ exports.jwt = {
 ```js
 // 自己设定的密钥，用于对信息进行签名
 config.jwt = {
-  secret: 'xxxxxx',
+  secret: 'xxxxxx'
 };
 ```
 
 ## 实例
 
-### 后台实现登录操作返回token
+### 后台实现登录操作返回 token
 
 1. 路由层
 
-在第二个参数上加上jwt即可实现对该路由的鉴权 
+在第二个参数上加上 jwt 即可实现对该路由的鉴权
 
-下面的jwt是自定义的中间件`auth.js`，该文件在下一部分介绍
+下面的 jwt 是自定义的中间件`auth.js`，该文件在下一部分介绍
 
 ```js
 'use strict';
@@ -69,9 +70,9 @@ module.exports = app => {
 };
 ```
 
-2. controller层
+2. controller 层
 
-使用`jwt.sign(加密数据, 密钥, [options, callback])` 来生成token
+使用`jwt.sign(加密数据, 密钥, [options, callback])` 来生成 token
 
 相关配置可以查看[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
@@ -97,7 +98,7 @@ async login() {
 }
 ```
 
-3. service层
+3. service 层
 
 ```js
 async checkUserValidate(username, password) {
@@ -106,19 +107,19 @@ async checkUserValidate(username, password) {
 }
 ```
 
-4. 使用postman进行测试
+4. 使用 postman 进行测试
 
 ![image-20200502125430201](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200502125430201.png)
 
-将生成的token返回给前台后使用`localStorage.setItem`把`token`保存到本地
+将生成的 token 返回给前台后使用`localStorage.setItem`把`token`保存到本地
 
-### 前台传递token进行鉴权
+### 前台传递 token 进行鉴权
 
-#### 封装axios
+#### 封装 axios
 
-新建axios文件对axio进行封装，通过axios的拦截器来实现每次请求时自动在headers上携带token数据到后台，后台使用`jwt.verify`来检验token的正确性
+新建 axios 文件对 axio 进行封装，通过 axios 的拦截器来实现每次请求时自动在 headers 上携带 token 数据到后台，后台使用`jwt.verify`来检验 token 的正确性
 
-*axios.js*
+_axios.js_
 
 ```js
 import axios from 'axios';
@@ -142,11 +143,11 @@ axios.interceptors.response.use(response => {
 export default axios;
 ```
 
-封装好后，之后都使用该封装好后的axios进行请求。
+封装好后，之后都使用该封装好后的 axios 进行请求。
 
 #### 后台校验处理
 
-*auth.js*
+_auth.js_
 
 ```js
 'use strict';
@@ -167,7 +168,7 @@ module.exports = options => {
           // 这里的错误有许多种情况：1.token错误，2.token过期... 这里统一处理为鉴权失败
           ctx.body = {
             code: '0003',
-            msg: '用户鉴权失败，请重新登录',
+            msg: '用户鉴权失败，请重新登录'
           };
         } else {
           throw error;
@@ -176,11 +177,11 @@ module.exports = options => {
     } else {
       ctx.body = {
         code: '0004',
-        msg: '您没有登录，请先登录',
+        msg: '您没有登录，请先登录'
       };
     }
   };
 };
 ```
 
-后台通过`/middleware/auth.js`中间件来实现给需要鉴权的接口进行鉴权，通过对前台传过来的token数据进行验证`jwt.verify`来识别登录状态。对`JsonWebTokenError`错误统一处理，应为`auth.js`作为中间件，所以接口中出现的其他错误也会在这里被catch到，对于不是`JsonWebTokenError`的错误，直接把错误抛出去。
+后台通过`/middleware/auth.js`中间件来实现给需要鉴权的接口进行鉴权，通过对前台传过来的 token 数据进行验证`jwt.verify`来识别登录状态。对`JsonWebTokenError`错误统一处理，应为`auth.js`作为中间件，所以接口中出现的其他错误也会在这里被 catch 到，对于不是`JsonWebTokenError`的错误，直接把错误抛出去。

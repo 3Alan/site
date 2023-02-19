@@ -1,4 +1,5 @@
 ---
+slug: hmr
 title: webpack4.0学习总结（四）
 tags:
   - webpack4.0
@@ -15,15 +16,13 @@ updated: 2020-05-20 15:19:00
 sidebar_position: 4
 ---
 
-
-
-webpack的devServer热更新以及HMR局部热更新
+webpack 的 devServer 热更新以及 HMR 局部热更新
 
 <!--truncate-->
 
 ### DevServer
 
-DevServer可以起一个本地服务并且实现代码的热更新。可以省去我们每次更新代码后重启服务额操作。
+DevServer 可以起一个本地服务并且实现代码的热更新。可以省去我们每次更新代码后重启服务额操作。
 
 ```
 npm i webpack-dev-server -D
@@ -31,7 +30,7 @@ npm i webpack-dev-server -D
 
 配置文件
 
-package.json 
+package.json
 
 ```json
 "scripts": {
@@ -50,17 +49,15 @@ devServer: {
 },
 ```
 
-我们之后只需要使用`npm run start`就可以把服务跑起来了，之后只要改动代码就会自动更新了，开发效率提高了很多有没有😝
+我们之后只需要使用`npm run start`就可以把服务跑起来了，之后只要改动代码就会自动更新了，开发效率提高了很多有没有 😝
 
 **devServer[更多配置内容](https://webpack.js.org/configuration/dev-server/#devserver)**
 
-
-
-### HMR实现局部热更新
+### HMR 实现局部热更新
 
 HMR（Hot Module Replacement）
 
-当我们更改了部分文件后，我们发现webpack-dev-server帮我们重新渲染所有内容，假如我只改动了一小部分，只想更新这一部分内容就可以用了使用HMR来实现了。
+当我们更改了部分文件后，我们发现 webpack-dev-server 帮我们重新渲染所有内容，假如我只改动了一小部分，只想更新这一部分内容就可以用了使用 HMR 来实现了。
 
 说再多不如看一个例子
 
@@ -73,11 +70,11 @@ var root = document.getElementById('root');
 
 root.innerHTML = '<button id="btn">add new block</button>';
 
-document.getElementById('btn').onclick = function() {
+document.getElementById('btn').onclick = function () {
   var newBlock = document.createElement('p');
   newBlock.innerHTML = 'new Block';
   root.append(newBlock);
-}
+};
 ```
 
 index.css
@@ -91,7 +88,7 @@ p:nth-child(6) {
 }
 ```
 
-这里例子就是点击按钮添加一个p元素，第6个p元素显示为红色背景
+这里例子就是点击按钮添加一个 p 元素，第 6 个 p 元素显示为红色背景
 
 ![](https://raw.githubusercontent.com/3Alan/images/master/img/hrmtest.gif)
 
@@ -99,13 +96,11 @@ p:nth-child(6) {
 
 ![image-20200518122346853](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200518122346853.png)
 
-结果webpack-dev-server给我全部重新渲染了，我还要再点6下才能看到效果，这里如果是1000（虽然不太可能）呢，那我岂不是要点1000下😱。
+结果 webpack-dev-server 给我全部重新渲染了，我还要再点 6 下才能看到效果，这里如果是 1000（虽然不太可能）呢，那我岂不是要点 1000 下 😱。
 
+这个时候配置 HRM 就可以轻松解决这个问题了。
 
-
-这个时候配置HRM就可以轻松解决这个问题了。
-
-只需要再webpack.config.js中配置
+只需要再 webpack.config.js 中配置
 
 ```js
 devServer: {
@@ -118,17 +113,15 @@ devServer: {
 
 ![](https://raw.githubusercontent.com/3Alan/images/master/img/blockTest.gif)
 
-搞定😎，不过这里由于有css-loader帮我们做了一些更新的任务，所以我们并没有写过多的代码。那如果没有css-loader处理那怎么办？下面看一下具体配置。
-
-
+搞定 😎，不过这里由于有 css-loader 帮我们做了一些更新的任务，所以我们并没有写过多的代码。那如果没有 css-loader 处理那怎么办？下面看一下具体配置。
 
 {% tabs 3%}
 
 <!-- tab index.js -->
 
 ```js
-import Counter from './counter'
-import Number from './number'
+import Counter from './counter';
+import Number from './number';
 
 Counter();
 Number();
@@ -145,9 +138,8 @@ function Counter() {
   counter.innerHTML = 0;
   counter.onclick = function () {
     counter.innerHTML = parseInt(counter.innerHTML, 10) + 1;
-  }
+  };
   root.append(counter);
-  
 }
 
 export default Counter;
@@ -175,25 +167,26 @@ export default Number;
 
 ![](https://raw.githubusercontent.com/3Alan/images/master/img/test3.gif)
 
-可以看到当我一改变number，counter中的状态又重新渲染变成0了😩。
+可以看到当我一改变 number，counter 中的状态又重新渲染变成 0 了 😩。
 
-这里我们就要通过一部分代码来处理一下了（css-loader就是帮我们完成了这部分工作）
+这里我们就要通过一部分代码来处理一下了（css-loader 就是帮我们完成了这部分工作）
 
 ```js
-import Counter from './counter'
-import Number from './number'
+import Counter from './counter';
+import Number from './number';
 
 Counter();
 Number();
 
-if (module.hot) { // 如果开启HMR
+if (module.hot) {
+  // 如果开启HMR
   module.hot.accept('./number.js', () => {
     var root = document.getElementById('root');
     root.removeChild(document.getElementById('number'));
     console.log('number is updated');
     Number();
     // 一旦number.js文件改变，进行一系列处理
-  })
+  });
 }
 ```
 

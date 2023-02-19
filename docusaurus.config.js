@@ -78,7 +78,7 @@ const config = {
           },
           {
             type: 'doc',
-            docId: '知识体系/工程化',
+            docId: 'knowledge-system/工程化',
             position: 'left',
             label: '知识体系'
           },
@@ -177,29 +177,49 @@ const config = {
         fromExtensions: ['html', 'htm'],
         redirects: [
           {
-            from: '/posts/记一次Next-js搭建之旅/',
-            to: '/blog/记一次Next-js搭建之旅'
+            from: '/blog/记一次Next-js搭建之旅',
+            to: '/blog/next-tutorial'
           },
           {
-            from: '/posts/Hexo博客定制/',
-            to: '/posts/博客搭建系列/Hexo博客定制'
+            from: '/posts/博客搭建系列/Hexo博客定制',
+            to: '/posts/blog-guides/hexo-guide'
           },
           {
-            from: '/posts/Hackintosh-B460M-MORTAR-WIFI-黑苹果安装记录/',
-            to: '/blog/Hackintosh-B460M-MORTAR-WIFI-黑苹果安装记录'
+            from: '/blog/Hackintosh-B460M-MORTAR-WIFI-黑苹果安装记录',
+            to: '/blog/Hackintosh-B460M-MORTAR-WIFI-EFI-installation'
           },
           {
-            from: '/posts/组件库-Guide/',
-            to: '/posts/react-components/Guide组件'
+            from: '/posts/react-components/Guide组件',
+            to: '/posts/react-components/guide'
           },
           {
-            from: '/posts/react-组件库搭建/',
-            to: '/posts/react-components/react-组件库搭建'
+            from: '/posts/react-components/react-组件库搭建',
+            to: '/posts/react-components/set-up'
           },
           {
-            from: '/posts/工作中遇到的问题记录/',
-            to: '/blog/工作中遇到的问题记录'
-          }
+            from: '/blog/工作中遇到的问题记录',
+            to: '/blog/trouble-in-work'
+          },
+          {
+            from: '/posts/博客搭建系列/docusaurus-评论系统',
+            to: '/posts/blog-guides/docusaurus-comment'
+          },
+          {
+            from: '/posts/博客搭建系列/Docusaurus-搜索',
+            to: '/posts/blog-guides/docusaurus-search'
+          },
+          {
+            from: '/posts/博客搭建系列/Docusaurus-搜索引擎url提交',
+            to: '/posts/blog-guides/docusaurus-search-engines-urls-push'
+          },
+          {
+            from: '/posts/源码实现/Axios',
+            to: '/posts/source-analysis/axios'
+          },
+          {
+            from: '/posts/源码实现/eventEmitter',
+            to: '/posts/source-analysis/mitt'
+          },
         ]
       }
     ],

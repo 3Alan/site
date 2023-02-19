@@ -1,4 +1,5 @@
 ---
+slug: guide
 title: react 引导组件
 tags:
   - React
@@ -135,21 +136,13 @@ const handleStepChange = () => {
     </span>
 
     {currentIndex !== 0 && (
-      <Button
-        type="standard"
-        size="small"
-        onClick={() => setCurrentIndex(currentIndex - 1)}
-      >
+      <Button type="standard" size="small" onClick={() => setCurrentIndex(currentIndex - 1)}>
         Prev
       </Button>
     )}
 
     {currentIndex !== steps.length - 1 && (
-      <Button
-        type="standard"
-        size="small"
-        onClick={() => setCurrentIndex(currentIndex + 1)}
-      >
+      <Button type="standard" size="small" onClick={() => setCurrentIndex(currentIndex + 1)}>
         Next
       </Button>
     )}

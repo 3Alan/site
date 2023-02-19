@@ -1,4 +1,5 @@
 ---
+slug: Hackintosh-B460M-MORTAR-WIFI-EFI-installation
 title: Hackintosh B460M-MORTAR WIFI 黑苹果安装记录
 tags:
   - 黑苹果

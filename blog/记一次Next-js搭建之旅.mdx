@@ -1,4 +1,5 @@
 ---
+slug: next-tutorial
 title: 记一次Next.js搭建之旅
 tags:
   - React
@@ -213,12 +214,7 @@ eslint 无法识别 alias，需要在根目录下创建文件`jsconfig.json`并�
 ```js
 module.exports = {
   root: true, // Make sure eslint picks up the config at the root of the directory
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    'plugin:prettier/recommended',
-    'prettier/react'
-  ],
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:prettier/recommended', 'prettier/react'],
   env: {
     browser: true,
     commonjs: true,
@@ -294,63 +290,63 @@ module.exports = {
 <details>
   <summary>详细代码</summary>
 
-  ```jsx
-  import axios from 'axios';
-  import ReactDOM from 'react-dom';
-  import Spin from '../components/Spin/Spin';
+```jsx
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import Spin from '../components/Spin/Spin';
 
-  const Axios = axios.create({
-    timeout: 20000
-  });
+const Axios = axios.create({
+  timeout: 20000
+});
 
-  const csr = process.browser;
+const csr = process.browser;
 
-  // 当前正在请求的数量
-  let requestCount = 0;
+// 当前正在请求的数量
+let requestCount = 0;
 
-  function showLoading() {
-    if (requestCount === 0) {
-      var dom = document.createElement('div');
-      dom.setAttribute('id', 'loading');
-      document.body.appendChild(dom);
-      ReactDOM.render(<Spin />, dom);
-    }
-    requestCount++;
-    console.log('showLoading', requestCount);
+function showLoading() {
+  if (requestCount === 0) {
+    var dom = document.createElement('div');
+    dom.setAttribute('id', 'loading');
+    document.body.appendChild(dom);
+    ReactDOM.render(<Spin />, dom);
   }
+  requestCount++;
+  console.log('showLoading', requestCount);
+}
 
-  function hideLoading() {
-    requestCount--;
-    if (requestCount === 0) {
-      document.body.removeChild(document.getElementById('loading'));
-    }
-    console.log('hideLoading', requestCount);
+function hideLoading() {
+  requestCount--;
+  if (requestCount === 0) {
+    document.body.removeChild(document.getElementById('loading'));
   }
+  console.log('hideLoading', requestCount);
+}
 
-  Axios.interceptors.request.use(
-    config => {
-      csr && showLoading();
-      return config;
-    },
-    err => {
-      csr && hideLoading();
-      return Promise.reject(err);
-    }
-  );
+Axios.interceptors.request.use(
+  config => {
+    csr && showLoading();
+    return config;
+  },
+  err => {
+    csr && hideLoading();
+    return Promise.reject(err);
+  }
+);
 
-  Axios.interceptors.response.use(
-    res => {
-      csr && hideLoading();
-      return res;
-    },
-    err => {
-      csr && hideLoading();
-      return Promise.reject(err);
-    }
-  );
+Axios.interceptors.response.use(
+  res => {
+    csr && hideLoading();
+    return res;
+  },
+  err => {
+    csr && hideLoading();
+    return Promise.reject(err);
+  }
+);
 
-  export default Axios;
-  ```
+export default Axios;
+```
 
 </details>
 
