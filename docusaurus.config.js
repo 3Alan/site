@@ -59,8 +59,7 @@ const config = {
       ],
       announcementBar: {
         id: 'friend_link',
-        content:
-          '⭐️ 欢迎前来交换 🔗 <a rel="noopener noreferrer" href="/friends">友链</a>！'
+        content: '⭐️ 欢迎前来交换 🔗 <a rel="noopener noreferrer" href="/friends">友链</a>！'
       },
       navbar: {
         title: 'Alan',
@@ -111,6 +110,10 @@ const config = {
               {
                 label: '友情链接',
                 to: '/friends'
+              },
+              {
+                label: '网站统计数据',
+                href: 'https://analytics.alanwang.site/share/wRwxxz0r/Alan-Blog'
               },
               {
                 label: 'GitHub',
@@ -219,7 +222,7 @@ const config = {
           {
             from: '/posts/源码实现/eventEmitter',
             to: '/posts/source-analysis/mitt'
-          },
+          }
         ]
       }
     ],
@@ -233,17 +236,10 @@ const config = {
         showReadingTime: true,
         blogSidebarTitle: '历史博文'
       }
-    ]
+    ],
+    './src/plugins/plugin-analytics-inject.js'
   ],
-  scripts: [
-    {
-      src: 'https://hm.baidu.com/hm.js?ff1856f91533fcea9c8c2fe5a1b06fe7',
-      async: true
-    }
-  ],
-  clientModules: [
-    require.resolve('./src/clientModules/routeModules.ts'),
-  ],
+  clientModules: [require.resolve('./src/clientModules/routeModules.ts')]
 };
 
 module.exports = config;
