@@ -25,7 +25,7 @@ async function analyticsInjectPlugin() {
               defer: true,
               src: 'https://analytics.alanwang.site/umami.js',
               'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4',
-              'data-domains': 'alanwang.site'
+              'data-domains': 'alanwang.site,www.alanwang.site'
             }
           },
           // 百度统计
