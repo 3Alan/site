@@ -10,6 +10,13 @@ async function analyticsInjectPlugin() {
       }
       return {
         headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://analytics.alanwang.site'
+            }
+          },
           // umami 收集，先使用一段时间，后面考虑替换百度统计
           {
             tagName: 'script',
@@ -17,7 +24,8 @@ async function analyticsInjectPlugin() {
               async: true,
               defer: true,
               src: 'https://analytics.alanwang.site/umami.js',
-              'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4'
+              'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4',
+              'data-domains': 'alanwang.site'
             }
           },
           // 百度统计
