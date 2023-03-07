@@ -674,3 +674,13 @@ function Recruit<T extends info>(name: string, props: T) {
 
 console.log(Recruit('Alan', { mobile: '1232910830' })); // Alan1232910830
 ```
+
+## React 相关
+
+### class 组件动态设置 state
+
+```ts
+this.setState({
+  [name]: value
+} as Pick<CompontentState, keyof CompontentState>);
+```
