@@ -1,3 +1,8 @@
+---
+title: chatgpt pdf
+draft: true
+---
+
 ## 运行
 
 ```
