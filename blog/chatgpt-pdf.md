@@ -1,5 +1,17 @@
 ---
-title: chatgpt pdf
+slug: chatgpt-pdf
+title: 基于 chatgpt 实现一个 pdf 阅读 Demo
+tags:
+  - chatgpt
+keywords:
+  - chatgpt pdf
+  - chatgpt pdf reader
+  - openai api
+  - token
+  - supabase
+  - embedding
+authors: Alan
+description: 基于 openai api(gpt3.5) 实现一个 pdf 阅读 Demo，利用 embedding 处理大量文本，突破最大 token 限制
 draft: true
 ---
 
