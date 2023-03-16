@@ -1,18 +1,18 @@
 ---
 slug: chatgpt-pdf
-title: 基于 ChatGPT 实现一个 PDF 阅读器
+title: 基于 ChatGPT 实现一个 PDF 阅读器 Demo
 tags:
   - chatgpt
 keywords:
   - chatgpt pdf
   - chatgpt pdf reader
   - OpenAI API
-  - token
+  - chatpdf 实现原理
   - PostgresSql
   - embedding
   - 余弦相似度算法
 authors: Alan
-description: 利用 OpenAI API 将 PDF 文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
+description: 解析 chatpdf 实现原理，利用 OpenAI API 将 PDF 文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
 ---
 
 最近随着 OpenAI 开放了相关 API， 市面上出现了越来越多的 AI 应用，chatpdf 这个项目吸引了我的注意，它是如何突破 API 最大 token 的限制来读取这种长文本的呢？
