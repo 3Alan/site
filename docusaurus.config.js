@@ -77,7 +77,7 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'knowledge-system/工程化',
+            docId: 'knowledge-system/intro',
             position: 'left',
             label: '知识体系'
           },

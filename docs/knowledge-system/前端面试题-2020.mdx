@@ -184,56 +184,6 @@ console.log(deepObj.b.b1); // 1
   </TabItem>
 </Tabs>
 
-### 数组去重
-
-<Tabs>
-  <TabItem value="方法1" label="方法1">
-
-```js
-// 笨方法
-const arr = [1, 1, 2, 5, 2, 6, 8];
-let newArr = [];
-for (let i = 0; i < arr.length; i++) {
-  if (newArr.includes(arr[i])) {
-    continue;
-  }
-  newArr.push(arr[i]);
-}
-```
-
-</TabItem>
-  <TabItem value="方法2" label="方法2">
-
-```js
-const arr = [1, 3, 45, 6, 3, 2, 0];
-const newArr = arr.filter((item, index) => {
-  return arr.indexOf(item) === index;
-});
-console.log(arr); // [1, 3, 45, 6, 3, 2, 0]
-console.log(newArr); // [1, 3, 45, 6, 2, 0]
-```
-
-</TabItem>
-  <TabItem value="方法3" label="方法3">
-
-```js
-const arr = [1, 3, 45, 6, 3, 2, 0];
-const newArr = [...new Set(arr)];
-console.log(arr); // [1, 3, 45, 6, 3, 2, 0]
-console.log(newArr); // [1, 3, 45, 6, 2, 0]
-```
-
-  </TabItem>
-</Tabs>
-
-### 数组填充
-
-```js
-new Array(10).fill(1);
-
-Array.from({ length: 10 }, item => 1);
-```
-
 ### for in 和 for of
 
 - for in 会遍历数组中的可枚举属性，包括原型。可以遍历对象，遍历的是 key 值
@@ -329,74 +279,6 @@ try {
 </script>
 ```
 
-### 数组扁平化
-
-<Tabs>
-  <TabItem value="方法1" label="方法1">
-
-```js
-// Array.prototype.flat([depth])
-let arr = [1, 2, 7, [2, [2, 3], 6]];
-
-console.log(arr.flat(Infinity));
-```
-
-</TabItem>
-  <TabItem value="方法2" label="方法2">
-
-```js
-// 使用for of 递归
-let arr = [1, 2, 7, [2, [2, 3], 6]];
-function flat(arr) {
-  let newArr = [];
-  for (const item of arr) {
-    if (Array.isArray(item)) {
-      newArr = newArr.concat(flat(item));
-    } else {
-      newArr.push(item);
-    }
-  }
-  return newArr;
-}
-console.log(flat(arr));
-```
-
-</TabItem>
-  <TabItem value="方法3" label="方法3">
-
-```js
-// 扩展运算符
-const arr = [1, 2, 7, [2, [2, 3], 6]];
-function flat(arr) {
-  while (arr.some(item => Array.isArray(item))) {
-    arr = [].concat(...arr);
-  }
-  return arr;
-}
-console.log(flat(arr));
-```
-
-</TabItem>
-  <TabItem value="方法4" label="方法4">
-
-```js
-// 骚操作
-const arr = [1, 2, 7, [2, [2, 3], 6]];
-function flat(arr) {
-  const result = arr
-    .toString()
-    .split(',')
-    .map(item => {
-      return +item;
-    });
-  return result;
-}
-console.log(flat(arr));
-```
-
-</TabItem>
-</Tabs>
-
 ### eventLoop
 
 JS 是单线程的，那为什么不是多线程的呢，设想一个场景，一个线程修改了 body 的 background 为 red，另一个线程修改了 body 的 background 为 green。那最终浏览器就不知道 background 到底为什么。由此可以看到多线程会为浏览器的 DOM 操作带来很多同步问题。[参考资料](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
@@ -486,23 +368,6 @@ f();
 - 创建闭包的常见方式，就是在一个函数内部创建另一个函数
 
 [相关文章](https://juejin.cn/post/6937469222251560990?share_token=acad6730-948d-4fcb-8bcb-799dd6bf0dc3)
-
-### 求数组最大值
-
-```js
-const arr = [1, 2, 1, 4, 2, 10];
-console.log(Math.max.apply(null, arr));
-```
-
-```js
-const arr = [1, 2, 1, 4, 2, 10];
-console.log(arr.sort((a, b) => a - b)[arr.length - 1]);
-```
-
-```js
-const arr = [1, 2, 1, 4, 2, 10];
-console.log(Math.max(...arr));
-```
 
 ### Promise
 
@@ -650,31 +515,6 @@ DONE = 4; // 请求完成
 - onprogress
 
 ### JS 题目
-
-```js
-const a = ['1', '2', '3'].map(parseInt);
-// 数组a中的'1'转化为10进制。
-console.log(a); // [1, NaN, NaN]
-// map的三个参数(item,index,array)
-/* parseInt(string, radix)
-当radix等于0或者undefined或者没有指定时，如果string以'0x'或者''0X'开头，则radix=16
-以'0'开头，根据实际情况radix=10/8。 */
-```
-
-```js
-const users = [
-  {
-    name: 'Alan',
-    age: 19
-  },
-  {
-    name: 'Bob',
-    age: 25
-  }
-];
-const userList = users.sort((a, b) => b.age - a.age);
-// 根据年龄进行排序，注意：sort会改变原来的数组
-```
 
 ```js
 function isSameLetter(a, b) {
