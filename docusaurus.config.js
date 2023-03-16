@@ -105,6 +105,19 @@ const config = {
             ]
           },
           {
+            title: '推荐阅读',
+            items: [
+              {
+                label: 'PDF 阅读器 Demo',
+                to: '/blog/chatgpt-pdf'
+              },
+              {
+                label: 'Docusaurus 评论功能',
+                to: '/posts/blog-guides/docusaurus-comment'
+              },
+            ]
+          },
+          {
             title: 'More',
             items: [
               {
