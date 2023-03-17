@@ -479,41 +479,6 @@ https://zh.javascript.info/promise-basics
 </html>
 ```
 
-### XMLHttpRequest
-
-常用方法：
-
-- open(method, url, [async, user, password])初始化，async(false/true)控制同步/异步
-- send([body])发送请求
-- abort()中止请求
-- setRequestHeader(name, value)设置请求头
-
-常用属性：
-
-status: 404/200...
-
-statusText: Not Found/OK...
-
-responseType: 响应格式
-
-readyState： 状态
-
-withCredentials: 跨域设置
-
-```javascript
-UNSENT = 0; // 初始状态
-OPENED = 1; // open 被调用
-HEADERS_RECEIVED = 2; // 接收到 response header
-LOADING = 3; // 响应正在被加载（接收到一个数据包）
-DONE = 4; // 请求完成
-```
-
-常用监听事件：
-
-- onload
-- onerror
-- onprogress
-
 ### JS 题目
 
 ```js
@@ -544,17 +509,3 @@ console.log(isSameLetter('176as', 'a17s6'));
   - 复用逻辑
   - 正向属性代理（强化 props）
   - 反向属性代理（通过 extends 组件可以获取组件内部状态）
-
-### 单页应用优缺点
-
-优点：
-
-- 基于 ajax 加载数据，无需刷新页面，用户体验好
-- 前后端分离，后端代码可以应用到多端
-- 减轻服务器压力
-
-缺点：
-
-- 不利于 SEO，可以使用 SSR 解决
-- 首屏加载速度慢
-- 不支持浏览器前进后退功能
