@@ -20,7 +20,6 @@ import type { BlogSidebar } from '@docusaurus/plugin-content-blog';
 import Comment from '../../components/comment';
 
 function BlogPostPageContent({
-  sidebar,
   children
 }: {
   sidebar: BlogSidebar;
@@ -36,7 +35,6 @@ function BlogPostPageContent({
   } = frontMatter;
   return (
     <BlogLayout
-      sidebar={sidebar}
       toc={
         !hideTableOfContents && toc.length > 0 ? (
           <TOC

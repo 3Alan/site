@@ -41,16 +41,6 @@ html[data-theme='dark'] {
     border-bottom: 1px solid var(--ifm-surface-border-color);
   }
 
-  .navbar__inner, div[class*='docPage_'] {
-    margin: 0 auto;
-    max-width: 1400px;
-  }
-
-  .theme-doc-markdown {
-    margin: 2rem auto 0;
-    max-width: 700px;
-  }
-
   .navbar__link {
     border-radius: 4px;
     &:hover {
@@ -90,10 +80,6 @@ html[data-theme='dark'] {
     font-size: 2.5rem;
   }
 
-  div[class*='generatedIndexPage_'] {
-    margin-left: 2.875rem;
-  }
-
   .markdown {
     & h1:first-child {
       --ifm-h1-font-size: 2.5rem;
@@ -109,6 +95,9 @@ html[data-theme='dark'] {
   }
 }
 
+.table-of-contents__left-border {
+  border-left: none;
+}
 .table-of-contents__link {
   padding-left: 4px;
 }

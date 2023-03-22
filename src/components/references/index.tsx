@@ -10,8 +10,6 @@ interface ReferencesProps {
 const cls = 'c-references';
 
 const References: FC<ReferencesProps> = ({ options }) => {
-  console.log(options);
-
   return (
     <div className={cls}>
       <div className={`${cls}-header`}>
