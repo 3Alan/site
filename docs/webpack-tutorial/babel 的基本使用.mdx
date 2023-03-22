@@ -4,9 +4,10 @@ title: webpack babel 的基本使用
 sidebar_label: babel 的基本使用
 tags:
   - webpack4.0
-description: webpack babel 的基本使用
+description: webpack 入门教程，介绍了 webpack babel 的基本使用及配置，打包 react 项目，处理 ES6 语法
 keywords:
   - webpack
+  - webpack 入门教程
   - webpack bebel
   - polyfill
   - preset
@@ -19,6 +20,9 @@ date: 2020-05-17 10:05:14
 updated: 2020-05-16 13:33:00
 sidebar_position: 4
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 ## 处理 ES6 语法
 
@@ -67,12 +71,12 @@ npm install --save-dev babel-loader @babel/core @babel/preset-env
 
 ```js
 {
-    test: /\.js$/,
-        exclude: /node_modules/, // 不对node_modules下的js文件处理
-        loader: 'babel-loader',
-        options: {
-            presets: ['@babel/preset-env']
-        }
+  test: /\.js$/,
+  exclude: /node_modules/, // 不对node_modules下的js文件处理
+  loader: 'babel-loader',
+  options: {
+    presets: ['@babel/preset-env']
+  }
 },
 ```
 
@@ -135,14 +139,14 @@ console.log(resultList);
 
 ```js
 {
-    test: /\.js$/,
-        exclude: /node_modules/, // 不对node_modules下的js文件处理
-         loader: 'babel-loader',
-          options: {
-              presets: [['@babel/preset-env', {
-                  useBuiltIns: 'usage'
-              }]]
-          }
+  test: /\.js$/,
+  exclude: /node_modules/, // 不对node_modules下的js文件处理
+  loader: 'babel-loader',
+  options: {
+    presets: [['@babel/preset-env', {
+      useBuiltIns: 'usage'
+    }]]
+  }
 },
 ```
 
@@ -173,9 +177,8 @@ babel 的配置是可以单独放在`.babelrc`文件中的，直接将 options �
 npm install --save-dev @babel/preset-react
 ```
 
-{% tabs 4 %}
-
-<!-- tab .babelrc -->
+<Tabs>
+<TabItem value=".babelrc" label=".babelrc">
 
 ```json
 {
@@ -191,9 +194,8 @@ npm install --save-dev @babel/preset-react
 }
 ```
 
-<!-- endtab -->
-
-<!-- tab index.js -->
+</TabItem>
+<TabItem value="index.js" label="index.js">
 
 ```js
 import React, { Component } from 'react';
@@ -208,9 +210,9 @@ class App extends Component {
 ReactDom.render(<App />, document.getElementById('root'));
 ```
 
-<!-- endtab -->
+</TabItem>
 
-{% endtabs %}
+</Tabs>
 
 这里有一点需要注意一下，presets 顺序是从后往前的，和 css-loader 一样，也就是 js 文件是先被`@babel/preset-react`处理的再被`@babel/preset-env`处理的。
 
@@ -226,4 +228,6 @@ ReactDom.render(<App />, document.getElementById('root'));
 
 `useBuiltIns:usage`按需引入
 
-{% note link, 更多配置参考[babel官网](https://babeljs.io/docs/en/) %}
+:::info
+更多配置参考[babel 官网](https://babeljs.io/docs/en/)
+:::
