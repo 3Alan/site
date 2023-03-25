@@ -25,7 +25,7 @@ description: 解析 chatpdf 实现原理，利用 OpenAI API 将 PDF 文本片�
 
 在这个 Demo 中，你可以向 ChatGPT 提问 PDF 中的相关问题：
 
-Demo: https://chatgpt-pdf-demo.vercel.app/
+Demo: https://chatpdf-demo.alanwang.site/
 
 Github: https://github.com/3Alan/chatgpt-pdf-demo
 

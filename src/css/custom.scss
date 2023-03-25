@@ -52,6 +52,10 @@ html[data-theme='dark'] {
     }
   }
 
+  .dropdown__menu {
+    --ifm-dropdown-background-color: #2a2a2d;
+  }
+
   // from github
   .theme-admonition-caution {
     background-color: rgba(187, 128, 9, 0.15);
