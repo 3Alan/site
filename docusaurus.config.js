@@ -184,6 +184,13 @@ const config = {
         appId: '3ADKUPU1LI',
         apiKey: '313f27fd54c251b088fccb9ccd7b2917',
         indexName: 'alanwang'
+      },
+      zoom: {
+        selector: '.markdown :not(em) > img',
+        background: {
+          light: 'rgb(255, 255, 255)',
+          dark: 'rgb(50, 50, 50)'
+        },
       }
     }),
   plugins: [
@@ -250,7 +257,8 @@ const config = {
         blogSidebarTitle: '历史博文'
       }
     ],
-    './src/plugins/plugin-analytics-inject.js'
+    './src/plugins/plugin-analytics-inject.js',
+    require.resolve('docusaurus-plugin-image-zoom')
   ],
   clientModules: [require.resolve('./src/clientModules/routeModules.ts')]
 };

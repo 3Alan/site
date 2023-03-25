@@ -65,6 +65,56 @@ Embedding 是一种将离散数据（例如单词、字符、图像等）转换�
 
 在 ChatGPT PDF 项目中，我们首先将用户提出的问题向量与数据库中的每个文本片段向量进行余弦相似度计算，然后选择最相似的那个文本片段作为上下文向 ChatGPT 提问。
 
+## 如何在本地运行 Demo
+
+### 克隆项目
+
+1. 克隆项目
+2. 创建 `.env` 文件并填入环境变量，可参考 `.env.example`
+   ![20230325110936](https://raw.githubusercontent.com/3Alan/images/master/img/20230325110936.png)
+
+### 使用 supabase 创建数据库
+
+将项目根目录中的 `schema.sql` 文件内容复制到 supabase 中并运行
+![supabase](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325104103.png)
+
+运行完成后你将会得到两个表 `chatgpt` `pg`
+
+### 运行项目
+
+```
+yarn
+```
+
+```
+yarn dev
+```
+
+1. 删除默认显示的 [pdf](https://github.com/3Alan/chatgpt-pdf-demo/blob/main/src/pages/index.tsx#LL45C51-L45C72)
+2. 修改为 [`disabledUpload`](https://github.com/3Alan/chatgpt-pdf-demo/blob/7c8daa32a9d2450f037224a06cc821ff682f5c36/src/pages/index.tsx#L46) 为 false
+
+完成以上步骤后你将看到
+![20230325105607](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325105607.png)
+
+然后上传你的 pdf 并点击 start reading，这将耗费一定的时间（取决于你的 pdf 大小），在这期间你可以通过打开浏览器控制台查看 network 请求。
+
+:::caution
+如果你的文件过大，由于 openai 的 rate limit 你可能失败
+:::
+
+pdf 处理完后，你将在你的 supabase 中看到 embedding 后的值。
+![20230325105953](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325105953.png)
+
+完成这些步骤后你便可以进行提问，你可以通过微调 [prompt](https://github.com/3Alan/chatgpt-pdf-demo/blob/588135cc265eb702b39d9ee9a853264173c45dc5/src/utils/openaiStream.ts#L19) 来使回答更准确。
+
+### 调整 pdf 显示
+
+完成以上步骤后你可以：
+
+1. 将你的 pdf 移动到 public 目录下
+2. 将默认显示的 pdf 改成你上传的 pdf 路径
+3. 修改为 `disabledUpload` 为 true，这样你就不会看到上传文件的模块了
+
 ## 参考资料
 
 - https://github.com/mckaywrigley/paul-graham-gpt
