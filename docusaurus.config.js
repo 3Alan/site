@@ -116,6 +116,10 @@ const config = {
                 to: '/blog/chatgpt-pdf'
               },
               {
+                label: 'Mitt 源码动画解析',
+                to: '/posts/source-analysis/mitt'
+              },
+              {
                 label: 'Docusaurus 评论功能',
                 to: '/posts/blog-guides/docusaurus-comment'
               },
