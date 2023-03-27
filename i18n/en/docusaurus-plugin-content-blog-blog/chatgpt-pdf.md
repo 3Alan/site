@@ -125,4 +125,4 @@ After completing the above steps, you can:
 - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb
 - https://github.com/ddiu8081/chatgpt-demo
 
-If this project inspires you, please give me a star.
+If this project inspires you, please give me a [star](https://github.com/3Alan/chatgpt-pdf-demo).

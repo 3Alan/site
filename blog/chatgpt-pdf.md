@@ -121,4 +121,4 @@ pdf 处理完后，你将在你的 supabase 中看到 embedding 后的值。
 - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb
 - https://github.com/ddiu8081/chatgpt-demo
 
-如果这个项目对你有所启发，不妨给我点个 star 吧
+如果这个项目对你有所启发，不妨给我点个 [star](https://github.com/3Alan/chatgpt-pdf-demo) 吧
