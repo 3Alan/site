@@ -82,7 +82,7 @@ In the ChatGPT PDF project, we first calculate the cosine similarity between the
 Copy the contents of the `schema.sql` file in the root directory of the project to Supabase and run it.
 ![supabase](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325104103.png)
 
-After running, you will get two tables `chatgpt` and `pg`.
+After running, you will get one table `chatgpt`.
 
 ### Run Project
 
