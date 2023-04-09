@@ -17,7 +17,7 @@ async function analyticsInjectPlugin() {
               href: 'https://analytics.alanwang.site'
             }
           },
-          // umami 收集，先使用一段时间，后面考虑替换百度统计
+          // umami 收集
           {
             tagName: 'script',
             attributes: {
@@ -25,14 +25,6 @@ async function analyticsInjectPlugin() {
               defer: true,
               src: 'https://analytics.alanwang.site/umami.js',
               'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4'
-            }
-          },
-          // 百度统计
-          {
-            tagName: 'script',
-            attributes: {
-              async: true,
-              src: 'https://hm.baidu.com/hm.js?ff1856f91533fcea9c8c2fe5a1b06fe7'
             }
           }
         ]
