@@ -84,8 +84,8 @@ const config = {
           { to: '/blog', label: '博文', position: 'left' },
           {
             type: 'localeDropdown',
-            position: 'right',
-          },
+            position: 'right'
+          }
         ]
       },
       footer: {
@@ -122,7 +122,7 @@ const config = {
               {
                 label: 'Docusaurus 评论功能',
                 to: '/posts/blog-guides/docusaurus-comment'
-              },
+              }
             ]
           },
           {
@@ -134,7 +134,8 @@ const config = {
               },
               {
                 label: '网站统计数据',
-                href: 'https://analytics.alanwang.site/share/wRwxxz0r/Alan-Blog'
+                href: 'https://analytics.alanwang.site/share/wRwxxz0r/Alan-Blog',
+                class: 'footer__link-item umami--click--analytics-link'
               },
               {
                 label: 'GitHub',
@@ -198,7 +199,7 @@ const config = {
         background: {
           light: 'rgb(255, 255, 255)',
           dark: 'rgb(50, 50, 50)'
-        },
+        }
       }
     }),
   plugins: [
