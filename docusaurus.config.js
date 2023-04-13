@@ -135,7 +135,7 @@ const config = {
               {
                 label: '网站统计数据',
                 href: 'https://analytics.alanwang.site/share/wRwxxz0r/Alan-Blog',
-                class: 'footer__link-item umami--click--analytics-link'
+                className: 'footer__link-item umami--click--analytics-link'
               },
               {
                 label: 'GitHub',
