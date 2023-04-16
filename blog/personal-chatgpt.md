@@ -23,6 +23,7 @@ description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 
 | --------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
 | [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui)        | ✅          | ![chatbot-ui stars](https://img.shields.io/github/stars/mckaywrigley/chatbot-ui?style=social)        |
 | [chatgpt-demo](https://github.com/ddiu8081/chatgpt-demo)        | ✅          | ![chatgpt-demo stars](https://img.shields.io/github/stars/ddiu8081/chatgpt-demo?style=social)        |
+| [BetterChatGPT](https://github.com/ztjhz/BetterChatGPT)         | ✅          | ![BetterChatGPT stars](https://img.shields.io/github/stars/ztjhz/BetterChatGPT?style=social)         |
 | [ChuanhuChatGPT](https://github.com/GaiZhenbiao/ChuanhuChatGPT) | ❌          | ![ChuanhuChatGPT stars](https://img.shields.io/github/stars/GaiZhenbiao/ChuanhuChatGPT?style=social) |
 | [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)        | ❌          | ![chatgpt-web stars](https://img.shields.io/github/stars/Chanzhaoyu/chatgpt-web?style=social)        |
 | [ChatGPT-Next-Web](https://github.com/Yidadaa/ChatGPT-Next-Web) | ✅          | ![ChatGPT-Next-Web stars](https://img.shields.io/github/stars/Yidadaa/ChatGPT-Next-Web?style=social) |
@@ -33,7 +34,7 @@ description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 
 
 ## 关于安全
 
-我最近发现我部署的 chatgpt 总是存在一些莫名流量，而且发现我的域名最近 SEO 变得不好，好在我之前在项目中加了分析代码，顺着网站的来源我发现了有一些垃圾站在引用了我的网站，最后发现我的网站被人爬取了，顺着线索找到了这个[仓库](https://github.com/lzwme/chatgpt-sites)（为什么会有这种仓库 🤬），好在网站上了密码所以 API KEY 没有被人刷，不过这也导致我的域名 SEO 受到了影响。
+我最近发现我部署的 chatgpt 总是存在一些莫名流量，而且发现我的域名最近 SEO 变得不好，好在我之前在网站中加了分析代码，顺着网站的来源我发现了有一些垃圾站在引用了我的网站，最后发现我的网站被人爬取了，顺着线索找到了这个[仓库](https://github.com/lzwme/chatgpt-sites)（为什么会有这种仓库 🤬），好在网站上了密码所以 API KEY 没有被人刷，不过这也导致我的域名 SEO 受到了影响。
 
 在发现问题后，我赶紧删除了我的 chatgpt 项目并修改成了私仓，并且关掉了主域名的解析用了一个不怎么用的域名来部署。
 
