@@ -28,6 +28,7 @@ description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 
 | [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)        | ❌          | ![chatgpt-web stars](https://img.shields.io/github/stars/Chanzhaoyu/chatgpt-web?style=social)        |
 | [ChatGPT-Next-Web](https://github.com/Yidadaa/ChatGPT-Next-Web) | ✅          | ![ChatGPT-Next-Web stars](https://img.shields.io/github/stars/Yidadaa/ChatGPT-Next-Web?style=social) |
 | [yakGPT](https://github.com/yakGPT/yakGPT)                      | ✅          | ![yakGPT stars](https://img.shields.io/github/stars/yakGPT/yakGPT?style=social)                      |
+| [Chatpad](https://github.com/deiucanta/chatpad)                 | ❓          | ![yakGPT stars](https://img.shields.io/github/stars/deiucanta/chatpad?style=social)                  |
 
 挑选一个自己喜欢的项目，然后根据项目的 README.md 文件进行部署即可。
 这里举一个例子，我之前选择了 chatgpt-demo 这个项目，它支持 Vercel 部署，所以直接在 Vercel 上部署了，部署完后再绑定自己的域名（Vercel 域名国内已墙）就可随时随地使用了。
