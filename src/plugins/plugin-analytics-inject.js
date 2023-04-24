@@ -21,7 +21,6 @@ async function analyticsInjectPlugin() {
           {
             tagName: 'script',
             attributes: {
-              async: true,
               defer: true,
               src: 'https://analytics.alanwang.site/script.js',
               'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4'
