@@ -51,7 +51,8 @@ function Intro(): JSX.Element {
           <a
             href="https://github.com/3Alan"
             target="_blank"
-            className={`button button--secondary ${cls}-gh-btn umami--click--github-link`}
+            data-umami-event= 'github-link'
+            className={`button button--secondary ${cls}-gh-btn`}
           >
             <VscGithubInverted size={24} className={`${cls}-github`} />
             <span>Github</span>
