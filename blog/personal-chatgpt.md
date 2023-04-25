@@ -1,6 +1,6 @@
 ---
 slug: personal-chatgpt
-title: 搭建属于自己的 ChatGPT
+title: 利用 Vercel 搭建属于自己的 ChatGPT
 tags:
   - chatgpt
 keywords:
@@ -8,7 +8,7 @@ keywords:
   - chatgpt 私有化部署
   - chatgpt 部署
 authors: Alan
-description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，方便大家快速搭建属于自己的 ChatGPT，同时提供部署方法及安全建议，防止被有心人利用。
+description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，可以在 Vercel 上部署，方便大家快速搭建属于自己的 ChatGPT，同时提供部署方法及安全建议，防止被有心人利用。
 ---
 
 我整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，方便大家快速搭建属于自己的 ChatGPT，大部分都支持 Vercel 部署，可以直接使用 Vercel 的免费服务。有一部分项目是包括后端代码的所以无法在 Vercel 上部署，需要自己部署到服务器上。
