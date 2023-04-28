@@ -67,6 +67,29 @@ Embedding 是一种将离散数据（例如单词、字符、图像等）转换�
 
 ## 如何在本地运行 Demo
 
+:::caution
+请确保你能正常访问 https://api.openai.com
+
+```bash
+curl https://api.openai.com
+```
+
+如果你得到以下结果说明你能正常访问，否则你将需要配置环境变量 OPENAI_API_PROXY 来代理 https://api.openai.com
+
+```
+{
+  "error": {
+    "message": "Invalid URL (GET /)",
+    "type": "invalid_request_error",
+    "param": null,
+    "code": null
+  }
+}
+
+```
+
+:::
+
 ### 克隆项目
 
 1. 克隆项目

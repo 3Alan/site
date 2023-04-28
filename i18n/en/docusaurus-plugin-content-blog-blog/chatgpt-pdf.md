@@ -71,6 +71,29 @@ In the ChatGPT PDF project, we first calculate the cosine similarity between the
 
 ## How to Run Demo Locally
 
+:::caution
+Please make sure that you can access https://api.openai.com normally.
+
+```bash
+curl https://api.openai.com
+```
+
+If you receive the following result, it means that you can access it normally. Otherwise, you will need to configure the environment variable OPENAI_API_PROXY to proxy https://api.openai.com.
+
+```
+{
+  "error": {
+    "message": "Invalid URL (GET /)",
+    "type": "invalid_request_error",
+    "param": null,
+    "code": null
+  }
+}
+
+```
+
+:::
+
 ### Clone Project
 
 1. Clone the project
