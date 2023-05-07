@@ -19,6 +19,10 @@ description: 解析 chatpdf 实现原理，利用 OpenAI API 将 PDF 文本片�
 
 <!--truncate-->
 
+:::tip
+我的新项目 [DocsMind](https://github.com/3Alan/DocsMind) 已经开源了，支持 Markdown 和 PDF 以及 Docker 部署，欢迎 Star 和 PR。
+:::
+
 基于对 chatpdf 原理的好奇，我开始研究起市面上相关的应用，于是简单了解后写了个简单的 demo 用于学习，顺便熟悉了下 OpenAI API 的使用。
 
 ## Demo
