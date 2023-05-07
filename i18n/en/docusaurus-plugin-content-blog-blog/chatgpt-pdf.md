@@ -23,7 +23,9 @@ Recently, with the release of relevant APIs by OpenAI, more and more AI applicat
 
 <!--truncate-->
 
+:::tip
 My new project [DocsMind](https://github.com/3Alan/DocsMind) has been open-sourced, supporting Markdown and PDF as well as Docker deployment. Welcome to give it a Star or submit a PR.
+:::
 
 Out of curiosity about the chatpdf principle, I started researching relevant applications on the market and wrote a simple demo for learning after a brief understanding, and familiarized myself with the use of OpenAI API.
 
