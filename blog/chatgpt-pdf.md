@@ -20,7 +20,7 @@ description: 解析 chatpdf 实现原理，利用 OpenAI API 将 PDF 文本片�
 <!--truncate-->
 
 :::tip
-我的新项目 [DocsMind](https://github.com/3Alan/DocsMind) 已经开源了，支持 Markdown 和 PDF 以及 Docker 部署，欢迎 Star 和 PR。
+🎉🎉 我的新项目 [DocsMind](https://github.com/3Alan/DocsMind) 已经开源了，支持 Markdown 和 PDF 以及 Docker 部署，欢迎 Star 和 PR。
 :::
 
 基于对 chatpdf 原理的好奇，我开始研究起市面上相关的应用，于是简单了解后写了个简单的 demo 用于学习，顺便熟悉了下 OpenAI API 的使用。
@@ -44,6 +44,13 @@ Demo 是我提前跑好数据的 "GitHub 隐私协议"。目前 Prompt 还没调
 5. 将用户提出的问题转换为向量。
 6. 使用余弦相似度算法将用户提出的问题向量与数据库中的向量进行比较，找到与问题最相似的文本片段。
 7. 将片段文本喂给 ChatGPT，让它基于这些片段回答用户提出的问题。
+
+这里只讲大致原理，具体到代码上还涉及到：
+
+- 如何提取文本？
+- 以什么为维度切片？如何尽可能保证每个片段在语义上是相近的？
+
+  由于提取出的 PDF 文本都是文字，所以只能以字数来切片，并且以 “句子” 为维度进行切片，这里我们简单的以 `。` `.` 为分隔符切片。如果是 Markdown 那就简单了，以段落为维度切片，这样就能尽量保障每个片段的语意是相关的（语义分隔的任务其实就相当于交给了写 Markdown 的人）。
 
 ## 使用到的技术栈
 

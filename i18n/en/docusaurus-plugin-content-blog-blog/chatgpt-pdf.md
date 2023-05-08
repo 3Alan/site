@@ -24,7 +24,7 @@ Recently, with the release of relevant APIs by OpenAI, more and more AI applicat
 <!--truncate-->
 
 :::tip
-My new project [DocsMind](https://github.com/3Alan/DocsMind) has been open-sourced, supporting Markdown and PDF as well as Docker deployment. Welcome to give it a Star or submit a PR.
+🎉🎉 My new project [DocsMind](https://github.com/3Alan/DocsMind) has been open-sourced, supporting Markdown and PDF as well as Docker deployment. Welcome to give it a Star or submit a PR.
 :::
 
 Out of curiosity about the chatpdf principle, I started researching relevant applications on the market and wrote a simple demo for learning after a brief understanding, and familiarized myself with the use of OpenAI API.
@@ -48,6 +48,14 @@ The demo is the "GitHub Privacy Agreement" that I ran data in advance. Currently
 5. Convert the user's question to a vector.
 6. Use cosine similarity algorithm to compare the user's question vector with the vectors in the database to find the text fragment that is most similar to the question.
 7. Feed the text fragment to ChatGPT, let it answer the user's question based on these fragments.
+
+Here we only discuss the general principles. When it comes to actual coding, there are still some issues to consider:
+
+- How to extract text?
+
+- What is the dimension for slicing? How can we ensure that each segment is semantically related as much as possible?
+
+Since the extracted PDF text is all in words, we can only slice it by word count and use "sentences" as the dimension for segmentation. Here, we simply use `.` or `。` as separators for slicing. If it's Markdown, then it's easier - just slice by paragraph so that each segment can be semantically related (in fact, separating semantic tasks is like handing them over to those who write Markdown).
 
 ## Technology stack used
 
