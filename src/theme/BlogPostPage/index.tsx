@@ -18,6 +18,7 @@ import TOC from '@theme/TOC';
 import type { Props } from '@theme/BlogPostPage';
 import type { BlogSidebar } from '@docusaurus/plugin-content-blog';
 import Comment from '../../components/comment';
+import Donate from '../../components/donate';
 
 function BlogPostPageContent({
   children
@@ -46,6 +47,8 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>{children}</BlogPostItem>
+
+      <Donate />
 
       {(nextItem || prevItem) && (
         <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />

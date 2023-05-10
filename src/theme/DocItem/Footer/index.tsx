@@ -12,6 +12,7 @@ import TagsListInline, { Props as TagsListInlineProps } from '@theme/TagsListInl
 
 import styles from './styles.module.css';
 import References from '../../../components/references';
+import Donate from '../../../components/donate';
 
 function TagsRow(props: TagsListInlineProps) {
   return (
@@ -73,6 +74,8 @@ export default function DocItemFooter(): JSX.Element | null {
           lastUpdatedBy={lastUpdatedBy}
         />
       )}
+
+      <Donate />
     </footer>
   );
 }

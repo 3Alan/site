@@ -1,0 +1,9 @@
+$namespace: popover;
+
+.#{$namespace} {
+  &-content {
+    background-color: #2a2a2d;
+    padding: 15px;
+    border-radius: var(--ifm-global-radius);
+  }
+}

@@ -14,5 +14,9 @@
   "item.label.博文": {
     "message": "博文",
     "description": "Navbar item with label 博文"
+  },
+  "logo.alt": {
+    "message": "Alan|前端博客",
+    "description": "The alt text of navbar logo"
   }
 }
