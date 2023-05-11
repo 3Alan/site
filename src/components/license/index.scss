@@ -1,0 +1,12 @@
+$namespace: license;
+
+.#{$namespace} {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  margin-top: 10px;
+
+  a {
+    margin: 0 4px;
+  }
+}

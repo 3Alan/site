@@ -13,6 +13,7 @@ import TagsListInline, { Props as TagsListInlineProps } from '@theme/TagsListInl
 import styles from './styles.module.css';
 import References from '../../../components/references';
 import Donate from '../../../components/donate';
+import License from '../../../components/license';
 
 function TagsRow(props: TagsListInlineProps) {
   return (
@@ -76,6 +77,7 @@ export default function DocItemFooter(): JSX.Element | null {
       )}
 
       <Donate />
+      <License />
     </footer>
   );
 }

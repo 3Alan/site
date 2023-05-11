@@ -19,6 +19,7 @@ import type { Props } from '@theme/BlogPostPage';
 import type { BlogSidebar } from '@docusaurus/plugin-content-blog';
 import Comment from '../../components/comment';
 import Donate from '../../components/donate';
+import License from '../../components/license';
 
 function BlogPostPageContent({
   children
@@ -49,6 +50,7 @@ function BlogPostPageContent({
       <BlogPostItem>{children}</BlogPostItem>
 
       <Donate />
+      <License />
 
       {(nextItem || prevItem) && (
         <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />

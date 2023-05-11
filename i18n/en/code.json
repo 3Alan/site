@@ -403,5 +403,8 @@
   },
   "component.donate.label": {
     "message": "Buy me a coffee:"
+  },
+  "component.license.text": {
+    "message": "This article is licensed under the {link}."
   }
 }
