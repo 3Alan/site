@@ -1,0 +1,52 @@
+$namespace: site-card;
+
+.#{$namespace} {
+  display: block;
+  overflow: hidden;
+  width: 500px;
+  border-radius: 16px;
+  border: 1px solid var(--ifm-surface-border-color);
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &-img-wrap {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &-content {
+    padding: 12px;
+  }
+
+  &-desc {
+    display: block;
+    width: 100%;
+    color: var(--ifm-color-emphasis-400);
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .#{$namespace} {
+    width: 100%;
+  }
+}

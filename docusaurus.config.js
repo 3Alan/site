@@ -196,7 +196,7 @@ const config = {
         indexName: 'alanwang'
       },
       zoom: {
-        selector: '.markdown :not(em) > img',
+        selector: '.markdown :not(em, .site-card-img-wrap) > img',
         background: {
           light: 'rgb(255, 255, 255)',
           dark: 'rgb(50, 50, 50)'
