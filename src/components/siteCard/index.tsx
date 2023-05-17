@@ -3,7 +3,7 @@ import React from 'react';
 import './index.scss';
 
 interface SiteCardProps {
-  key: string;
+  name: string;
   url: string;
   title: string;
   description: string;
@@ -12,14 +12,14 @@ interface SiteCardProps {
 
 const cls = 'site-card';
 
-export default function SiteCard({ url, title, description, img, key }: SiteCardProps) {
+export default function SiteCard({ url, title, description, img, name }: SiteCardProps) {
   return (
     <Link
       className={cls}
       href={url}
       rel="external nofollow noopener noreferrer"
       data-umami-event="site-card"
-      data-umami-event-site={key}
+      data-umami-event-site={name}
     >
       <div className={`${cls}-img-wrap`}>
         <img src={img} alt={title} />

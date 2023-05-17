@@ -60,7 +60,8 @@ const config = {
       announcementBar: {
         id: 'friend_link',
         // content: '⭐️ 欢迎前来交换 🔗 <a rel="noopener noreferrer" href="/friends">友链</a>！'
-        content: '🔥🔥<a rel="noopener noreferrer" href="/blog/personal-chatgpt">利用 Vercel 搭建属于自己的 ChatGPT</a>'
+        // content: '🔥🔥<a rel="noopener noreferrer" href="/blog/personal-chatgpt">利用 Vercel 搭建属于自己的 ChatGPT</a>'
+        content: '🎉 <a rel="noopener noreferrer" href="/posts/source-analysis/mitt">Mitt 源码动画解析</a>'
       },
       navbar: {
         title: 'Alan',
@@ -117,8 +118,8 @@ const config = {
                 to: '/blog/chatgpt-pdf'
               },
               {
-                label: 'Mitt 源码动画解析',
-                to: '/posts/source-analysis/mitt'
+                label: '利用 Vercel 搭建属于自己的 ChatGPT',
+                to: '/blog/personal-chatgpt'
               },
               {
                 label: 'Docusaurus 评论功能',

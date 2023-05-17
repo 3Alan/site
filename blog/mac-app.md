@@ -21,10 +21,10 @@ import SiteCard from '../src/components/siteCard';
 
 ### Screen Studio
 
-动画非常丝滑，很多产品的宣传视频都是使用它来录制的，就是价格有点贵。
+动画非常丝滑，很多产品的宣传视频都是使用它来录制的，就是价格有点贵，不过是买断制。
 
 <SiteCard
-  key="Screen Studio"
+  name="Screen Studio"
   url="https://screenstudio.lemonsqueezy.com/?aff=WWEb9"
   title="Screen Recorder for macOS. Beautiful videos in minutes | Screen Studio"
   description="Screen Studio is a professional and simple to use screen recorder for macOS that lets you create professionally looking screen recordings & tutorial videos in minutes, without video editing skills needed. With Screen Studio, you can create professional-looking screencasts that are on par with those created by experienced video editors. Start recording your screen now and make your videos stand out with Screen Studio."
@@ -35,4 +35,12 @@ import SiteCard from '../src/components/siteCard';
 
 ### Arc
 
-颜值非常高的一款浏览器
+颜值非常高的一款浏览器，目前有 5 个邀请码，需要体验的请在下方留言
+
+## 开发工具
+
+### Termius
+
+[网址](https://termius.com/)
+
+一款 SSH 客户端，有免费版本，有 github 学生包的可以白嫖 Pro 版本
