@@ -44,3 +44,29 @@ import SiteCard from '../src/components/siteCard';
 [网址](https://termius.com/)
 
 一款 SSH 客户端，有免费版本，有 github 学生包的可以白嫖 Pro 版本
+
+## 生产力工具
+
+### Raycast
+
+绝对的生产力工具，所有操作都可以在一个搜索框内完成，Window 用户推荐 [utools](https://u.tools/)
+
+<SiteCard
+  name="Raycast"
+  url="https://www.raycast.com/"
+  title="Raycast - Supercharged productivity"
+  description="Raycast lets you control your tools with a few keystrokes. It's designed to keep you focused."
+  img="/img/mac/raycast.png"
+/>
+
+### Magnet
+
+[网址](https://magnet.crowdcafe.com/)
+
+一款分屏工具，可以将窗口分屏到屏幕的任意位置，支持快捷键，非常好用，不过收费 $9.9，上面的 Raycast 也提供了分屏功能，日常使用足够了
+
+### Snipaste
+
+[网址](https://www.snipaste.com/index.html)
+
+一款截屏工具，我一直都在用，支持 windows 和 mac

@@ -7,6 +7,7 @@ keywords:
   - chatgpt
   - chatgpt 私有化部署
   - chatgpt 部署
+  - chatgpt 搭建
 authors: Alan
 description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，可以在 Vercel 上部署，方便大家快速搭建属于自己的 ChatGPT，同时提供部署方法及安全建议，防止被有心人利用。
 ---
