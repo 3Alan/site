@@ -15,7 +15,7 @@ export default function Donate() {
       </span>
       <Popover>
         <PopoverTrigger asChild>
-          <IconButton>
+          <IconButton ariaLabel="Alipay">
             <FaAlipay color="#00a0e9" />
           </IconButton>
         </PopoverTrigger>
@@ -25,7 +25,7 @@ export default function Donate() {
       </Popover>
       <Popover>
         <PopoverTrigger asChild>
-          <IconButton>
+          <IconButton ariaLabel="Wechat">
             <FaWeixin color="#07c160" />
           </IconButton>
         </PopoverTrigger>
@@ -33,8 +33,8 @@ export default function Donate() {
           <img width={150} height={150} src="/img/qrcode/wechat.png" alt="wechat qrcode" />
         </PopoverContent>
       </Popover>
-      <IconButton href="https://ko-fi.com/N4N1L5Y7V">
-        <FaCoffee color="#ff5d5e" />
+      <IconButton ariaLabel="Kofi" href="https://ko-fi.com/N4N1L5Y7V">
+        <FaCoffee color="#ff5d5e" role="img" aria-label="Kofi" />
       </IconButton>
     </div>
   );
