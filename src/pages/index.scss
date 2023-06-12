@@ -20,26 +20,13 @@ $namespace: home-page;
 }
 
 .#{$namespace} {
-  &-intro {
-    display: flex;
-    align-items: center;
-    height: calc(100vh - var(--ifm-navbar-height));
-    position: relative;
-    overflow: hidden;
-  }
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: rgb(16, 16, 16);
 
-  &-intro-wrap {
-    display: flex;
-    justify-content: space-between;
-    z-index: 1;
-
-    p {
-      margin-bottom: 0;
-    }
-  }
-
-  &-code {
-    width: 500px;
+  main {
+    width: 900px;
   }
 
   &-center-title {
@@ -77,43 +64,50 @@ $namespace: home-page;
   }
 
   &-me {
+    padding-top: 100px;
     font-size: 24px;
 
     h1 {
-      font-size: 45px;
-      background: linear-gradient(to right, var(--ifm-color-primary), #23303d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       margin: 0.1rem 0;
-      margin-bottom: 1rem;
+      margin-bottom: 5px;
+
+      .#{$namespace} {
+        &-info {
+          display: block;
+          font-size: 24px;
+          font-weight: normal;
+        }
+
+        &-name {
+          font-size: 45px;
+          background: linear-gradient(to right, var(--ifm-color-primary), #23303d);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
     }
   }
 
-  &-gh-btn {
-    display: inline-flex;
-    align-items: center;
+  .hp-projects {
+    padding-top: 100px;
   }
 
-  &-github {
+  .btn {
     margin-right: 10px;
+  }
+
+  &-links {
+    padding-top: 20px;
+  }
+
+  &-desc {
+    font-size: 16px;
   }
 }
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 900px) {
   .#{$namespace} {
-    &-intro-wrap {
-      display: block;
-    }
-
-    .container {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-
-    &-code {
-      width: 100%;
-      margin-top: 30px;
-    }
+    padding: 0 25px;
 
     &-blog {
       margin-bottom: 80px;

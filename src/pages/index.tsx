@@ -1,15 +1,13 @@
 import React, { FC, ReactNode } from 'react';
-import Layout from '@theme/Layout';
-import CodeBlock from '@theme/CodeBlock';
-import { VscGithubInverted } from 'react-icons/vsc';
+import { VscGithubInverted, VscNotebook } from 'react-icons/vsc';
 import './index.scss';
-import Skills from '../components/homePageSkills';
-import AboutMe from '../components/homePageAboutMe';
 import Projects from '../components/homPageProjects';
 import RecentBlogs, { RecentBlogItem } from '../components/homePageRecentBlogs';
 import { useAllPluginInstancesData } from '@docusaurus/useGlobalData';
 import clsx from 'clsx';
+import Typed from 'typed.js';
 import Wave from '../components/wave';
+import Button from '../components/button';
 
 const cls = 'home-page';
 
@@ -20,12 +18,7 @@ interface HomePageSectionProps {
   hasWave?: boolean;
 }
 
-const HomePageSection: FC<HomePageSectionProps> = ({
-  content,
-  header,
-  footer,
-  hasWave
-}) => {
+const HomePageSection: FC<HomePageSectionProps> = ({ content, header, footer, hasWave }) => {
   return (
     <>
       {hasWave && <Wave />}
@@ -40,62 +33,69 @@ const HomePageSection: FC<HomePageSectionProps> = ({
 };
 
 function Intro(): JSX.Element {
-  return (
-    <div className={`${cls}-intro`}>
-      <div className={`container ${cls}-intro-wrap`}>
-        <div className={`${cls}-me`}>
-          <p>
-            <span className={`${cls}-info`}>👋</span> Hello, 我是
-          </p>
-          <h1>ALAN WANG</h1>
-          <a
-            href="https://github.com/3Alan"
-            target="_blank"
-            data-umami-event= 'github-link'
-            className={`button button--secondary ${cls}-gh-btn`}
-          >
-            <VscGithubInverted size={24} className={`${cls}-github`} />
-            <span>Github</span>
-          </a>
-        </div>
+  const typingElement = React.useRef(null);
+  const descElement = React.useRef(null);
 
-        <CodeBlock title="About" className={`${cls}-code`} language="js">
-          {`const siteInfo = {
-  maintainer: {
-    name: 'Alan',
-    github: 'https://github.com/3Alan',
-    stacks: ['React', 'Typescript', 'Sass', 'Node']
-  },
-  category: 'blog',
-  stacks: ['Docusaurus', 'Algolia', 'Vercel']
-}
-`}
-        </CodeBlock>
+  React.useEffect(() => {
+    const typed = new Typed(typingElement.current, {
+      stringsElement: descElement.current,
+      typeSpeed: 35,
+      loop: true,
+      backDelay: 1500
+    });
+
+    return () => {
+      // Destroy Typed instance during cleanup to stop animation
+      typed.destroy();
+    };
+  }, []);
+
+  return (
+    <div className={`${cls}-me`}>
+      <h1>
+        <span className={`${cls}-info`}>
+          <span>👋</span> Hello, 我是
+        </span>
+        <span className={`${cls}-name`}>ALAN WANG</span>
+      </h1>
+
+      <span className={`${cls}-desc`} ref={typingElement} />
+
+      <div ref={descElement}>
+        <span>前端开发</span>
+        <span>技术栈： React, Typescript, Sass, Node</span>
+        <span>开源爱好者</span>
+      </div>
+
+      <div className={`${cls}-links`}>
+        <Button
+          href="https://github.com/3Alan"
+          trackName="github-link"
+          icon={<VscGithubInverted size={14} />}
+          target="_blank"
+        >
+          Github
+        </Button>
+        <Button href="/blog" icon={<VscNotebook size={14} />}>
+          Blog
+        </Button>
       </div>
     </div>
   );
 }
 
 export default function Home(): JSX.Element {
-  const { blog } = useAllPluginInstancesData(
-    'docusaurus-plugin-content-blog'
-  ) as { blog: { recentBlogs: RecentBlogItem[] } };
+  const { blog } = useAllPluginInstancesData('docusaurus-plugin-content-blog') as {
+    blog: { recentBlogs: RecentBlogItem[] };
+  };
 
   return (
-    <Layout description="一个专注于前端开发的小白，分享前端开发知识/教程">
-      <div className={cls}>
-        <main>
-          <Intro />
-          <HomePageSection content={<AboutMe />} hasWave />
-          <HomePageSection content={<Projects />} />
-          <HomePageSection content={<Skills />} hasWave />
-          <HomePageSection
-            content={
-              <RecentBlogs items={blog.recentBlogs} className={`${cls}-blog`} />
-            }
-          />
-        </main>
-      </div>
-    </Layout>
+    <div className={cls}>
+      <main>
+        <Intro />
+        <Projects />
+        <RecentBlogs items={blog.recentBlogs} className={`${cls}-blog`} />
+      </main>
+    </div>
   );
 }

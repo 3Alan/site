@@ -2,47 +2,40 @@ $namespace: hp-blog;
 
 .#{$namespace} {
   &-title {
-    padding-bottom: 46px;
+    padding-top: 100px;
+    padding-bottom: 50px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 
     a {
-      padding: 4px 12px;
-      border-radius: 4px;
       text-decoration: none;
+      color: #e0e0e0;
 
       &:hover {
-        background-color: var(--ifm-background-surface-color);
+        color: var(--ifm-link-color);
       }
     }
 
     h2 {
-      font-size: 26px;
+      font-size: 24px;
       margin: 0;
     }
   }
 
-  &-wrap {
+  &-item {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    padding: 20px 0;
+    border-top: 1px solid rgb(36, 36, 36);
 
-    .a-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin: 10px;
-      min-width: 300px;
-      flex: 1;
+    a {
+      color: #e0e0e0;
+    }
 
-      &:first-child {
-        margin-left: 0;
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
+    time {
+      font-size: 14px;
+      color: #9f9f9f;
     }
   }
 
@@ -55,15 +48,5 @@ $namespace: hp-blog;
 
 @media screen and (max-width: 996px) {
   .#{$namespace} {
-    &-wrap {
-      .a-card {
-        width: 100%;
-        margin: 0 0 20px 0;
-
-        &:last-child {
-          margin: 0;
-        }
-      }
-    }
   }
 }

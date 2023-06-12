@@ -11,7 +11,7 @@ async function blogPluginEnhanced(...pluginArgs) {
         content: { blogPosts },
         actions: { setGlobalData }
       } = contentLoadedArgs;
-      const recentBlogs = [...blogPosts].splice(0, 3).map(({ metadata }) => ({
+      const recentBlogs = [...blogPosts].splice(0, 5).map(({ metadata }) => ({
         date: metadata.date,
         formattedDate: metadata.formattedDate,
         title: metadata.title,

@@ -1,0 +1,28 @@
+$namespace: btn;
+
+.#{$namespace} {
+  &-anchor {
+    display: inline-flex;
+    align-items: center;
+    background-color: rgb(30, 30, 30);
+    text-decoration: none;
+    color: rgb(246, 246, 246);
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+  
+    &:hover {
+      text-decoration: none;
+      color: rgb(246, 246, 246);
+      background-color: rgb(40, 40, 40);
+    }
+  }
+
+  &-icon {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+}
