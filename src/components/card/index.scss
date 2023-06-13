@@ -34,3 +34,18 @@ $namespace: a-card;
     color: #e0e0e0;
   }
 }
+
+@media screen and (max-width: 996px) {
+  .#{$namespace} {
+    padding: 20px;
+
+    a {
+      font-size: 14px;
+    }
+
+    &-desc {
+      font-size: 12px;
+    }
+  }
+}
+

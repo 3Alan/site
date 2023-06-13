@@ -56,7 +56,7 @@ function Intro(): JSX.Element {
   }, []);
 
   const toggleLanguage = () => {
-    history.push(location.pathname === '/' ? '/en/' : '/');
+    window.location.href = location.pathname === '/' ? '/en/' : '/';
   };
 
   return (
@@ -70,7 +70,7 @@ function Intro(): JSX.Element {
 
       <span className={`${cls}-desc`} ref={typingElement} />
 
-      <div ref={descElement}>
+      <div ref={descElement} className={`${cls}-desc-list`}>
         <span>
           <Translate id="home.intro.desc1">前端开发</Translate>
         </span>
