@@ -8,6 +8,9 @@ import clsx from 'clsx';
 import Typed from 'typed.js';
 import Wave from '../components/wave';
 import Button from '../components/button';
+import { FaLanguage } from 'react-icons/fa';
+import { useHistory, useLocation } from '@docusaurus/router';
+import Translate from '@docusaurus/Translate';
 
 const cls = 'home-page';
 
@@ -33,6 +36,8 @@ const HomePageSection: FC<HomePageSectionProps> = ({ content, header, footer, ha
 };
 
 function Intro(): JSX.Element {
+  const history = useHistory();
+  const location = useLocation();
   const typingElement = React.useRef(null);
   const descElement = React.useRef(null);
 
@@ -50,11 +55,15 @@ function Intro(): JSX.Element {
     };
   }, []);
 
+  const toggleLanguage = () => {
+    history.push(location.pathname === '/' ? '/en/' : '/');
+  };
+
   return (
     <div className={`${cls}-me`}>
       <h1>
         <span className={`${cls}-info`}>
-          <span>👋</span> Hello, 我是
+          <span>👋</span> <Translate id="home.intro.info">Hello, 我是</Translate>
         </span>
         <span className={`${cls}-name`}>ALAN WANG</span>
       </h1>
@@ -62,9 +71,17 @@ function Intro(): JSX.Element {
       <span className={`${cls}-desc`} ref={typingElement} />
 
       <div ref={descElement}>
-        <span>前端开发</span>
-        <span>技术栈： React, Typescript, Sass, Node</span>
-        <span>开源爱好者</span>
+        <span>
+          <Translate id="home.intro.desc1">前端开发</Translate>
+        </span>
+        {'  '}
+        <span>
+          <Translate id="home.intro.desc2">技术栈： React, Typescript, Sass, Node</Translate>
+        </span>
+        {'  '}
+        <span>
+          <Translate id="home.intro.desc3">开源爱好者</Translate>
+        </span>
       </div>
 
       <div className={`${cls}-links`}>
@@ -79,6 +96,7 @@ function Intro(): JSX.Element {
         <Button href="/blog" icon={<VscNotebook size={14} />}>
           Blog
         </Button>
+        <Button icon={<FaLanguage size={18} />} onClick={toggleLanguage}></Button>
       </div>
     </div>
   );

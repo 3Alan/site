@@ -142,10 +142,6 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/3Alan'
-              },
-              {
-                label: 'Email',
-                href: 'mailto:1540703192@qq.com'
               }
             ]
           }

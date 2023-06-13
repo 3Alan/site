@@ -2,6 +2,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import './index.scss';
 import clsx from 'clsx';
+import Translate from '@docusaurus/Translate';
 
 export interface RecentBlogItem {
   id: string;
@@ -31,13 +32,17 @@ const RecentBlogs = ({ items, className }: RecentBlogsProps) => {
   return (
     <section className={clsx(cls, className)}>
       <div className={`${cls}-title`}>
-        <h2 id="recent-blogs">最新博文</h2>
-        <Link to="/blog">查看全部 →</Link>
+        <h2 id="recent-blogs">
+          <Translate id="home.blogs.title">最新博文</Translate>
+        </h2>
+        <Link to="/blog">
+          <Translate id="home.blogs.viewMore">查看全部 →</Translate>
+        </Link>
       </div>
 
       <div className={`${cls}-wrap`}>
-        {items.map(({ permalink, title, date, formattedDate, readingTime }) => (
-          <div className={`${cls}-item`}>
+        {items.map(({ permalink, title, date, formattedDate }) => (
+          <div className={`${cls}-item`} key={permalink}>
             <a href={permalink}>{title}</a>
 
             <Date date={date} formattedDate={formattedDate} />

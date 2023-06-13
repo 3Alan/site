@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import Card from '../card';
 import './index.scss';
+import Translate from '@docusaurus/Translate';
 
 const cls = 'hp-projects';
 
@@ -41,7 +42,7 @@ const Projects: FC<ProjectsProps> = ({ className }) => {
   return (
     <section className={clsx(cls, className)}>
       <h2 id="my-projects" className={`${cls}-title`}>
-        项目
+        <Translate id="home.projects.title">项目</Translate>
       </h2>
 
       <div className={`${cls}-wrap`}>

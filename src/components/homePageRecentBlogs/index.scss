@@ -36,6 +36,9 @@ $namespace: hp-blog;
     time {
       font-size: 14px;
       color: #9f9f9f;
+      width: 100px;
+      margin-left: 10px;
+      flex-shrink: 0;
     }
   }
 
@@ -48,5 +51,8 @@ $namespace: hp-blog;
 
 @media screen and (max-width: 996px) {
   .#{$namespace} {
+    time {
+      font-size: 12px;
+    }
   }
 }

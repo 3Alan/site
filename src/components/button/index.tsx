@@ -1,5 +1,6 @@
 import React, { forwardRef, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode } from 'react';
 import './index.scss';
+import clsx from 'clsx';
 
 const cls = 'btn';
 
@@ -25,7 +26,7 @@ const Button = forwardRef<any, ButtonProps>(
           className={`${cls} ${cls}-anchor`}
         >
           <span className={`${cls}-icon`}>{icon}</span>
-          <span>{children}</span>
+          {children && <span className={clsx({ [`${cls}-text-gap`]: icon })}>{children}</span>}
         </a>
       );
     }
@@ -40,13 +41,8 @@ const Button = forwardRef<any, ButtonProps>(
         onClick={onClick}
         disabled={disabled}
       >
-        {href ? (
-          <a className={cls} href={href} rel="noopener noreferrer" target="__blank">
-            {children}
-          </a>
-        ) : (
-          children
-        )}
+        <span className={`${cls}-icon`}>{icon}</span>
+        {children && <span className={clsx({ [`${cls}-text-gap`]: icon })}>{children}</span>}
       </button>
     );
   }

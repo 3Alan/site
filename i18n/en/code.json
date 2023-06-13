@@ -406,5 +406,26 @@
   },
   "component.license.text": {
     "message": "This article is licensed under the {link}."
+  },
+  "home.intro.info": {
+    "message": "Hello, I'm"
+  },
+  "home.intro.desc1": {
+    "message": "Front-end Developer"
+  },
+  "home.intro.desc2": {
+    "message": "Skills:  React, Typescript, Sass, Node"
+  },
+  "home.intro.desc3": {
+    "message": "OpenSource Enthusiast"
+  },
+  "home.projects.title": {
+    "message": "Side Projects"
+  },
+  "home.blogs.title": {
+    "message": "Latest Blogs"
+  },
+  "home.blogs.viewMore": {
+    "message": "View All →"
   }
 }
