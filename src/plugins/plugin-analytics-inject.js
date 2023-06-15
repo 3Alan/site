@@ -1,11 +1,12 @@
 async function analyticsInjectPlugin() {
   const isProd = process.env.NODE_ENV === 'production';
+  const enable = !!process.env.ENABLE_ANALYTICS
 
   return {
     name: 'docusaurus-analytics-inject-plugin',
 
     injectHtmlTags() {
-      if (!isProd) {
+      if (!isProd || !enable) {
         return {};
       }
       return {
