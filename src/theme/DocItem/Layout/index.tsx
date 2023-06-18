@@ -15,6 +15,8 @@ import type { Props } from '@theme/DocItem/Layout';
 
 import styles from './styles.module.css';
 import Comment from '../../../components/comment';
+import { OutDated } from '../../../components/outdated';
+import getFormatDate from '../../../utils/getFormatDate';
 
 /**
  * Decide if the toc should be rendered, on mobile or desktop viewports
@@ -43,7 +45,7 @@ function useDocTOC() {
 export default function DocItemLayout({ children }: Props): JSX.Element {
   const docTOC = useDocTOC();
   const { frontMatter } = useDoc();
-  const { hide_comment: hideComment } = frontMatter;
+  const { hide_comment: hideComment, out_dated: outDated, date, updated } = frontMatter;
 
   return (
     <div className="row">
@@ -54,7 +56,12 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
             <DocBreadcrumbs />
             <DocVersionBadge />
             {docTOC.mobile}
-            <DocItemContent>{children}</DocItemContent>
+            <DocItemContent>
+              <>
+                {outDated && <OutDated date={getFormatDate(updated || date)} />}
+                {children}
+              </>
+            </DocItemContent>
             <DocItemFooter />
           </article>
           <DocItemPaginator />

@@ -17,6 +17,7 @@ keywords:
   - RX6600
 authors: Alan
 description: Hackintosh B460M-MORTAR WIFI 黑苹果安装教程
+out_dated: true
 ---
 
 Hackintosh B460M-MORTAR WIFI + i5-10400 黑苹果安装

@@ -2,8 +2,6 @@ async function analyticsInjectPlugin() {
   const isProd = process.env.NODE_ENV === 'production';
   const enable = !!process.env.ENABLE_ANALYTICS;
 
-  console.log(process.env);
-
   return {
     name: 'docusaurus-analytics-inject-plugin',
 

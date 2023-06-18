@@ -1,9 +1,6 @@
 import React, { ReactNode } from 'react';
 import clsx from 'clsx';
-import {
-  HtmlClassNameProvider,
-  ThemeClassNames
-} from '@docusaurus/theme-common';
+import { HtmlClassNameProvider, ThemeClassNames } from '@docusaurus/theme-common';
 
 import {
   BlogPostProvider,
@@ -20,6 +17,8 @@ import type { BlogSidebar } from '@docusaurus/plugin-content-blog';
 import Comment from '../../components/comment';
 import Donate from '../../components/donate';
 import License from '../../components/license';
+import { OutDated } from '../../components/outdated';
+import getFormatDate from '../../utils/getFormatDate';
 
 function BlogPostPageContent({
   children
@@ -33,7 +32,10 @@ function BlogPostPageContent({
     hide_table_of_contents: hideTableOfContents,
     toc_min_heading_level: tocMinHeadingLevel,
     toc_max_heading_level: tocMaxHeadingLevel,
-    hide_comment: hideComment
+    hide_comment: hideComment,
+    out_dated: outDated,
+    date,
+    updated
   } = frontMatter;
   return (
     <BlogLayout
@@ -47,15 +49,13 @@ function BlogPostPageContent({
         ) : undefined
       }
     >
-      <BlogPostItem>{children}</BlogPostItem>
-
+      <BlogPostItem>
+        {outDated && <OutDated date={getFormatDate(updated || date)} />}
+        {children}
+      </BlogPostItem>
       <Donate />
       <License />
-
-      {(nextItem || prevItem) && (
-        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-      )}
-
+      {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
       {!hideComment && <Comment />}
     </BlogLayout>
   );
@@ -66,10 +66,7 @@ export default function BlogPostPage(props: Props): JSX.Element {
   return (
     <BlogPostProvider content={props.content} isBlogPostPage>
       <HtmlClassNameProvider
-        className={clsx(
-          ThemeClassNames.wrapper.blogPages,
-          ThemeClassNames.page.blogPostPage
-        )}
+        className={clsx(ThemeClassNames.wrapper.blogPages, ThemeClassNames.page.blogPostPage)}
       >
         <BlogPostPageMetadata />
         <BlogPostPageContent sidebar={props.sidebar}>
