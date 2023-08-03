@@ -20,6 +20,13 @@ const friendList: FriendItem[] = [
     url: 'https://kuizuo.cn',
     description: '记录所学知识，领略编程之美',
     tags: ['前端开发', 'ts全栈']
+  },
+  {
+    title: '太空编程',
+    avatar: '/img/friends/spacexcode.png',
+    url: 'https://spacexcode.com',
+    description: '分享硬核的前端编程知识',
+    tags: ['前端开发']
   }
 ];
 
