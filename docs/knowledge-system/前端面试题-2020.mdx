@@ -452,13 +452,24 @@ https://zh.javascript.info/promise-basics
       }
 
       // 防抖
-      function debounce(func, wait) {
+      function debounce(func, wait, immediate) {
         let timer = 0;
         return function (...args) {
           if (timer) clearTimeout(timer);
-          timer = setTimeout(() => {
-            func.apply(this, args);
-          }, wait);
+
+          if (immediate) {
+            if (!timer) {
+              func.apply(this, args);
+            }
+
+            timer = setTimeout(() => {
+              timer = null;
+            }, wait);
+          } else {
+            timer = setTimeout(() => {
+              func.apply(this, args);
+            }, wait);
+          }
         };
       }
 
