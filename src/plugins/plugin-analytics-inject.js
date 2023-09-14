@@ -27,6 +27,16 @@ async function analyticsInjectPlugin() {
               'data-website-id': '3c9011ac-8d0f-4d31-a658-8b3806e3d5d4'
             }
           },
+          ,
+          // 谷歌广告
+          {
+            tagName: 'script',
+            attributes: {
+              async: true,
+              src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4713657320590781',
+              crossorigin: 'anonymous'
+            }
+          },
           // 微软 clarity，尝试使用
           `
           <script type="text/javascript">
