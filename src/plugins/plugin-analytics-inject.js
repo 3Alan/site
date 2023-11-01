@@ -29,14 +29,14 @@ async function analyticsInjectPlugin() {
           },
           ,
           // 谷歌广告
-          {
-            tagName: 'script',
-            attributes: {
-              async: true,
-              src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4713657320590781',
-              crossorigin: 'anonymous'
-            }
-          },
+          // {
+          //   tagName: 'script',
+          //   attributes: {
+          //     async: true,
+          //     src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4713657320590781',
+          //     crossorigin: 'anonymous'
+          //   }
+          // },
           // 微软 clarity，尝试使用
           `
           <script type="text/javascript">

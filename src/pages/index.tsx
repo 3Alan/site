@@ -9,34 +9,12 @@ import Typed from 'typed.js';
 import Wave from '../components/wave';
 import Button from '../components/button';
 import { FaLanguage } from 'react-icons/fa';
-import { useHistory, useLocation } from '@docusaurus/router';
+import { useLocation } from '@docusaurus/router';
 import Translate from '@docusaurus/Translate';
 
 const cls = 'home-page';
 
-interface HomePageSectionProps {
-  content: ReactNode;
-  header?: ReactNode;
-  footer?: ReactNode;
-  hasWave?: boolean;
-}
-
-const HomePageSection: FC<HomePageSectionProps> = ({ content, header, footer, hasWave }) => {
-  return (
-    <>
-      {hasWave && <Wave />}
-      <div className={clsx({ [`${cls}-wave-bg`]: hasWave })}>
-        {header}
-        <div className="container">{content}</div>
-        {footer}
-      </div>
-      {hasWave && <Wave isBottom className={`${cls}-b-wave`} />}
-    </>
-  );
-};
-
 function Intro(): JSX.Element {
-  const history = useHistory();
   const location = useLocation();
   const typingElement = React.useRef(null);
   const descElement = React.useRef(null);
@@ -96,7 +74,11 @@ function Intro(): JSX.Element {
         <Button href="/blog" icon={<VscNotebook size={14} />}>
           Blog
         </Button>
-        <Button icon={<FaLanguage size={18} />} onClick={toggleLanguage}></Button>
+        <Button
+          ariaLabel="language"
+          icon={<FaLanguage size={18} />}
+          onClick={toggleLanguage}
+        ></Button>
       </div>
     </div>
   );
