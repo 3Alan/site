@@ -139,8 +139,8 @@ module.exports = {
 
 上面这个例子可以直接使用`myLoader`名，webpack 会在`node_modules` 和`./loaders`中寻找对应的 Loader。
 
-:::info
-warning , 自定义的 loader 中不要使用箭头函数，会产生 this 指向问题
+:::warning
+自定义的 loader 中不要使用箭头函数，会产生 this 指向问题
 :::
 
 ### 手写简单的 Plugin
