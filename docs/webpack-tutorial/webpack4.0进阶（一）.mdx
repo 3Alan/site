@@ -54,12 +54,10 @@ export function notUsed() {
 
 Tree Shaking 可以帮我们解决这个问题。
 
-<Admonition type="caution">
+<Admonition type="danger">
   <div>1.Tree Shaking只在production模式下生效。</div>
   <div>2.只支持ES Module 语法（import），不支持CommonJs</div>
 </Admonition>
-
-{% tabs 2 %}
 
 <!-- tab package.json -->
 
@@ -90,8 +88,6 @@ optimization: {
 ```
 
 <!-- endtab -->
-
-{% endtabs%}
 
 ### 开发环境和生产环境配置文件
 
@@ -251,7 +247,9 @@ dist
 
 ```js
 async function createElement() {
-  const { default: _ } = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  const { default: _ } = await import(
+    /* webpackChunkName: "lodash" */ 'lodash'
+  );
   const element = document.createElement('div');
   element.innerHTML = _.compact([0, 1, false, 2, '', 3]);
   return element;
@@ -278,7 +276,9 @@ dist
 
 当然可以通过其他配置来设置打包后的文件名称。
 
-{%note success, 代码分割[更多配置](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)%}
+:::tip
+代码分割[更多配置](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)
+:::
 
 ### 打包分析工具
 
@@ -306,9 +306,11 @@ index.js
 
 ```js
 document.addEventListener('click', () => {
-  import(/* webpackPrefetch: true */ './loginModal.js').then(({ default: login }) => {
-    login();
-  });
+  import(/* webpackPrefetch: true */ './loginModal.js').then(
+    ({ default: login }) => {
+      login();
+    }
+  );
 });
 ```
 
@@ -345,8 +347,6 @@ body {
   background: #e65;
 }
 ```
-
-{% tabs 3 %}
 
 <!-- tab webpack.common.js -->
 
@@ -458,8 +458,6 @@ module.exports = merge(commonConfig, prodConfig);
 
 <!-- endtab -->
 
-{% endtabs %}
-
 也可以使用**[optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin)**来压缩 css 代码
 
 ### 配置 output 解决浏览器 cache 问题
@@ -482,8 +480,6 @@ output: {
 
 看一个场景，假设 library.js 是一个比较老的第三方库。
 
-{% tabs 6 %}
-
 <!-- tab index.js -->
 
 ```js
@@ -500,17 +496,26 @@ createText();
 ```js
 // 这个第三方库中使用到了loadsh，但是并没有引入lodash
 export function createText() {
-  document.getElementById('root').innerHTML = _.compact([0, 1, false, 2, '', 3]);
+  document.getElementById('root').innerHTML = _.compact([
+    0,
+    1,
+    false,
+    2,
+    '',
+    3
+  ]);
 }
 ```
 
 <!-- endtab -->
 
-{% endtabs %}
-
 `npm run dev`打包后浏览器报错
 
-{%note error, Uncaught ReferenceError: _ is not defined%}
+:::warning
+
+Uncaught ReferenceError: \_ is not defined
+
+:::
 
 如果`library.js`是我们自己写的库那还好说，直接自己手动引入 lodash 就可以了。但是由于是第三方库，源文件是在 node_module 中的，不利于修改，这个时候就可以用**shimming**来解决了。
 

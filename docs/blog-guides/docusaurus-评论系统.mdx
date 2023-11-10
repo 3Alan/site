@@ -69,7 +69,11 @@ export function onRouteDidUpdate() {
 import React, { forwardRef, useEffect, useState } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Giscus, { GiscusProps } from '@giscus/react';
-import { useThemeConfig, useColorMode, ThemeConfig } from '@docusaurus/theme-common';
+import {
+  useThemeConfig,
+  useColorMode,
+  ThemeConfig
+} from '@docusaurus/theme-common';
 interface CustomThemeConfig extends ThemeConfig {
   giscus: GiscusProps & { darkTheme: string };
 }
@@ -132,7 +136,7 @@ Docusaurus 页面分为文档和博客，自己根据需求 Swizzling 对应的�
 yarn run swizzle @docusaurus/theme-classic DocItem/Layout -- --eject --typescript
 ```
 
-:::caution
+:::warning
 
 因为我的项目是基于 typescript 的，如果你的项目是 javascript 的话，则不需要加后面的 --typescript
 
@@ -225,7 +229,10 @@ yarn run swizzle @docusaurus/theme-classic BlogPostPage -- --eject --typescript
 ```tsx title="src/theme/BlogPostPage/index.tsx"
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
-import { HtmlClassNameProvider, ThemeClassNames } from '@docusaurus/theme-common';
+import {
+  HtmlClassNameProvider,
+  ThemeClassNames
+} from '@docusaurus/theme-common';
 
 import {
   BlogPostProvider,
@@ -273,7 +280,9 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>{children}</BlogPostItem>
-      {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
+      {(nextItem || prevItem) && (
+        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+      )}
       // highlight-add-line
       {!hideComment && <Comment />}
     </BlogLayout>
@@ -285,7 +294,10 @@ export default function BlogPostPage(props: Props): JSX.Element {
   return (
     <BlogPostProvider content={props.content} isBlogPostPage>
       <HtmlClassNameProvider
-        className={clsx(ThemeClassNames.wrapper.blogPages, ThemeClassNames.page.blogPostPage)}
+        className={clsx(
+          ThemeClassNames.wrapper.blogPages,
+          ThemeClassNames.page.blogPostPage
+        )}
       >
         <BlogPostPageMetadata />
         <BlogPostPageContent sidebar={props.sidebar}>
@@ -297,7 +309,7 @@ export default function BlogPostPage(props: Props): JSX.Element {
 }
 ```
 
-:::caution
+:::warning
 
 Swizzling 后需要重新运行 Docusaurus ，不然是无法看到效果的
 

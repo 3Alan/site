@@ -38,8 +38,6 @@ myLoader
  └── webpack.config.js
 ```
 
-{% tabs 1 %}
-
 <!-- tab index.js -->
 
 ```js
@@ -91,8 +89,6 @@ module.exports = function (source) {
 
 <!-- endtab -->
 
-{% endtabs %}
-
 这个例子非常简单，就是通过自建的 loader 将项目中的**webpack**字符串替换成 webpack 中配置的字符串。`myLoader.js`中可以通过`this.query`接受 webpack 中配置的 options 参数。更多 this 上的[属性参考](https://webpack.js.org/api/loaders/#the-loader-context)（包括异步处理、回调...）
 
 上面的例子通过打包后代码如下
@@ -143,7 +139,9 @@ module.exports = {
 
 上面这个例子可以直接使用`myLoader`名，webpack 会在`node_modules` 和`./loaders`中寻找对应的 Loader。
 
-{% note warning , 自定义的loader中不要使用箭头函数，会产生this指向问题 %}
+:::info
+warning , 自定义的 loader 中不要使用箭头函数，会产生 this 指向问题
+:::
 
 ### 手写简单的 Plugin
 
@@ -162,8 +160,6 @@ myPlugin
 [complier 提供了许多钩子](https://webpack.js.org/api/compiler-hooks/)，可以让我们在打包的不同时刻来进行不同的处理，这里使用了`emit`钩子
 
 下面通过手写的 plugin 来实现在 dist 目录下生成一个`author.txt`文件
-
-{% tabs 2 %}
 
 <!-- tab date-webpack-plugin.js -->
 
@@ -221,8 +217,6 @@ module.exports = {
 
 <!-- endtab -->
 
-{% endtabs %}
-
 打包后会在 dist 目录下自动生成一个 author.txt 文件，内容如下
 
 ```
@@ -264,8 +258,6 @@ bundler
      └── learn.js
 ```
 
-{% tabs 3 %}
-
 <!-- tab index.js -->
 
 ```js
@@ -295,8 +287,6 @@ export const course = 'webpack';
 ```
 
 <!-- endtab -->
-
-{% endtabs %}
 
 我将整个项目拆分成 2 个部分来分析
 
@@ -370,7 +360,10 @@ const moduleAnalysis = filename => {
       // 文件对应目录./src
       const dirPath = path.dirname(filename);
       // 绝对路径./src/learn.js(window操作系统)
-      let filePath = ('./' + path.join(dirPath, node.source.value)).replace('\\', '/');
+      let filePath = ('./' + path.join(dirPath, node.source.value)).replace(
+        '\\',
+        '/'
+      );
       dependencies[node.source.value] = filePath;
       // { './learn.js': './src/learn.js' }
       console.log(dependencies);
@@ -394,7 +387,7 @@ moduleAnalysis('./src/index.js');
 
 上面已经分析出了入口文件的一些依赖，接下来可以通过递归遍历来分析出所有的文件依赖并保存在变量中，先分析一些经过上面函数处理后的数据
 
-```json
+```js
 {
   filename: './src/index.js',
   dependencies: { './learn.js': './src/learn.js' },
@@ -438,7 +431,7 @@ const analysisDependenciesGraph = entry => {
 
 分析出的所有依赖对象
 
-```json
+```js
 {
   './src/index.js': {
     dependencies: { './learn.js': './src/learn.js' },
@@ -531,7 +524,10 @@ const moduleAnalysis = filename => {
       // 文件对应目录./src
       const dirPath = path.dirname(filename);
       // 绝对路径./src/learn.js(window操作系统)
-      let filePath = ('./' + path.join(dirPath, node.source.value)).replace('\\', '/');
+      let filePath = ('./' + path.join(dirPath, node.source.value)).replace(
+        '\\',
+        '/'
+      );
       dependencies[node.source.value] = filePath;
       // { './learn.js': './src/learn.js' }
       console.log(dependencies);

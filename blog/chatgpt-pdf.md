@@ -78,7 +78,7 @@ Embedding 是一种将离散数据（例如单词、字符、图像等）转换�
 
 ## 如何在本地运行 Demo
 
-:::caution
+:::warning
 请确保你能正常访问 https://api.openai.com
 
 ```bash
@@ -132,7 +132,7 @@ yarn dev
 
 然后上传你的 pdf 并点击 start reading，这将耗费一定的时间（取决于你的 pdf 大小），在这期间你可以通过打开浏览器控制台查看 network 请求。
 
-:::caution
+:::warning
 如果你的文件过大，由于 openai 的 rate limit 你可能失败
 :::
 

@@ -53,7 +53,9 @@ tsc --version
 ```
 
 我安装后出现了以下问题：
+
 ![image-20200614175730166](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200614175730166.png)
+
 这种情况只需要以管理员的身份打开命令行运行以下命令：
 
 ```
@@ -135,7 +137,7 @@ TypeScript 支持与 JavaScript 几乎相同的数据类型
 - boolean(布尔值)
 - number(数值)
 - string(字符串)
-- []/Array<元素类型>(数组)
+- `[]/Array<元素类型>(数组)`
 - 元组 Tuple
 - enum(枚举)
 - any(任何值)
@@ -331,8 +333,10 @@ interface worker {
   seniority: number;
 }
 function Recruit(candidate: worker | student): void {
-  'education' in candidate && console.log(`your education is ${candidate.education}`);
-  'seniority' in candidate && console.log(`your seniority is ${candidate.seniority}`);
+  'education' in candidate &&
+    console.log(`your education is ${candidate.education}`);
+  'seniority' in candidate &&
+    console.log(`your seniority is ${candidate.seniority}`);
 }
 
 const a: student = { isStudent: true, education: 4 };
@@ -449,7 +453,11 @@ interface attendanceFunc {
   (name: string, startTime: number, endTime: number): boolean;
 }
 let checkAttendance: attendanceFunc;
-checkAttendance = function (name: string, startTime: number, endTime: number): boolean {
+checkAttendance = function (
+  name: string,
+  startTime: number,
+  endTime: number
+): boolean {
   let result = startTime < 9 && endTime > 18;
   return result;
 };
@@ -598,7 +606,7 @@ console.log(bird);
 
 > 泛型（Generics）是指在定义函数、接口或类的时候，**不预先指定**具体的类型，而在**使用的时候**再指定类型的一种特性。
 
-### 函数用法：<泛型名>
+### 函数用法：`<泛型名>`
 
 ```tsx
 function Recruit<T>(name: string, props: T) {
@@ -622,7 +630,11 @@ interface Address {
   province: string;
 }
 
-function Recruit<C extends Contact, A extends Address>(name: string, contact: C, address: A) {
+function Recruit<C extends Contact, A extends Address>(
+  name: string,
+  contact: C,
+  address: A
+) {
   return `${name}'s mobile is ${contact.mobile}, live in ${address.province}`;
 }
 
