@@ -15,7 +15,7 @@ authors: Alan
 description: Analyzing the implementation of chatpdf, using OpenAI API to convert PDF text fragments into vectors, and using cosine similarity algorithm to match user questions and text fragments, thus implementing Q&A for long texts.
 ---
 
-:::caution
+:::warning
 The English translation was done by chatgpt.
 :::
 
@@ -83,7 +83,7 @@ In the ChatGPT PDF project, we first calculate the cosine similarity between the
 
 ## How to Run Demo Locally
 
-:::caution
+:::warning
 Please make sure that you can access https://api.openai.com normally.
 
 ```bash
@@ -137,7 +137,7 @@ After completing the above steps, you will see
 
 Then upload your PDF and click "Start Reading". This will take some time (depending on the size of your PDF), during which you can view network requests by opening the browser console.
 
-:::caution
+:::warning
 If your file is too large, you may fail due to OpenAI's rate limit.
 :::
 

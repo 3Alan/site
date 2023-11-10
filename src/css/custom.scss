@@ -57,7 +57,7 @@ html[data-theme='dark'] {
   }
 
   // from github
-  .theme-admonition-caution {
+  .theme-admonition-warning {
     background-color: rgba(187, 128, 9, 0.15);
     border: 1px solid rgba(187, 128, 9, 0.4);
   }
@@ -131,6 +131,7 @@ div[class*='codeBlockTitle'] {
 }
 pre[class*='codeBlock'] {
   font-size: 14px;
+  background-color: rgb(36, 36, 40) !important;
 }
 
 .footer--dark {
