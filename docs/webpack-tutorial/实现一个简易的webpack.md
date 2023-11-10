@@ -24,7 +24,7 @@ sidebar_position: 7
 
 <!--truncate-->
 
-### 手写简单的 loader
+## 手写简单的 loader
 
 目录
 
@@ -143,7 +143,7 @@ module.exports = {
 自定义的 loader 中不要使用箭头函数，会产生 this 指向问题
 :::
 
-### 手写简单的 Plugin
+## 手写简单的 Plugin
 
 目录
 
@@ -223,12 +223,7 @@ module.exports = {
 created by AlanSun Jun 07 2020 11:49:42 GMT+0800 (GMT+08:00)
 ```
 
-### react 和 vue 脚手架 webpack 配置
-
-- create-react-app 通过`npm run eject`暴露 webpack 配置
-- vue-cli 通过[vue.config.js](https://cli.vuejs.org/zh/config/#vue-config-js)配置 webpack(可以通过 configureWebpack 自定义 webpack 配置)
-
-### 手写一个简单的 webpack 打包工具
+## 实现简单的 webpack 打包
 
 先提前安装以下需要的插件
 
@@ -290,7 +285,7 @@ export const course = 'webpack';
 
 我将整个项目拆分成 2 个部分来分析
 
-#### 处理入口文件找到所有 import 文件
+### 处理入口文件找到所有 import 文件
 
 思路：
 
@@ -383,7 +378,7 @@ const moduleAnalysis = filename => {
 moduleAnalysis('./src/index.js');
 ```
 
-#### 通过入口文件分析出所有文件依赖
+### 通过入口文件分析出所有文件依赖
 
 上面已经分析出了入口文件的一些依赖，接下来可以通过递归遍历来分析出所有的文件依赖并保存在变量中，先分析一些经过上面函数处理后的数据
 
@@ -472,7 +467,7 @@ const analysisDependenciesGraph = entry => {
 }
 ```
 
-#### 生成代码
+### 生成代码
 
 ```js
 const generateCode = entry => {
@@ -590,7 +585,7 @@ const code = generateCode('./src/index.js');
 console.log(highlight(code));
 ```
 
-### 总结
+## 总结
 
 到这里总算是对 webpack 有了大体的了解了。奈何当我学完 webpack 后看到了**vite**这个东西 😒。。。
 
