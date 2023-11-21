@@ -47,8 +47,8 @@ Mitt 的源码非常简易只有不到 100 行，整篇文章将结合动画来�
 代码非常简单，主要就是维护一个 `all` Map，对其进行增（`mitt.on`）删（`mitt.off`）改（`mitt.on`）查（`mitt.emit`）的操作
 
 ```js
-export default function mitt(all) {
-  const all = all || new Map();
+function mitt() {
+  const all = new Map();
 
   const on = (type, handler) => {
     const handlers = all.get(type);
@@ -89,11 +89,21 @@ export default function mitt(all) {
     }
   };
 
+  const once = (type, handler) => {
+    const onceFn = params => {
+      handler(params);
+      off(type, onceFn);
+    };
+
+    on(type, onceFn);
+  };
+
   // 清除所有订阅则使用 Map 自身的 clear 函数
 
   return {
     all,
     on,
+    once,
     off,
     emit
   };
