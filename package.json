@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "tina": "tinacms dev -c \"yarn start\"",
     "start": "docusaurus start --port 3036",
-    "build": "docusaurus build",
+    "build": "tinacms build && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -32,13 +33,17 @@
     "react-icons": "4.7.1",
     "react-xarrows": "2.0.2",
     "sass": "1.55.0",
+    "tinacms": "^1.5.28",
+    "title": "^3.5.3",
     "typed.js": "^2.0.16"
   },
   "devDependencies": {
     "@docusaurus/eslint-plugin": "^2.4.1",
     "@docusaurus/module-type-aliases": "3.0.0",
     "@docusaurus/tsconfig": "3.0.0",
+    "@tinacms/cli": "^1.5.38",
     "@types/gtag.js": "^0.0.12",
+    "@types/node": "^20.10.3",
     "typescript": "~5.2.2"
   },
   "browserslist": {

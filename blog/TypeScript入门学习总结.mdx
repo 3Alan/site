@@ -1,25 +1,3 @@
----
-slug: typescript-tutorial
-title: TypeScript入门学习总结
-tags:
-  - TypeScript
-categories:
-  - 前端
-  - TypeScript
-abbrlink: fc7889ef
-date: 2020-07-01 11:52:09
-references:
-  - name: TypeScript 中文手册
-    url: 'https://typescript.bootcss.com/basic-types.html'
-  - name: TypeScript－系统入门到项目实战
-    url: 'https://coding.imooc.com/class/412.html'
-keywords:
-  - TypeScript 入门教程
-  - TypeScript－系统入门到项目实战 笔记总结
-description: TypeScript入门教程这一篇就够了，涵盖了 Typescript 的基本用法。
-authors: Alan
----
-
 TypeScript 常用知识点总结
 
 > [TypeScript 中文手册](https://typescript.bootcss.com/basic-types.html)
@@ -333,10 +311,8 @@ interface worker {
   seniority: number;
 }
 function Recruit(candidate: worker | student): void {
-  'education' in candidate &&
-    console.log(`your education is ${candidate.education}`);
-  'seniority' in candidate &&
-    console.log(`your seniority is ${candidate.seniority}`);
+  'education' in candidate && console.log(`your education is ${candidate.education}`);
+  'seniority' in candidate && console.log(`your seniority is ${candidate.seniority}`);
 }
 
 const a: student = { isStudent: true, education: 4 };
@@ -453,11 +429,7 @@ interface attendanceFunc {
   (name: string, startTime: number, endTime: number): boolean;
 }
 let checkAttendance: attendanceFunc;
-checkAttendance = function (
-  name: string,
-  startTime: number,
-  endTime: number
-): boolean {
+checkAttendance = function (name: string, startTime: number, endTime: number): boolean {
   let result = startTime < 9 && endTime > 18;
   return result;
 };
@@ -630,11 +602,7 @@ interface Address {
   province: string;
 }
 
-function Recruit<C extends Contact, A extends Address>(
-  name: string,
-  contact: C,
-  address: A
-) {
+function Recruit<C extends Contact, A extends Address>(name: string, contact: C, address: A) {
   return `${name}'s mobile is ${contact.mobile}, live in ${address.province}`;
 }
 

@@ -13,3 +13,8 @@
 - 配置 eslint
 - docs 也收录到 archive 中
 - 引入 cmdk
+
+## Tina
+
+- 处理不了 formatter
+- 需要使用 tina cloud，自部署比较麻烦
