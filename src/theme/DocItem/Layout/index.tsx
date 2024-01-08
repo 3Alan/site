@@ -17,6 +17,7 @@ import styles from './styles.module.css';
 import Comment from '../../../components/comment';
 import { OutDated } from '../../../components/outdated';
 import getFormatDate from '../../../utils/getFormatDate';
+import { Wip } from '@site/src/components/wip';
 
 /**
  * Decide if the toc should be rendered, on mobile or desktop viewports
@@ -45,7 +46,7 @@ function useDocTOC() {
 export default function DocItemLayout({ children }: Props): JSX.Element {
   const docTOC = useDocTOC();
   const { frontMatter } = useDoc();
-  const { hide_comment: hideComment, out_dated: outDated, date, updated } = frontMatter;
+  const { hide_comment: hideComment, out_dated: outDated, wip, date, updated } = frontMatter;
 
   return (
     <div className="row">
@@ -59,6 +60,7 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
             <DocItemContent>
               <>
                 {outDated && <OutDated date={getFormatDate(updated || date)} />}
+                {wip && <Wip />}
                 {children}
               </>
             </DocItemContent>

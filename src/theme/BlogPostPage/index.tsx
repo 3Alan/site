@@ -19,6 +19,7 @@ import Donate from '../../components/donate';
 import License from '../../components/license';
 import { OutDated } from '../../components/outdated';
 import getFormatDate from '../../utils/getFormatDate';
+import { Wip } from '@site/src/components/wip';
 
 function BlogPostPageContent({
   children
@@ -34,6 +35,7 @@ function BlogPostPageContent({
     toc_max_heading_level: tocMaxHeadingLevel,
     hide_comment: hideComment,
     out_dated: outDated,
+    wip,
     date,
     updated
   } = frontMatter;
@@ -51,6 +53,7 @@ function BlogPostPageContent({
     >
       <BlogPostItem>
         {outDated && <OutDated date={getFormatDate(updated || date)} />}
+        {wip && <Wip />}
         {children}
       </BlogPostItem>
       <Donate />
