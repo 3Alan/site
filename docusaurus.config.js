@@ -5,7 +5,6 @@ const { themes } = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.oceanicNext;
 
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Alan|前端博客',
@@ -63,7 +62,8 @@ const config = {
         id: 'friend_link',
         // content: '⭐️ 欢迎前来交换 🔗 <a rel="noopener noreferrer" href="/friends">友链</a>！'
         // content: '🔥🔥<a rel="noopener noreferrer" href="/blog/personal-chatgpt">利用 Vercel 搭建属于自己的 ChatGPT</a>'
-        content: '🎉 <a rel="noopener noreferrer" href="/posts/source-analysis/mitt">Mitt 源码动画解析</a>'
+        content:
+          '🎉 <a rel="noopener noreferrer" href="/posts/source-analysis/mitt">Mitt 源码动画解析</a>'
       },
       navbar: {
         title: 'Alan',
@@ -120,8 +120,8 @@ const config = {
                 to: '/blog/chatgpt-pdf'
               },
               {
-                label: '利用 Vercel 搭建属于自己的 ChatGPT',
-                to: '/blog/personal-chatgpt'
+                label: 'Expo 开发 Airbnb Clone 全栈应用',
+                to: '/blog/expo-airbnb-clone'
               },
               {
                 label: 'Docusaurus 评论功能',
@@ -139,7 +139,7 @@ const config = {
               {
                 label: '网站统计数据',
                 href: 'https://analytics.alanwang.site/share/wRwxxz0r/Alan-Blog',
-                'data-umami-event': 'analytics-link',
+                'data-umami-event': 'analytics-link'
               },
               {
                 label: 'GitHub',
