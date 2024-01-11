@@ -158,3 +158,13 @@ export default function App() {
 ### Prisma
 
 ### React Query
+
+### 一些错误
+
+#### Cannot find native module 'ExpoImage'
+
+#### TurboModuleRegistry.getEnforcing(...): 'RNCWebView' could not be found
+
+当安装了某些依赖于原生代码的库时，出现了类似某个模块没有找到的问题，如果使用的是 Expo 的 [development build](https://docs.expo.dev/develop/development-builds/create-a-build/)，只需要重新 build 一次就能解决了。
+
+> https://docs.expo.dev/workflow/overview/#the-core-development-loop
