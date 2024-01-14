@@ -10,7 +10,7 @@ keywords:
   - 事件派发器
   - 发布订阅模式
   - 观察者模式
-date: 2023-02-12
+date: 2023-02-12T00:00:00.000Z
 description: 通过发布订阅模式实现一个简易的事件派发器，本文将结合动画来详细讲解Mitt的源码及其实现原理，让你快速了解Mitt的使用方法和优势。
 references:
   - name: Map and Set（映射和集合）
@@ -19,6 +19,10 @@ references:
     url: 'https://www.nan.fyi/'
   - name: mitt 仓库
     url: 'https://github.com/developit/mitt'
+summary: >-
+  Mitt 是一款轻量级的事件派发器库，它使用发布订阅模式来实现事件的监听和触发。Mitt 的核心是一个 Map
+  对象，用于存储事件类型和对应的处理函数。当触发事件时，Mitt 会遍历 Map 中的事件类型，并调用所有已注册的处理函数。Mitt 还提供了 `once`
+  方法，用于注册只触发一次的处理函数。
 ---
 
 import {

@@ -13,11 +13,20 @@ references:
     url: 'https://webpack.js.org/'
   - name: babel官网
     url: 'https://www.babeljs.cn/docs/'
-date: 2020-06-05 10:24:19
-updated: 2020-06-13 16:06:00
-keywords: ['webpack学习总结', '手写loader', '手写plugin', 'webpack实现']
+date: 2020-06-05T10:24:19.000Z
+updated: 2020-06-13T16:06:00.000Z
+keywords:
+  - webpack学习总结
+  - 手写loader
+  - 手写plugin
+  - webpack实现
 description: webpack学习总结
 sidebar_position: 7
+summary: |-
+  1. 手写了一个简单的 loader，可以将项目中的 **webpack** 字符串替换成 webpack 中配置的字符串。
+  2. 手写了一个简单的 Plugin，可以在打包后在 dist 目录下生成一个 author.txt 文件，内容是创建者和时间。
+  3. 实现了一个简单的 webpack 打包，可以将入口文件及其依赖的文件打包成一个可执行的 JavaScript 文件。
+  4. webpack 学习总结，包括手写 loader、手写 plugin、实现简单的 webpack。
 ---
 
 手写简单的 loader、Plugin、简单的 webpack

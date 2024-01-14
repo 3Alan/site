@@ -8,7 +8,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-09-16 13:15:29
+date: 2021-09-16T13:15:29.000Z
 keywords:
   - react guide 组件
   - react 引导组件
@@ -16,6 +16,14 @@ keywords:
 description: react 新手引导组件
 sidebar_label: Guide 组件
 sidebar_position: 3
+summary: >-
+  Guide 组件是一个 React 新手引导组件，它可以以 `popover`
+  的形式附着在目标元素上，并提供上一步/下一步/结束三个按钮。当元素超出可视区域时，它会自动滚动到目标元素的位置。屏幕大小变化时，`popover`
+  能始终附着在目标元素上。
+
+
+  该组件使用 `React.createPortal` 将 `popover`
+  渲染到目标元素的父节点中，并使用绝对定位调整位置。它还监听窗口变化，以便在屏幕大小变化时重新计算 `popover` 的偏移量。
 ---
 
 Guide 新手引导组件

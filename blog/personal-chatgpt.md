@@ -9,7 +9,15 @@ keywords:
   - chatgpt 部署
   - chatgpt 搭建
 authors: Alan
-description: 整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，可以在 Vercel 上部署，方便大家快速搭建属于自己的 ChatGPT，同时提供部署方法及安全建议，防止被有心人利用。
+description: >-
+  整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，可以在 Vercel 上部署，方便大家快速搭建属于自己的
+  ChatGPT，同时提供部署方法及安全建议，防止被有心人利用。
+summary: |-
+  1. 本文整理了一些流行且 UI 不错的开源 ChatGPT 项目，方便用户快速搭建自己的 ChatGPT。
+  2. 大部分项目支持 Vercel 部署，可以直接使用 Vercel 的免费服务。
+  3. 部分项目需要自己部署到服务器上。
+  4. 部署时需注意安全，防止被有心人利用。
+  5. 建议使用私有仓库、开启网站密码功能、防止搜索引擎收录网站、不要使用主域名部署 ChatGPT 项目。
 ---
 
 我整理了一些当前比较流行且 UI 还不错的开源 ChatGPT 项目，方便大家快速搭建属于自己的 ChatGPT，大部分都支持 Vercel 部署，可以直接使用 Vercel 的免费服务。有一部分项目是包括后端代码的所以无法在 Vercel 上部署，需要自己部署到服务器上。

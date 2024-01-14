@@ -1,5 +1,8 @@
 ---
 draft: true
+summary: >-
+  记录踩坑内容，包括抽象成一个 flask 服务 + tauri 的脚手架，以及关闭时杀掉 flask 进程。appData 和 appLocalData
+  的区别在于，Roaming 文件夹用于存储需要在多个计算机之间同步的用户数据，而 Local 文件夹用于存储本地数据，例如缓存文件和其他临时文件。
 ---
 
 记录踩坑内容

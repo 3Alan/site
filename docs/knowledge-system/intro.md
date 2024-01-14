@@ -1,6 +1,9 @@
 ---
 sidebar_position: 1
 hide_comment: true
+summary: >-
+  该文档是一个知识点汇总，涵盖了
+  CSS、JS、TS、工程化、计算机网络、React、算法和面试题等方面。这些知识点都是作者在平时总结的，也包含了作者在面试中遇到的问题。
 ---
 
 # 介绍

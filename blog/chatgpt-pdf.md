@@ -12,7 +12,22 @@ keywords:
   - embedding
   - 余弦相似度算法
 authors: Alan
-description: 解析 chatpdf 实现原理，利用 OpenAI API 将 PDF 文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
+description: >-
+  解析 chatpdf 实现原理，利用 OpenAI API 将 PDF
+  文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
+summary: >-
+  基于 ChatGPT 实现了一个 PDF 阅读器 Demo，能够将 PDF
+  文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
+
+
+  该 Demo 使用了 PostgresSql、Next.js 和 Supabase 等技术栈，可以将 PDF
+  文本转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
+
+
+  用户可以向 ChatGPT 提问 PDF 中的相关问题，ChatGPT 会基于这些片段回答用户提出的问题。
+
+
+  该 Demo 目前支持 Markdown 和 PDF，并提供了 Docker 部署方式，方便用户使用。
 ---
 
 最近随着 OpenAI 开放了相关 API， 市面上出现了越来越多的 AI 应用，chatpdf 这个项目吸引了我的注意，它是如何突破 API 最大 token 的限制来读取这种长文本的呢？

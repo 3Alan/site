@@ -6,7 +6,7 @@ tags:
   - 装机
 categories:
   - 黑苹果
-date: 2021-06-08 17:38:35
+date: 2021-06-08T17:38:35.000Z
 keywords:
   - Hackintosh EFI
   - 微星B460M-MORTAR-WIFI
@@ -18,6 +18,8 @@ keywords:
 authors: Alan
 description: Hackintosh B460M-MORTAR WIFI 黑苹果安装教程
 out_dated: true
+summary: >-
+  本文记录了作者使用微星B460M-MORTAR-WIFI主板和i5-10400处理器安装黑苹果的操作过程。作者提供了详细的硬件配置、软件版本信息以及安装步骤。他还分享了EFI仓库地址，以便其他用户参考。在安装过程中，作者遇到了Windows和Mac时间不同步的问题，并提供了解决方法。
 ---
 
 Hackintosh B460M-MORTAR WIFI + i5-10400 黑苹果安装

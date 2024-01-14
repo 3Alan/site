@@ -11,9 +11,15 @@ keywords:
   - 百度收录
   - 必应收录
   - 谷歌收录
-date: 2022-11-10
+date: 2022-11-10T00:00:00.000Z
 description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎（百度、必应、谷歌）
 sidebar_position: 3
+summary: |-
+  Docusaurus 自动提交 URL 到搜索引擎的 Github Action。
+  前提是网站已经生成了 sitemap。
+  创建 Github Action，配置 Actions secrets，就可以自动提交 URL 到百度、必应、谷歌搜索引擎。
+  如果配置了必应 token，提交 URL 的数量应小于 10，否则提交失败。
+  百度、必应、谷歌每日配额数分别为 3000、10、200。
 ---
 
 之前使用 `Hexo` 时，有三方包可用。于是调研了一下，发现 `Docusaurus` 没有类似三方可以使用，索性就自己写了个通用的 `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有 `sitemap` 就可以使用。

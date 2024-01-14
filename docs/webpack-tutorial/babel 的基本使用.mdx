@@ -16,9 +16,15 @@ references:
     url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
   - name: webpack官网
     url: 'https://webpack.js.org/'
-date: 2020-05-17 10:05:14
-updated: 2020-05-16 13:33:00
+date: 2020-05-17T10:05:14.000Z
+updated: 2020-05-16T13:33:00.000Z
 sidebar_position: 4
+summary: |-
+  使用 Babel 可以将 ES6 代码转换为 ES5 代码，从而兼容低版本浏览器。
+  Babel 的核心内容是 @babel/core，而 @babel/preset-env 可以将 ES6 代码转换为 ES5 代码。
+  @babel-polyfill 可以模拟 ES5 环境，但会增加打包后的文件大小。
+  可以配置 useBuiltIns:usage 来按需引入 @babel-polyfill，从而减小打包后的文件大小。
+  Babel 的配置可以单独放在 .babelrc 文件中。
 ---
 
 ## 处理 ES6 语法

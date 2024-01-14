@@ -9,6 +9,9 @@ keywords:
   - 录屏
 authors: Alan
 description: 收藏了一些好用的 Mac 软件，包含录屏，浏览器
+summary: >-
+  我收集了一些好用的 Mac 软件，包括录屏、浏览器和生产力工具。录屏软件推荐 Screen Studio，浏览器推荐 Arc，生产力工具推荐
+  Raycast、Magnet 和 Snipaste。
 ---
 
 import SiteCard from '../src/components/siteCard';

@@ -7,7 +7,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-08-22 16:22:55
+date: 2021-08-22T16:22:55.000Z
 keywords:
   - react组件库开发
   - react组件库打包
@@ -16,6 +16,13 @@ keywords:
 description: react组件库的搭建流程，包括打包发布单元测试
 sidebar_label: 组件搭建
 sidebar_position: 1
+summary: >-
+  React 组件库搭建过程，包括技术选型、积累的知识点、待了解的知识点、代码质量相关、奇怪的问题、npm 发布等内容。技术选型包括
+  React、Sass、TypeScript、Create-React-App、Storybook、Jest 和 Lerna。积累的知识点包括
+  `package.json` 中的 `peerDependencies`、node-sass 弃用、Rollup 打包等。待了解的知识点包括
+  `package.json` 的 `module` 和 `types`。代码质量相关内容包括配置 ESLint、Prettier、Husky +
+  Lint-Staged、Commitlint 等。奇怪的问题包括 Rollup 打包后进程没有关闭。npm 发布内容包括先置条件、先置知识、打包组件库、发布
+  npm 等。
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。
