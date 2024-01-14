@@ -1,3 +1,8 @@
+---
+summary: >-
+  博文页面组件，用于显示博文内容、侧边栏、评论等信息。它使用了 `useBlogPost`
+  获取博文元数据，并根据博文前缀设置显示或隐藏评论、目录、过期等信息。还集成了捐赠、许可证和过时组件。
+---
 import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import { HtmlClassNameProvider, ThemeClassNames } from '@docusaurus/theme-common';

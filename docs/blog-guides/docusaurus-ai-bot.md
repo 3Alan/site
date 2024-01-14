@@ -12,6 +12,12 @@ keywords:
 date: 2024-01-14T00:00:00.000Z
 description: 利用 Gemini AI 搭配 Github Bot 实现自动化生成文章总结
 sidebar_position: 1
+summary: |-
+  1. 利用 Gemini AI 和 Github Bot 实现自动化生成文章总结。
+  2. 文章总结的内容插入到文档的 front matter 中，在没有服务端的情况下直接读取到总结的内容。
+  3. 部署机器人到 Zeabur，并将环境变量和 Webhook 地址填入。
+  4. 新建一个 issue，添加 `summarizer` label，机器人将开始总结博文。
+  5. 安装三方库并 Swizzling 组件，即可在文章页面添加总结组件。
 ---
 
 先看效果

@@ -1,3 +1,13 @@
+---
+summary: |-
+  DocItemLayout 组件用于布局文档页面，它包含文档内容、目录、页脚等元素。
+
+  该组件使用 useDocTOC 钩子来决定是否渲染目录，以及在移动端或桌面端渲染不同的目录组件。
+
+  它还使用 useDoc 钩子来获取文档的元数据，如标题、日期、作者等。
+
+  此外，该组件还包含了一些自定义组件，如 OutDated、Wip 和 AiSummary，用于显示过时、正在进行中和 AI 摘要等信息。
+---
 import React from 'react';
 import clsx from 'clsx';
 import { useWindowSize } from '@docusaurus/theme-common';

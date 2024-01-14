@@ -1,3 +1,9 @@
+---
+summary: >-
+  这个页面是 Alan Wang 的个人主页。他是一位前端开发人员，技术栈包括 React、Typescript、Sass 和
+  Node。他也是一位开源爱好者。主页上展示了他的项目、最近的博客文章以及社交媒体链接。用户可以点击按钮访问他的 GitHub
+  和博客，也可以点击语言按钮切换语言。
+---
 import React from 'react';
 import { VscGithubInverted, VscNotebook } from 'react-icons/vsc';
 import './index.scss';

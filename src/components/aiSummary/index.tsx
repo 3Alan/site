@@ -1,3 +1,8 @@
+---
+summary: >-
+  本段代码实现了人工智能自动摘要功能。它使用 React 框架和 Typed.js 库来实现动画效果。用户点击“AI
+  总结”按钮后，摘要内容将通过打字机效果逐字逐句地显示出来。摘要内容由 content 参数提供。
+---
 import React, { useEffect, useState } from 'react';
 import { FaMagic } from 'react-icons/fa';
 import './index.scss';
