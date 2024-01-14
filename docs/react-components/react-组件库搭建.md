@@ -7,7 +7,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-08-22 16:22:55
+date: 2021-08-22T16:22:55.000Z
 keywords:
   - react组件库开发
   - react组件库打包
@@ -16,6 +16,17 @@ keywords:
 description: react组件库的搭建流程，包括打包发布单元测试
 sidebar_label: 组件搭建
 sidebar_position: 1
+summary: >-
+  1. 使用 React、Sass、TypeScript、Create-React-App、Storybook、Jest 和 Lerna 搭建 React
+  组件库。
+
+  2. 组件库打包发布单元测试。
+
+  3. 配置 ESLint、Prettier、Husky + Lint-Staged 和 Commitlint 来提升代码质量。
+
+  4. 使用 Rollup 打包组件库，并编写打包脚本。
+
+  5. 发布组件库到 npm。
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。

@@ -8,7 +8,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-09-16 13:15:29
+date: 2021-09-16T13:15:29.000Z
 keywords:
   - react guide 组件
   - react 引导组件
@@ -16,6 +16,23 @@ keywords:
 description: react 新手引导组件
 sidebar_label: Guide 组件
 sidebar_position: 3
+summary: >-
+  Guide
+  新手引导组件可以将解释性内容以悬浮窗的形式附着在目标元素上，支持多个目标元素并提供上一步/下一步/结束三个按钮。当元素超出可视区域时，组件会自动滚动到目标元素的位置。屏幕大小变化时，悬浮窗能始终附着在目标元素上。
+
+
+  该组件使用 React.createPortal
+  将悬浮窗渲染到目标元素的父节点中，并使用绝对定位调整位置。组件还监听窗口变化，以便在屏幕大小变化时重新计算悬浮窗的偏移量。
+
+
+  Guide 组件的 API 包括：
+
+
+  - `mask`：是否显示遮罩层。
+
+  - `steps`：引导步骤的数组，每个步骤包含目标元素选择器和悬浮窗内容。
+
+  - `onClose`：关闭组件时触发的回调函数。
 ---
 
 Guide 新手引导组件

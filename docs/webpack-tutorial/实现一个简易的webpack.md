@@ -13,11 +13,20 @@ references:
     url: 'https://webpack.js.org/'
   - name: babel官网
     url: 'https://www.babeljs.cn/docs/'
-date: 2020-06-05 10:24:19
-updated: 2020-06-13 16:06:00
-keywords: ['webpack学习总结', '手写loader', '手写plugin', 'webpack实现']
+date: 2020-06-05T10:24:19.000Z
+updated: 2020-06-13T16:06:00.000Z
+keywords:
+  - webpack学习总结
+  - 手写loader
+  - 手写plugin
+  - webpack实现
 description: webpack学习总结
 sidebar_position: 7
+summary: |-
+  1. 讲解了如何使用自定义的 loader 将项目中的 **webpack** 字符串替换成 webpack 中配置的字符串。
+  2. 介绍了如何使用自定义的 plugin 来在打包的不同时刻来进行不同的处理，如在 dist 目录下生成一个 author.txt 文件。
+  3. 实现了一个简单的 webpack 打包，包括处理入口文件、分析出所有文件依赖、生成代码等步骤。
+  4. 总结了 webpack 的学习心得，并提到了 vite 这个新的打包工具。
 ---
 
 手写简单的 loader、Plugin、简单的 webpack

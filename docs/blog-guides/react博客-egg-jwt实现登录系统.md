@@ -9,8 +9,12 @@ tags:
 categories:
   - 前端
   - React
-date: 2020-05-13 16:11:11
+date: 2020-05-13T16:11:11.000Z
 out_dated: true
+summary: >-
+  react 博客系列文章，介绍了如何使用 egg-jwt 来实现登录系统。egg-jwt 是一个用于 egg.js 框架的 jwt
+  插件，可以帮助开发人员轻松地实现 jwt 认证。文章中详细介绍了如何安装、配置和使用 egg-jwt，并提供了示例代码来演示如何使用 jwt
+  来实现登录操作和鉴权。
 ---
 
 react 博客系列文章

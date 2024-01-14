@@ -10,7 +10,7 @@ keywords:
   - 事件派发器
   - 发布订阅模式
   - 观察者模式
-date: 2023-02-12
+date: 2023-02-12T00:00:00.000Z
 description: 通过发布订阅模式实现一个简易的事件派发器，本文将结合动画来详细讲解Mitt的源码及其实现原理，让你快速了解Mitt的使用方法和优势。
 references:
   - name: Map and Set（映射和集合）
@@ -19,6 +19,11 @@ references:
     url: 'https://www.nan.fyi/'
   - name: mitt 仓库
     url: 'https://github.com/developit/mitt'
+summary: >-
+  Mitt 是一个轻量级的事件派发器，它使用 Map 来存储事件和处理函数。Mitt 提供了 `on()`、`off()`、`emit()` 和
+  `once()` 等方法来操作事件。Mitt 的 `emit()` 方法会先触发指定事件的处理函数，然后触发 `*` 事件的处理函数。Mitt 的
+  `once()` 方法可以注册一个只触发一次的处理函数。Mitt 的 `clear()` 方法可以清除所有事件和处理函数。Mitt 的源码非常简易，只有不到
+  100 行。
 ---
 
 import {

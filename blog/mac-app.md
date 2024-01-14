@@ -9,6 +9,16 @@ keywords:
   - 录屏
 authors: Alan
 description: 收藏了一些好用的 Mac 软件，包含录屏，浏览器
+summary: |-
+  收藏了一些好用的 Mac 软件，包括录屏、浏览器、开发工具和生产力工具。
+
+  录屏软件推荐 Screen Studio，动画非常丝滑，但价格有点贵。
+
+  浏览器推荐 Arc，颜值非常高，目前有 5 个邀请码，需要体验的请在下方留言。
+
+  生产力工具推荐 Raycast，所有操作都可以在一个搜索框内完成，非常方便。
+
+  分屏工具推荐 Magnet，可以将窗口分屏到屏幕的任意位置，支持快捷键，非常好用，不过收费 $9.9。
 ---
 
 import SiteCard from '../src/components/siteCard';

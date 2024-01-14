@@ -1,6 +1,9 @@
 ---
 sidebar_position: 1
 hide_comment: true
+summary: >-
+  这是一个知识库，用于整理平时总结的知识点，包括
+  CSS、JS、TS、工程化、计算机网络、React、算法和面试题等。这些知识点都是面试中经常遇到的问题，可以帮助面试者更好地准备面试。
 ---
 
 # 介绍

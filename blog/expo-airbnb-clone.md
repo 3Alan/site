@@ -13,8 +13,26 @@ keywords:
   - react query
   - prisma
 authors: Alan
-description: 使用 Expo 开发 Airbnb Clone 全栈应用，使用 MongoDB 作为数据库，使用 React Query 作为数据管理工具，使用 Prisma 作为 ORM。
+description: >-
+  使用 Expo 开发 Airbnb Clone 全栈应用，使用 MongoDB 作为数据库，使用 React Query 作为数据管理工具，使用
+  Prisma 作为 ORM。
 wip: true
+summary: >-
+  Expo 是一个非常适合 Web 开发人员开发移动端应用的框架，它可以帮助开发者以较低的学习成本开发出跨平台的移动端应用。
+
+
+  Airbnb Clone 项目使用 Expo、MongoDB、React Query 和 Prisma 等技术栈开发，项目地址为
+  https://github.com/3Alan/airbnb-clone。
+
+
+  RN 开发与 Web 开发的区别主要在于 RN 提供了一些原生组件，样式通过 style 属性传递给组件，并且 RN 默认使用 Flex 布局。
+
+
+  RN 中不支持 SVG 和渐变，但可以通过安装相应的库来解决。
+
+
+  在使用 Expo 的 development build 时，如果出现某些依赖于原生代码的库时，出现了类似某个模块没有找到的问题，只需要重新 build
+  一次就能解决了。
 ---
 
 最近对移动端应用的开发很感兴趣，工作 3 年半了，技术栈一直局限在 Web 端，加上公司也没有开发移动端的需求，还记得在上家公司开发过 2 个月的 React Native 项目，记得当时光是环境的搭建就耗费了我很多的时间。在开发这个 Airbnb 项目之前也调研过一些技术，发现 Expo 真的是一个非常不错的框架，作为一名 Web 开发人员在 Expo 的帮助下可以以很低的学习成本开发出一个移动端应用。

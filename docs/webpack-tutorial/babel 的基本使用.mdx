@@ -16,9 +16,20 @@ references:
     url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
   - name: webpack官网
     url: 'https://webpack.js.org/'
-date: 2020-05-17 10:05:14
-updated: 2020-05-16 13:33:00
+date: 2020-05-17T10:05:14.000Z
+updated: 2020-05-16T13:33:00.000Z
 sidebar_position: 4
+summary: >-
+  1. 使用 Babel 可以将 ES6 代码转换为 ES5 代码，使旧浏览器能够识别。
+
+  2. 要使用 Babel，需要安装 `babel-loader`、`@babel/core` 和 `@babel/preset-env`。
+
+  3. 在 webpack 配置中，需要将 `babel-loader` 添加到 loaders 数组中，并指定 `@babel/preset-env`
+  作为预设。
+
+  4. 如果需要处理 React 代码，还需要安装 `@babel/preset-react` 并将其添加到预设中。
+
+  5. 可以通过 `useBuiltIns: 'usage'` 配置来按需引入 polyfill，减少代码体积。
 ---
 
 ## 处理 ES6 语法

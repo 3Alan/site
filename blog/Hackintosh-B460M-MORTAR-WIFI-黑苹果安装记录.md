@@ -6,7 +6,7 @@ tags:
   - 装机
 categories:
   - 黑苹果
-date: 2021-06-08 17:38:35
+date: 2021-06-08T17:38:35.000Z
 keywords:
   - Hackintosh EFI
   - 微星B460M-MORTAR-WIFI
@@ -18,6 +18,10 @@ keywords:
 authors: Alan
 description: Hackintosh B460M-MORTAR WIFI 黑苹果安装教程
 out_dated: true
+summary: >-
+  本文记录了如何在微星 B460M-MORTAR WIFI 主板上安装黑苹果的操作过程。硬件配置包括 Intel i5-10400
+  处理器、金士顿骇客神条内存、铠侠 RC10 固态硬盘等。安装步骤包括下载镜像并制作镜像 U 盘、设置 BIOS、安装 MacOS、系统设置和将 EFI
+  文件移动到磁盘中。安装完成后，黑苹果系统可以脱离 U 盘正常运行。
 ---
 
 Hackintosh B460M-MORTAR WIFI + i5-10400 黑苹果安装
