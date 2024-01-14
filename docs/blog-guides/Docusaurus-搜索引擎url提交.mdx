@@ -15,13 +15,13 @@ date: 2022-11-10T00:00:00.000Z
 description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎（百度、必应、谷歌）
 sidebar_position: 3
 summary: |-
-  通过 Github Actions 自动提交 Docusaurus url 到搜索引擎（百度、必应、谷歌），只要你的网站有 sitemap 就可以使用。
+  通过 GitHub Actions 自动提交 Docusaurus 网站的 URL 到百度、必应和谷歌搜索引擎，只要网站有 sitemap 即可使用。
 
-  使用前提是你的网站已经生成了 sitemap。
+  使用前提是网站已经生成了 sitemap。
 
-  创建 Github Action，配置 Actions secrets，即可自动提交 url 到搜索引擎。
+  创建 GitHub Action 并配置 Actions secrets，即可自动提交 URL 到搜索引擎。
 
-  需要注意的是，如果配置了 BING_TOKEN，那么 COUNT 数值应小于 10，由于 BING 每日配额数只有 10 条。
+  需要注意的是，如果配置了必应 API 密钥，那么提交 URL 的数量应小于 10，因为必应每日配额数只有 10 条。
 
   目前还存在一个问题，即 Docusaurus 的 sitemap 插件无法自定义生成规则，无法只提交最近更新的 10 篇文章。
 ---

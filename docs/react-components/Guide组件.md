@@ -22,8 +22,8 @@ summary: >-
   能始终附着在目标元素上。
 
 
-  确认 API，设计 popover 内容，使用 React.createPortal 将 popover 渲染到 parent 节点中，计算 popover
-  相对于 parent 的偏移量，判断目标元素是否在可视区域内，不在则滚动到目标元素的位置。
+  实现步骤包括确认 API、设计 popover 内容、使用 React.createPortal 将 popover 渲染到 parent 节点中、计算
+  popover 相对于 parent 的偏移量、判断目标元素是否在可视区域内，不在则滚动到目标元素的位置。
 
 
   监听窗口变化，计算偏移量，使用防抖优化手段。
