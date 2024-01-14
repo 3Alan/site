@@ -124,8 +124,8 @@ const config = {
                 to: '/blog/expo-airbnb-clone'
               },
               {
-                label: 'Docusaurus 评论功能',
-                to: '/posts/blog-guides/docusaurus-comment'
+                label: 'Docusaurus AI 总结',
+                to: '/posts/blog-guides/docusaurus-ai-bot'
               }
             ]
           },

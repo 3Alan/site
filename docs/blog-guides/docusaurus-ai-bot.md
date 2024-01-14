@@ -6,7 +6,7 @@ tags:
   - Docusaurus
 keywords:
   - Docusaurus
-  - probot
+  - Probot
   - Gemini
   - AI summarizer
 date: 2024-01-14T00:00:00.000Z
@@ -113,3 +113,5 @@ yarn add typed.js
 ```
 
 首先确保你之前 Swizzling 过 `DocItem/Layout` 和 `BlogPostPage` 组件，具体步骤参考 [这篇文章](/posts/blog-guides/docusaurus-comment#swizzling-docusaurus-内部组件)，这里我不在过多赘述。
+
+具体修改查看 [这个提交](https://github.com/3Alan/site/commit/ce04cf23f0ae36c118db2bb8d359b2ee85f2676c)
