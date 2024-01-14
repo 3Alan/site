@@ -9,8 +9,22 @@ keywords:
   - fetch 请求库
   - 请求中断
   - 超时中断
-date: 2023-02-18
+date: 2023-02-18T00:00:00.000Z
 description: Axios 源码解析，基于Axios源码，实现了一个简易版的请求库，包含适配器、拦截器、请求中断、超时中断等功能的实现。
+summary: >-
+  本文参考 Axios 源码，实现了一个简易的请求库，包含基本请求、适配器、拦截器、请求中断和超时中断等功能。
+
+
+  适配器使 Axios 在不同平台上使用不同的 API 发送请求，本文使用 fetch 代替了 Axios Browser 中的 ajax。
+
+
+  拦截器允许在请求发送前或响应返回后修改请求或响应数据。
+
+
+  请求中断和超时中断允许在请求过程中取消请求或设置超时时间。
+
+
+  [演示地址](https://stackblitz.com/github/3Alan/simple-source/tree/main/axios?file=package.json)
 ---
 
 本文在参考 `Axios`(v1.3.3) 源码的基础上实现一个简易版的请求库（仅用于学习），将包含以下功能

@@ -11,9 +11,18 @@ keywords:
   - Docusaurus Algolia
   - Github Actions
   - DocSearch 爬虫
-date: 2022-10-12
+date: 2022-10-12T00:00:00.000Z
 description: 通过 Github Actions 运行 Algolia DocSearch 实现 Docusaurus 搜索功能
 sidebar_position: 2
+summary: >-
+  Docusaurus DocSearch 是一个由 Algolia 提供的搜索服务，可以帮助用户在 Docusaurus 站点中快速找到所需内容。
+
+
+  要搭建 Docusaurus DocSearch，需要创建一个 Algolia 账号并获取三个 key 值，然后在博客仓库中创建一个 Github
+  Actions，并在项目仓库中新建两个 Actions secrets。
+
+
+  最后，在项目根目录下新建一个 docsearch.json 文档，并配置 docusaurus.config.js 文件。完成以上步骤即可实现搜索功能。
 ---
 
 由于 `Docusaurus` 官网推荐的 `Algolia DocSearch` 我申请了 3 次都失败了，所以就照着官网自己搭建了一个 DocSearch 爬虫。

@@ -1,5 +1,14 @@
 ---
 draft: true
+summary: >-
+  - 抽象出一个 Flask 服务和 Tauri 的脚手架。
+
+  - 关闭时杀死 Flask 进程。
+
+  - `appData` 和 `appLocalData` 是 Windows
+  操作系统中的两个文件夹路径常量，分别代表当前用户的应用程序数据文件夹（Roaming）和本地应用程序数据文件夹（Local）。
+
+  - `Roaming` 用于存储应用程序的用户特定数据，而 `Local` 用于存储应用程序的本地数据。
 ---
 
 记录踩坑内容

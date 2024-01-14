@@ -1,7 +1,7 @@
 ---
 slug: upload
 title: react Upload 组件
-date: 2022-01-10 22:31:58
+date: 2022-01-10T22:31:58.000Z
 tags:
   - React
   - 组件库
@@ -17,6 +17,13 @@ keywords:
 description: react Upload 组件，包括普通上传、拖拽上传、上传进度
 sidebar_label: Upload 组件
 sidebar_position: 2
+summary: >-
+  React Upload 组件提供普通上传、拖拽上传、上传进度等功能。它暴露的 API 包括 `action`、`fileList`、`onChange`
+  和 `beforeUpload`。组件内部维护一个 `internalFileList`，并为其添加一系列状态，如
+  `name`、`uid`、`status`、`url` 和 `percent`。组件生命周期 `beforeUpload`
+  可以让用户在上传文件前对文件进行处理，返回新的文件列表或中断上传。文件上传通过 `XMLHttpRequest.upload.progress` 或
+  `axios` 的 `options.onUploadProgress` 来实现上传进度。文件列表展示通过 `internalFileList`
+  的属性来实现。
 ---
 
 下面的代码已经去除了大部分与主线无关的代码。

@@ -1,7 +1,7 @@
 ---
 slug: react-ssr
 title: React 服务端渲染简单实现
-date: 2022-01-14 14:45:02
+date: 2022-01-14T14:45:02.000Z
 tags:
   - React
   - SSR
@@ -15,6 +15,25 @@ keywords:
   - React Router
 description: React 服务端渲染的简单实现原理
 authors: Alan
+summary: >-
+  React 服务端渲染（SSR）可以提高页面加载速度和 SEO。它通过在服务端渲染页面，减少客户端需要加载的资源，从而提高页面加载速度。SSR
+  还可以在页面加载之前处理数据，从而提高 SEO。
+
+
+  SSR 的大致流程是：
+
+
+  1. 服务端收到请求后，查找对应的组件。
+
+  2. 服务端渲染组件，并将渲染结果返回给客户端。
+
+  3. 客户端收到渲染结果后，将其注入到 HTML 模板中。
+
+  4. 客户端通过 hydrate 进行注水，这一阶段 React 会尽可能的复用 HTML 结构，React 会根据服务端返回的 HTML
+  结构进行初始化工作。
+
+
+  SSR 的组件写法与普通 React 组件类似，但需要添加 `getServerSideProps` 方法来处理服务端数据。
 ---
 
 关于概念，我觉得这篇[文章](https://segmentfault.com/a/1190000038336185)讲的很形象

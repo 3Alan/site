@@ -7,7 +7,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-08-22 16:22:55
+date: 2021-08-22T16:22:55.000Z
 keywords:
   - react组件库开发
   - react组件库打包
@@ -16,6 +16,12 @@ keywords:
 description: react组件库的搭建流程，包括打包发布单元测试
 sidebar_label: 组件搭建
 sidebar_position: 1
+summary: |-
+  1. 搭建 React 组件库，使用 React、Sass、TypeScript 等技术。
+  2. 使用 Storybook、Jest 等工具进行单元测试。
+  3. 使用 Rollup 打包组件库。
+  4. 使用 npm 发布组件库。
+  5. 需要配置 `package.json`、编写打包脚本、安装删除工具等。
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。

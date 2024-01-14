@@ -9,8 +9,18 @@ tags:
 categories:
   - 前端
   - React
-date: 2020-05-13 15:51:16
+date: 2020-05-13T15:51:16.000Z
 out_dated: true
+summary: |-
+  阿里云提供了免费的服务器，可以用来部署 React 博客项目。
+
+  购买服务器后，可以使用 Putty 连接服务器，并使用宝塔进行管理。
+
+  需要安装 PHP 环境、phpMyAdmin、PM2 和 nginx 软件。
+
+  将代码 clone 到服务器，并使用 yarn build 打包项目。
+
+  部署前台页面和后台接口，并使用 nginx 代理后台管理系统。
 ---
 
 阿里云最近推出了一个“在家实践活动”，**免费**领取半年的服务器，真香。[领取地址](https://developer.aliyun.com/adc/student/)

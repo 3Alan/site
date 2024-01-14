@@ -8,7 +8,7 @@ tags:
 categories:
   - 前端
   - React
-date: 2021-09-16 13:15:29
+date: 2021-09-16T13:15:29.000Z
 keywords:
   - react guide 组件
   - react 引导组件
@@ -16,6 +16,16 @@ keywords:
 description: react 新手引导组件
 sidebar_label: Guide 组件
 sidebar_position: 3
+summary: >-
+  Guide
+  新手引导组件可以将解释性信息附着在目标元素上，当有多个目标元素时，提供上一步/下一步/结束三个按钮。当元素超出可视区域时，自动滚动到目标元素的位置。屏幕大小变化时，`popover`能始终附着在目标元素上。
+
+
+  Guide 组件的 API 包括：`mask`（是否显示遮罩层）、`steps`（引导步骤）、`onClose`（关闭时的回调函数）。
+
+
+  Guide 组件的工作原理是通过 `React.createPortal` 将 `popover`
+  渲染到目标元素的父节点中，并使用绝对定位调整位置。当窗口大小变化时，使用防抖函数优化计算偏移量的过程。
 ---
 
 Guide 新手引导组件
