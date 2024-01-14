@@ -1,5 +1,13 @@
 ---
 draft: true
+summary: |-
+  React 新文档要点：
+
+  - 强调组件的纯净性，避免状态的可变性。
+  - 使用 use-immer 库解决嵌套对象书写问题。
+  - 命名风格：内部函数名 handle 开头，props 函数名 on 开头。
+  - setState 命名风格：使用首字母缩写，也可以使用全名或 prevName。
+  - 通过改变 key 值来重新渲染。
 ---
 
 ## React 新文档的要点
