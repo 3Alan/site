@@ -1,12 +1,10 @@
-import React, { FC, ReactNode } from 'react';
+import React from 'react';
 import { VscGithubInverted, VscNotebook } from 'react-icons/vsc';
 import './index.scss';
 import Projects from '../components/homPageProjects';
 import RecentBlogs, { RecentBlogItem } from '../components/homePageRecentBlogs';
 import { useAllPluginInstancesData } from '@docusaurus/useGlobalData';
-import clsx from 'clsx';
 import Typed from 'typed.js';
-import Wave from '../components/wave';
 import Button from '../components/button';
 import { FaLanguage } from 'react-icons/fa';
 import { useLocation } from '@docusaurus/router';

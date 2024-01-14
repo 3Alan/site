@@ -1,0 +1,39 @@
+$namespace: ai-summary;
+
+.#{$namespace} {
+  margin-bottom: 20px;
+
+  &-button {
+    background-color: #242428;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 5px;
+    }
+
+    &:hover {
+      background-color: #353538;
+    }
+  }
+
+  &-title {
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  &-content {
+    padding: 10px;
+    font-size: 14px;
+    background-color: rgb(36, 36, 40);
+    border: 1px solid var(--ifm-surface-border-color);
+    border-radius: 6px;
+  }
+}

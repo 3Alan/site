@@ -20,6 +20,7 @@ import License from '../../components/license';
 import { OutDated } from '../../components/outdated';
 import getFormatDate from '../../utils/getFormatDate';
 import { Wip } from '@site/src/components/wip';
+import { AiSummary } from '@site/src/components/aiSummary';
 
 function BlogPostPageContent({
   children
@@ -35,6 +36,7 @@ function BlogPostPageContent({
     toc_max_heading_level: tocMaxHeadingLevel,
     hide_comment: hideComment,
     out_dated: outDated,
+    summary,
     wip,
     date,
     updated
@@ -52,6 +54,7 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>
+        {summary && <AiSummary content={summary} />}
         {outDated && <OutDated date={getFormatDate(updated || date)} />}
         {wip && <Wip />}
         {children}
