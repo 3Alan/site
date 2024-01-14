@@ -18,11 +18,11 @@ description: >-
   Prisma 作为 ORM。
 wip: true
 summary: >-
-  使用 Expo 开发 Airbnb Clone 全栈应用，使用 MongoDB 作为数据库，使用 React Query 作为数据管理工具，使用
-  Prisma 作为 ORM。
+  使用 Expo 开发 Airbnb Clone 全栈应用，使用了 MongoDB 作为数据库，React Query 作为数据管理工具，Prisma 作为
+  ORM。
 
 
-  Expo 是一款对 Web 开发人员友好的框架，可以以很低的学习成本开发出一个移动端应用。
+  Expo 是一个对 Web 开发人员友好的框架，可以以很低的学习成本开发出一个移动端应用。
 
 
   RN 生态中有许多组件库和动画库可以选择，但 RN 中不支持 svg 和渐变，需要使用第三方库解决。

@@ -1,14 +1,10 @@
 ---
 draft: true
 summary: >-
-  记录踩坑内容，抽象成一个 Flask 服务和 Tauri 的脚手架。
-
-
-  FOLDERID_RoamingAppData 和 FOLDERID_LocalAppData 是 Windows
-  操作系统中的两个文件夹路径常量，分别代表当前用户的应用程序数据文件夹（Roaming）和本地应用程序数据文件夹（Local）。
-
-
-  Roaming 文件夹用于存储需要在多个计算机之间同步的用户数据，而 Local 文件夹用于存储本地数据，例如缓存文件和其他临时文件。
+  记录踩坑内容，抽象成一个 Flask 服务和 Tauri 的脚手架。FOLDERID_RoamingAppData 和
+  FOLDERID_LocalAppData 是 Windows
+  操作系统中的两个文件夹路径常量，分别代表当前用户的应用程序数据文件夹（Roaming）和本地应用程序数据文件夹（Local）。Roaming
+  文件夹用于存储需要在多个计算机之间同步的用户数据，而 Local 文件夹用于存储本地数据，例如缓存文件和其他临时文件。
 ---
 
 记录踩坑内容
