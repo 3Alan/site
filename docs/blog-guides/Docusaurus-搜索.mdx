@@ -17,11 +17,11 @@ sidebar_position: 2
 summary: |-
   使用 GitHub Actions 和 Algolia DocSearch 搭建 Docusaurus 搜索功能。
 
-  1. 创建 Algolia 账号，获取 Application ID、Search-Only API Key 和 Admin API Key。
-  2. 在博客仓库中创建一个 Action，选择触发条件，运行 Algolia DocSearch 爬虫镜像。
-  3. 在项目仓库中新建两个 Actions secrets，分别为 ALGOLIA_APP_ID 和 ALGOLIA_API_KEY。
-  4. 在项目根目录下新建 docsearch.json 文档，并替换其中的值。
-  5. 配置 docusaurus.config.js，添加 algolia 配置。
+  1. 创建 Algolia 账号，获取相关 Key。
+  2. 在博客仓库中创建 Action，选择触发条件，运行 Algolia DocSearch 爬虫镜像。
+  3. 在项目仓库中创建 Secrets，分别为 `ALGOLIA_APP_ID` 和 `ALGOLIA_API_KEY`。
+  4. 在项目根目录下新建 `docsearch.json` 文档，并替换其中的值。
+  5. 配置 `docusaurus.config.js`，添加 Algolia 配置。
 
   完成以上步骤即可实现 Docusaurus 搜索功能。
 ---

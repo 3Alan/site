@@ -16,8 +16,8 @@ description: >-
   解析 chatpdf 实现原理，利用 OpenAI API 将 PDF
   文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
 summary: >-
-  ChatGPT PDF 是一个利用 OpenAI API 将 PDF
-  文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答的项目。
+  ChatGPT PDF 是一款基于 OpenAI API 开发的 PDF 阅读器，它可以将 PDF
+  文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
 
 
   该项目使用 PostgresSql、Next.js 和 Supabase 技术栈，并提供了详细的本地运行步骤。

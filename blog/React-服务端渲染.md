@@ -16,7 +16,7 @@ keywords:
 description: React 服务端渲染的简单实现原理
 authors: Alan
 summary: >-
-  React 服务端渲染（SSR）可以提升首次加载速度，提高用户体验。
+  React服务端渲染（SSR）可以提升首次加载速度，提高用户体验。
 
 
   本项目使用 React、Express 和 Redux 实现了一个简单的 SSR 应用。

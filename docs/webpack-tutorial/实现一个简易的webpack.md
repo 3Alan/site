@@ -23,7 +23,7 @@ keywords:
 description: webpack学习总结
 sidebar_position: 7
 summary: >-
-  手写简单的 loader、Plugin、简单的 webpack。
+  手写简单的 loader、Plugin 和 webpack。
 
 
   loader 可以将项目中的字符串替换成 webpack 中配置的字符串。Plugin 可以实现在 dist 目录下生成一个 author.txt
