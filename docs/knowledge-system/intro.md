@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 hide_comment: true
+summary: 本类别整理了一些平时总结的知识点，包含面试中遇到的问题。涉及 CSS、JS、TS、工程化、计算机网络、React、算法和面试题等方面。
 ---
 
 # 介绍

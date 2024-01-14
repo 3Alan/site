@@ -9,6 +9,12 @@ keywords:
   - 录屏
 authors: Alan
 description: 收藏了一些好用的 Mac 软件，包含录屏，浏览器
+summary: >-
+  我收集了一些好用的 Mac 软件，包括录屏、浏览器和开发工具等。其中，Screen Studio 是一款动画非常丝滑的录屏软件，但价格有点贵。Arc
+  是一款颜值非常高的浏览器，目前有 5 个邀请码，需要体验的请在下方留言。Termius 是一款 SSH 客户端，有免费版本，有 github
+  学生包的可以白嫖 Pro 版本。Raycast 是一款绝对的生产力工具，所有操作都可以在一个搜索框内完成。Magnet
+  是一款分屏工具，可以将窗口分屏到屏幕的任意位置，支持快捷键，非常好用，不过收费 $9.9。Snipaste 是一款截屏工具，我一直都在用，支持
+  windows 和 mac。
 ---
 
 import SiteCard from '../src/components/siteCard';
