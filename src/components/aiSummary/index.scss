@@ -35,5 +35,11 @@ $namespace: ai-summary;
     background-color: rgb(36, 36, 40);
     border: 1px solid var(--ifm-surface-border-color);
     border-radius: 6px;
+
+    p {
+      &:last-of-type {
+        margin: 0;
+      }
+    }
   }
 }

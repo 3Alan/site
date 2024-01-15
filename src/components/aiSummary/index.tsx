@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaMagic } from 'react-icons/fa';
 import './index.scss';
 import Typed from 'typed.js';
+import { marked } from 'marked';
 
 const cls = 'ai-summary';
 
@@ -14,10 +15,12 @@ export function AiSummary({ content }) {
       return;
     }
 
+    const parsedContent = marked.parse(content) as string;
+
     const typed = new Typed(el.current, {
-      strings: [content],
+      strings: [parsedContent],
       startDelay: 300,
-      typeSpeed: 15,
+      typeSpeed: 10,
       showCursor: false
     });
 
