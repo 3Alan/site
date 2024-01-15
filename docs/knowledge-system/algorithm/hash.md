@@ -9,8 +9,8 @@ keywords:
   - 算法
 description: 常见的hash题及应用场景
 summary: |-
-  - “两数之和”算法的时间复杂度为 O(n)，空间复杂度为 O(n)。
-  - “有效括号”算法使用哈希表和栈来解决括号匹配问题。
+  - 两数之和：时间复杂度为 O(n)，空间复杂度为 O(n)。
+  - 有效括号：使用哈希表和栈解决，时间复杂度为 O(n)，空间复杂度为 O(n)。
 ---
 
 - [两数之和](https://leetcode-cn.com/problems/two-sum/)

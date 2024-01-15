@@ -11,12 +11,17 @@ categories:
   - React
 date: 2020-05-13T16:11:11.000Z
 out_dated: true
-summary: |-
-  1. JWT（JSON Web Token）是一种开放标准（RFC 7519），它定义了紧凑且独立的自包含方式，用于在各方之间安全地传输信息。
-  2. egg-jwt 是一个 Egg.js 插件，它可以帮助你轻松地使用 JWT 来保护你的 API。
-  3. 你需要在你的 Egg.js 项目中安装 egg-jwt，然后在你的配置文件中进行配置。
-  4. 你可以使用 egg-jwt 来生成和验证 JWT，并使用它来保护你的 API。
-  5. 你可以在你的前端代码中使用 axios 来封装对后端的请求，并自动在请求头中携带 JWT。
+summary: >-
+  1. JWT 是 JSON Web 令牌，用于在两个系统之间安全地传输信息。
+
+  2. egg-jwt 是一个 Egg.js 插件，用于实现 JWT 认证。
+
+  3. 需要在 `config/plugin.js` 和 `config/config.default.js` 中配置 egg-jwt。
+
+  4. 可以在路由中使用 `jwt` 中间件来实现对路由的鉴权。
+
+  5. 前台可以使用 axios 封装来实现每次请求时自动在 headers 上携带 token 数据到后台，后台使用 `jwt.verify` 来检验
+  token 的正确性。
 ---
 
 react 博客系列文章

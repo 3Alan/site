@@ -20,11 +20,11 @@ date: 2020-05-17T10:05:14.000Z
 updated: 2020-05-16T13:33:00.000Z
 sidebar_position: 4
 summary: |-
-  1. 开发者在开发中使用 ES6 语法，但 IE 无法识别 ES6 语法，因此需要借助 babel 处理。
-  2. 安装 babel-loader、@babel/core、@babel/preset-env，配置 webpack，将 ES6 转化为 ES5。
-  3. 使用 @babel-polyfill 模拟 ES5 环境，让 IE 能够识别 ES6 语法。
-  4. 使用 @babel/preset-react 处理 React 的 jsx 语法。
-  5. 使用 useBuiltIns:usage 按需引入，减小打包后的文件体积。
+  1. 使用 Babel 处理 ES6 语法，以便在旧浏览器中运行。
+  2. 安装 Babel 相关依赖，并配置 webpack。
+  3. 使用 `@babel/preset-env` 将 ES6 代码转换为 ES5 代码。
+  4. 使用 `@babel/polyfill` 模拟 ES5 环境，支持 Promise 和 filter 等功能。
+  5. 使用 `useBuiltIns:usage` 按需引入 `@babel/polyfill`，以减少代码体积。
 ---
 
 ## 处理 ES6 语法

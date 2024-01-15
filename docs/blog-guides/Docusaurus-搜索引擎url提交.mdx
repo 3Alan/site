@@ -15,17 +15,23 @@ date: 2022-11-10T00:00:00.000Z
 description: 通过 Github Actions 自动提交 Docusaurus url 到搜索引擎（百度、必应、谷歌）
 sidebar_position: 3
 summary: >-
-  使用 `Github Action`
-  [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)
-  可以将网站的 `sitemap` 提交给搜索引擎。
+  之前使用 `Hexo` 时，有第三方包可用，但 `Docusaurus` 没有。因此，我写了一个通用的 `Github Action`
+  [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有
+  `sitemap` 就可以使用。
 
-  使用前提是网站已经生成了 `sitemap`。
 
-  在项目仓库中创建 `Github Action` 和 `Actions secrets`，然后就可以使用了。
+  使用前提是你的网站已经生成了 `sitemap`。
 
-  需要注意的是，如果配置了 `BING_TOKEN`，那么 `COUNT` 数值应小于 10，因为 `BING` 每日配额数只有 10 条。
 
-  目前正在研究如何生成最近更新的 10 篇文章 `sitemap`。
+  你可以在项目中创建一个 `Github Action`，并配置相应的 `Actions secrets`。
+
+
+  具体参数获取参照 `action`
+  [search-engines-urls-push](https://github.com/3Alan/search-engines-urls-push)
+  文档。
+
+
+  由于 `Docusaurus` 的 `sitemap` 插件无法自定义生成规则，因此无法实现只提交最近更新的 10 篇文章。
 ---
 
 之前使用 `Hexo` 时，有三方包可用。于是调研了一下，发现 `Docusaurus` 没有类似三方可以使用，索性就自己写了个通用的 `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push)，只要你的网站有 `sitemap` 就可以使用。

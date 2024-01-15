@@ -18,9 +18,9 @@ sidebar_label: 组件搭建
 sidebar_position: 1
 summary: >-
   我正在构建一个属于自己的组件库和脚手架。我使用了 React、Sass、TypeScript、Create-React-App、Storybook、Jest
-  和 Lerna。我学到了很多东西，比如 `package.json` 中的 `peerDependencies`，node-sass 已弃用，以及如何使用
-  Rollup 打包。我还在探索 package.json 的 `module` 和 `types`。我还配置了 ESLint、Prettier、Husky
-  和 Lint-Staged 以确保代码质量。我遇到了一个奇怪的问题，即 Rollup 打包后进程没有关闭。我成功地发布了组件库到 npm。
+  和 Lerna 等技术。我学到了很多知识，比如 `package.json` 中的 `peerDependencies`、node-sass 已弃用、使用
+  Rollup 打包等。我还遇到了一个奇怪的问题：Rollup 打包后进程没有关闭。我配置了 ESLint、Prettier、Husky +
+  lint-staged 和 Commitlint 来保证代码质量。我使用了 Rollup 打包组件库，并编写了打包脚本。最后，我发布了组件库到 npm。
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。

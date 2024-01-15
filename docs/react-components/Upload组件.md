@@ -17,12 +17,17 @@ keywords:
 description: react Upload 组件，包括普通上传、拖拽上传、上传进度
 sidebar_label: Upload 组件
 sidebar_position: 2
-summary: |-
-  * 该组件可以上传文件，支持拖拽上传。
-  * 它提供了受控和非受控两种模式，并允许用户自定义触发上传的元素。
-  * 组件内部维护了一个文件列表，并为每个文件添加了状态信息，如上传中、上传成功、上传失败等。
-  * 组件还提供了 `beforeUpload` 生命周期，允许用户在文件上传前对文件进行处理或中断上传。
-  * 组件使用 `XMLHttpRequest.upload.progress` 来跟踪上传进度，并将其显示在界面上。
+summary: >-
+  1. Upload 组件用于文件上传，可展示文件上传状态，支持受控/非受控组件和拖拽上传。
+
+  2. 组件通过 `beforeUpload` 生命周期函数处理文件，可根据文件大小中断上传。
+
+  3. 文件上传通过 `XMLHttpRequest.upload.progress` 或 `axios` 的 `onUploadProgress`
+  监听上传进度。
+
+  4. 文件列表展示使用 `internalFileList` 的属性，如 `percent`、`status` 等。
+
+  5. 组件通过 `onChange` 回调通知父组件文件上传状态和文件列表。
 ---
 
 下面的代码已经去除了大部分与主线无关的代码。
