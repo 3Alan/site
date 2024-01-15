@@ -31,7 +31,7 @@ summary: >-
 我一共想到了几种方案
 
 1. 通过 Github Action 监听 push 事件，然后在 Action 中调用 Gemini API 生成总结，最后将总结的内容插入到文档的 front matter 中。
-2. 通过 Github Bot 监听 Github Webhook 事件，然后在 Bot 中调用 Gemini API 生成总结，最后将总结的内容插入到文档的 front matter 中。
+2. 通过 Github Bot 监听 Github Webhook 事件，然后在 Bot 中调用 Gemini API 生成总结，最后将总结的内容插入到文档的 front matter 中，由 Bot 提交 PR，整个工作流比较顺滑，你只需要 Review 并合并 Bot 的 PR 即可。
 3. 直接在页面上请求 Gemini API 生成总结然后展示在页面上。
 
 首先第三种方案由于博客是静态页面，出于安全考虑没办法将 API KEY 直接发送给客户端，所以这种方案直接排除了。
