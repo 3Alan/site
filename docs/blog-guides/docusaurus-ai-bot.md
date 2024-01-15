@@ -34,7 +34,7 @@ summary: >-
 3. 直接在页面上请求 Gemini API 生成总结然后展示在页面上。
 
 首先第三种方案由于博客是静态页面，出于安全考虑没办法将 API KEY 直接发送给客户端，所以这种方案直接排除了。
-第一种方案虽然可行但是没有第二种方案能实现的功能多，所以我最后选择了第二种方案。
+第一种方案虽然可行但是没有第二种方案能实现的功能多，并且第二种方案社区有成熟的框架 [Probot](https://probot.github.io/) 使用，所以我最后选择了第二种方案。
 
 于是我自己开发了一个 Github 机器人来完成自动化总结的功能， [项目地址](https://github.com/3Alan/docs-ai-bot)
 
@@ -55,12 +55,8 @@ summary: >-
 
 首先将[项目代码](https://github.com/3Alan/docs-ai-bot)拉取下来，然后执行以下命令
 
-```md
-# Install dependencies
-
+```
 npm install
-
-# Run the bot
 
 npm start
 ```
@@ -120,3 +116,9 @@ yarn add typed.js
 首先确保你之前 Swizzling 过 `DocItem/Layout` 和 `BlogPostPage` 组件，具体步骤参考 [这篇文章](/posts/blog-guides/docusaurus-comment#swizzling-docusaurus-内部组件)，这里我不在过多赘述。
 
 具体修改查看 [这个提交](https://github.com/3Alan/site/commit/ce04cf23f0ae36c118db2bb8d359b2ee85f2676c)
+
+## 总结
+
+目前由于手中没有可用的服务器，所有只能使用 Zeabur 的免费计划来部署机器人，后期可能会调研如何使用 Github Action 运行。
+
+关于功能需求，后期可能会增加自动翻译工作流。

@@ -196,10 +196,10 @@ const config = {
         indexName: 'alanwang'
       },
       zoom: {
-        selector: '.markdown :not(em, .site-card-img-wrap) > img',
+        selector: '.markdown :not(em, a, .site-card-img-wrap) > img',
         background: {
           light: 'rgb(255, 255, 255)',
-          dark: 'rgb(50, 50, 50)'
+          dark: 'rgb(50, 50, 50, 0.95)'
         }
       }
     }),
@@ -268,7 +268,7 @@ const config = {
       }
     ],
     './src/plugins/plugin-analytics-inject.js',
-    require.resolve('docusaurus-plugin-image-zoom')
+    'docusaurus-plugin-image-zoom'
   ],
   clientModules: [require.resolve('./src/clientModules/routeModules.ts')]
 };
