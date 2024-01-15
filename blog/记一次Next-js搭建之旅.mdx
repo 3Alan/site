@@ -19,14 +19,12 @@ description: Next.js搭建教程，搭建中遇到的问题，前端工程化搭
 authors: Alan
 out_dated: true
 summary: >-
-  Next.js 是基于 React 的 SSR（服务端渲染）框架，它可以提供更好的 SEO 和更快的首屏渲染速度。Next.js 的路由映射方式与
-  React 不同，它使用 page（页面）的概念，每个 page（页面）都是一个从 .js、jsx、.ts 或 .tsx 文件导出（export）的
-  React 组件，这些文件存放在 pages 目录下。Next.js 自带路由：next/router 和 next/link，使用与
-  react-router 类似。Next.js 有两种渲染方式：预渲染和客户端获取数据。预渲染包括静态生成（Static
-  Generation）和服务器端渲染（Server-side Rendering）。静态生成是 HTML 重用，build
-  生成，服务器端渲染是每次请求生成的 HTML 不同，用户请求时生成。项目结构及工程化方面，Next.js 支持配置 Eslint+Prettier、配置
-  alias、封装 axios 在每次请求时显示 spin 组件、自定义 input hook、封装 Dialog、移动端适配、使用
-  Docker+coding 实现自动化部署。Next.js 踩坑方面，需要注意环境变量配置和判断环境。
+  Next.js 是基于 React 的 SSR（服务端渲染框架），它可以提供更好的 SEO 和更快的首屏渲染速度。Next.js 的路由方式与 React
+  Router 类似，可以使用编程式跳转和组件式跳转。在 Next.js 中，可以通过 `getStaticProps` 和
+  `getServerSideProps` 来获取数据，并使用 `SWR` 来在客户端获取数据。Next.js
+  还提供了很多开箱即用的功能，如自动代码分割、路由预取、国际化支持等。在项目中，我使用了 Next.js 来构建一个移动端 H5
+  活动页面，并遇到了很多问题，如环境变量配置、判断环境、移动端适配等。最终，我通过查阅官方文档、搜索相关资料和向同事请教，解决了这些问题，并成功地将 H5
+  活动页面迁移到了 Next.js 下。
 ---
 
 这段时间工作要求将之前的 vue 的 H5 活动页面转移到 Next.js 下面，经过一段时间的研究，总结出了下面的内容。

@@ -15,22 +15,39 @@ keywords:
 description: React 入门教程，包含了 React 的常见生态
 authors: Alan
 summary: >-
-  1. React 中组件名首字母大写，标签可以使用 `React.Fragment` 或者 `<>` 包裹。
+  - React 中数据流是单向的，子组件不能修改父组件的数据，而 Vue 中数据流是双向的，子组件可以修改父组件的数据。
 
-  2. 组件通信：父组件通过属性传递，子组件通过 `this.props` 接受。子组件通过添加事件来调用父组件的方法，达到子组件修改父组件数据的目的。
+  - React 中组件名首字母必须大写，而 Vue 中组件名可以是小写。
 
-  3. 参数校验及默认值：使用 `PropTypes` 来进行参数校验，使用 `defaultProps` 来设置默认值。
+  - React 中可以使用 `<React.Fragment></ React.Fragment>` 或者 `<></>` 来包裹标签，而 Vue
+  中可以使用 `<template>` 标签来包裹标签。
 
-  4. 异步组件加载插件 `react-loadable`：用于异步加载组件，提升用户体验。
+  - React 中关键字 `class` 需要使用 `className` 替换，而 Vue 中可以使用 `class`。
 
-  5. Redux：一个状态管理工具，通过 `store` 来管理数据，组件通过 `dispatch(action)` 来通知 `store`，`store`
-  根据 `action` 来调用对应的 `reducers` 来操作 `store` 副本，`reducers` 将处理好的数据返回给 `store`。
+  - React 中标签 `label` 的 `for` 属性需要使用 `htmlFor` 替换，而 Vue 中可以使用 `for`。
 
-  6. Redux 中间件：位于 `action` 和 `store` 之间，可以对 `action` 进行处理。
+  - React 中不要直接修改 `state`，而要使用 `this.setState()`，而 Vue 中可以直接修改 `data`。
 
-  7. React-router：一个路由管理工具，用于管理页面跳转。
+  - React 中 `this` 指向问题需要使用箭头函数或者 `bind` 来解决，而 Vue 中不需要考虑这个问题。
 
-  8. React 对比 Vue 来说，学习成本比较高，但是比较灵活。
+  - React 中循环渲染时需要加 `key`，而 Vue 中不需要。
+
+  - React 中注释写法为 `{/\*\*/}`,而 Vue 中注释写法为 `<!-- -->`。
+
+  - React 中可以使用 `dangerouslySetInnerHTML={{__html: item(需要展示的数据)}}` 来不转义 HTML
+  标签，而 Vue 中可以使用 `v-html` 指令来不转义 HTML 标签。
+
+  - React 中 `setState()` 的第二个参数为回调函数，而 Vue 中 `setState()` 的第二个参数为对象。
+
+  - React 中一旦 `state`, `props` 变化，`render()` 就会执行，而 Vue 中只有当 `data`, `props`
+  变化时，`render()` 才会执行。
+
+  - React 中可以使用 `react-transition-group` 来实现动画效果，而 Vue 中可以使用 `vue-transition`
+  来实现动画效果。
+
+  - React 中当组件只有 `render()` 时，可以把它声明成一个无状态组件，可以提升性能，而 Vue 中也可以通过函数式组件来实现无状态组件。
+
+  - React 中 ref 用来获取 DOM 元素，而 Vue 中 ref 也用来获取 DOM 元素。
 ---
 
 总结学习 React 以及相关生态时遇到的难点以及重点

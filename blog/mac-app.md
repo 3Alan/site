@@ -10,8 +10,8 @@ keywords:
 authors: Alan
 description: 收藏了一些好用的 Mac 软件，包含录屏，浏览器
 summary: >-
-  这篇文章列出了一些好用的Mac软件，包括录屏、浏览器、开发工具和生产力工具等。其中，Screen
-  Studio是一款动画非常丝滑的录屏软件，但价格较贵。Arc是一款颜值非常高的浏览器，目前有5个邀请码，需要体验的请在下方留言。Raycast是一款绝对的生产力工具，所有操作都可以在一个搜索框内完成。Magnet是一款分屏工具，可以将窗口分屏到屏幕的任意位置，支持快捷键，非常好用。Snipaste是一款截屏工具，支持windows和mac。
+  我收集了一些好用的 Mac 软件，包括录屏软件 Screen Studio、浏览器 Arc、开发工具 Termius、生产力工具
+  Raycast、Magnet 和 Snipaste。这些软件都有各自的特点和优势，可以帮助你提高工作效率和生产力。
 ---
 
 import SiteCard from '../src/components/siteCard';

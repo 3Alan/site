@@ -3,13 +3,11 @@ slug: webpack-loader
 title: 编写一个Webpack loader
 draft: true
 summary: |-
-  这两篇文章介绍了如何编写 Webpack 加载器。文章中提供了三个示例：
+  写作 webpack loader 的方法有很多，可以根据需要选择不同的方法。
 
-  1. 清除代码中的 console
-  2. 代码中添加 MIT 协议
-  3. 加载视频并将其作为文件输出
+  例如，可以写一个 loader 来清除代码中的 console，或者添加 MIT 协议，或者加载视频文件。
 
-  这些示例展示了如何使用 Webpack 加载器来处理和转换代码。
+  总之，webpack loader 可以用来扩展 webpack 的功能，使其能够处理更多种类的文件。
 ---
 
 > https://advancedweb.hu/how-to-write-a-webpack-loader/

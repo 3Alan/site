@@ -23,13 +23,18 @@ references:
 date: 2020-05-17T10:05:14.000Z
 updated: 2020-05-16T13:33:00.000Z
 sidebar_position: 3
-summary: >-
-  这一节介绍了 webpack 中一些常用的插件的使用。
+summary: |-
+  本节介绍了 webpack 的一些常用插件的使用。
 
+  html-webpack-plugin 可以帮助我们自动创建 HTML 文件，并可以自定义 HTML 模板。
 
-  html-webpack-plugin 可以帮助我们自动生成 HTML 文件，并可以自定义 HTML 模板。clean-webpack-plugin
-  可以帮助我们在每次打包前清空 webpack 中配置的输出目录。多入口文件可以通过设置 entry 来完成打包，并通过 [name]
-  占位符来设置打包出来的文件的名称。sourceMap 可以帮助我们在代码存在错误时，找到错误所在处，有利于我们 debug 代码。
+  clean-webpack-plugin 可以帮助我们在每次打包前清空 webpack 中配置的输出目录。
+
+  webpack 可以通过设置 entry 来完成多入口文件的打包。
+
+  output 的 publicPath 可以帮助我们在打包后将部分文件丢到 cdn 中来加快访问速度。
+
+  sourceMap 可以帮助我们在代码存在错误时，找到错误所在处，有利于我们 debug 代码。
 ---
 
 这节介绍了 webpack 一些常用的 plugins 的使用

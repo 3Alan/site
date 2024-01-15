@@ -1,9 +1,16 @@
 ---
 draft: true
 summary: >-
-  Tauri 脚手架是一个抽象的 Flask 服务，当关闭时会自动杀死 Flask 进程。FOLDERID_RoamingAppData 和
-  FOLDERID_LocalAppData 是 Windows 操作系统中的两个文件夹路径常量，分别用于存储应用程序的用户特定数据和本地数据。Roaming
-  文件夹用于存储需要在多个计算机之间同步的用户数据，而 Local 文件夹用于存储本地数据，例如缓存文件和其他临时文件。
+  - 将 Flask 服务和 Tauri 封装成一个脚手架，以便在关闭时自动杀死 Flask 进程。
+
+  - Windows 操作系统中的 appData 和 appLocalData
+  是两个文件夹路径常量，分别代表应用程序数据文件夹（Roaming）和本地应用程序数据文件夹（Local）。
+
+  - Roaming 用于存储用户特定数据，例如个人设置和自定义选项，并在多个计算机之间同步。
+
+  - Local 用于存储本地数据，例如缓存文件和其他临时文件，不会在多个计算机之间同步。
+
+  - 总的来说，Roaming 用于存储需要在多个计算机之间同步的用户数据，而 Local 用于存储本地数据。
 ---
 
 记录踩坑内容
