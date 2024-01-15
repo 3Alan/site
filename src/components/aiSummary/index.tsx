@@ -31,6 +31,7 @@ export function AiSummary({ content }) {
     <div className={cls}>
       {!show && (
         <button
+          data-umami-event="ai-summary"
           className={`${cls}-button`}
           onClick={() => {
             setShow(true);
