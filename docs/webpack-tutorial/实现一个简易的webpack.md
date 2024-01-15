@@ -22,9 +22,11 @@ keywords:
   - webpack实现
 description: webpack学习总结
 sidebar_position: 7
-summary: >-
-  手写了一个简单的 loader，可以将项目中的字符串替换成 webpack 中配置的字符串。手写了一个简单的 Plugin，可以在 dist 目录下生成一个
-  author.txt 文件。实现了简单的 webpack 打包，可以将所有文件依赖分析出来，并生成可以浏览器运行的代码。
+summary: |-
+  1. 编写了一个简单的 Loader，可将项目中的「webpack」字符串替换为 Loader 中配置的字符串。
+  2. 手写了一个简单的 Plugin，可在打包后在 dist 目录下生成一个 author.txt 文件。
+  3. 实现了一个简单的 webpack 打包工具，可将代码转化成浏览器可执行的代码。
+  4. 了解了 webpack 的基本原理和实现过程。
 ---
 
 手写简单的 loader、Plugin、简单的 webpack

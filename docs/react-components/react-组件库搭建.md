@@ -16,12 +16,11 @@ keywords:
 description: react组件库的搭建流程，包括打包发布单元测试
 sidebar_label: 组件搭建
 sidebar_position: 1
-summary: |-
-  1. React 组件库搭建包括技术选型、知识积累、代码质量相关、奇怪的问题、npm 发布等步骤。
-  2. 技术选型包括 React、Sass、Typescript、Create-React-App、Storybook、Jest、Lerna 等。
-  3. 知识积累包括 package.json 中的 peerDependencies、node-sass 弃用、rollup 打包等。
-  4. 代码质量相关包括配置 ESLint、Prettier、Husky + Lint-Staged、Commitlint 等。
-  5. npm 发布需要先置条件，包括 npm 账号、打包后的组件文件、npm 已经绑定账号等。
+summary: >-
+  我正在构建一个属于自己的组件库和脚手架。我使用了 React、Sass、TypeScript、Create-React-App、Storybook、Jest
+  和 Lerna。我学到了很多东西，比如 `package.json` 中的 `peerDependencies`，node-sass 已弃用，以及如何使用
+  Rollup 打包。我还在探索 package.json 的 `module` 和 `types`。我还配置了 ESLint、Prettier、Husky
+  和 Lint-Staged 以确保代码质量。我遇到了一个奇怪的问题，即 Rollup 打包后进程没有关闭。我成功地发布了组件库到 npm。
 ---
 
 一直都想搭建一套属于自己的组件库、脚手架，这次总算是开始动手了。

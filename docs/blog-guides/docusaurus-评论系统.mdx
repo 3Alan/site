@@ -16,12 +16,12 @@ updated: 2023-01-28T00:00:00.000Z
 description: 通过 Docusaurus Swizzling 为博客和文档添加 Giscus 评论功能
 sidebar_position: 1
 summary: |-
-  1. 通过 Docusaurus Swizzling 为博客和文档添加 Giscus 评论功能。
+  1. 按照 Giscus 官网步骤配置安装并获取配置参数。
   2. 安装所需包 `yarn add @giscus/react mitt`。
-  3. 封装评论组件，解决 Docusaurus bug 导致的评论获取错误问题。
-  4. Swizzling Docusaurus 内部组件，在文档和博客页面添加评论组件。
-  5. 配置 Giscus，设置评论仓库、类别等信息。
-  6. 完成以上步骤，即可在博客和文档底部看到评论功能。
+  3. 封装评论组件，包括配置生命周期函数和创建组件。
+  4. Swizzling Docusaurus 内部组件，包括文档页面对应组件和博客页面对应组件。
+  5. 配置 Giscus 并设置黑夜模式。
+  6. 完成以上步骤后，即可在每篇博客和每篇文档的底部看到评论功能。
 ---
 
 ## 获取 Giscus 配置参数

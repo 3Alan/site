@@ -14,12 +14,23 @@ keywords:
   - React 生命周期
 description: React 入门教程，包含了 React 的常见生态
 authors: Alan
-summary: |-
-  - React 入门教程，包含了 React 的常见生态。
-  - 组件通信：父 -> 子通过属性传递，子 -> 父通过父组件将自己方法传递给子组件，子组件通过添加事件来调用该方法。
-  - props 参数校验及默认值：使用 PropTypes 进行参数校验，使用 DefaultProps 设置默认值。
-  - Redux：一个状态管理库，用于管理应用中的状态，遵循单向数据流的原则。
-  - React Router：一个路由库，用于管理应用中的路由。
+summary: >-
+  1. React 中组件名首字母大写，标签可以使用 `React.Fragment` 或者 `<>` 包裹。
+
+  2. 组件通信：父组件通过属性传递，子组件通过 `this.props` 接受。子组件通过添加事件来调用父组件的方法，达到子组件修改父组件数据的目的。
+
+  3. 参数校验及默认值：使用 `PropTypes` 来进行参数校验，使用 `defaultProps` 来设置默认值。
+
+  4. 异步组件加载插件 `react-loadable`：用于异步加载组件，提升用户体验。
+
+  5. Redux：一个状态管理工具，通过 `store` 来管理数据，组件通过 `dispatch(action)` 来通知 `store`，`store`
+  根据 `action` 来调用对应的 `reducers` 来操作 `store` 副本，`reducers` 将处理好的数据返回给 `store`。
+
+  6. Redux 中间件：位于 `action` 和 `store` 之间，可以对 `action` 进行处理。
+
+  7. React-router：一个路由管理工具，用于管理页面跳转。
+
+  8. React 对比 Vue 来说，学习成本比较高，但是比较灵活。
 ---
 
 总结学习 React 以及相关生态时遇到的难点以及重点
