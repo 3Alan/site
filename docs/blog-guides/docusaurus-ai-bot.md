@@ -13,10 +13,9 @@ date: 2024-01-14T00:00:00.000Z
 description: 利用 Gemini AI 搭配 Github Bot 实现自动化生成文章总结
 sidebar_position: 1
 summary: >-
-  利用 Gemini AI 和 Github Bot 实现自动化生成文章摘要。首先开发了一个 Github 机器人来完成自动化摘要的功能，然后将其部署到
-  Zeabur。接着通过 Github App 和 Webhook 将机器人与仓库关联起来。最后新建一个 issue 并添加 `summarizer`
-  标签，机器人就会开始总结博文。安装三方库 `typed.js` 并修改 `DocItem/Layout` 和 `BlogPostPage`
-  组件，即可在文章页面上显示摘要。
+  我开发了一个 GitHub 机器人，可以自动总结博客文章的内容，并将总结插入到文章的开头。我使用 Zeabur 部署了机器人，并创建了一个 GitHub
+  App
+  来监听仓库的事件。当有新的文章被提交时，机器人就会自动总结文章的内容并将其插入到文章的开头。这个机器人还可以自动翻译文章的内容，不过目前该功能还在开发中。
 ---
 
 先看效果
