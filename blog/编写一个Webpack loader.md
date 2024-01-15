@@ -2,9 +2,14 @@
 slug: webpack-loader
 title: 编写一个Webpack loader
 draft: true
-summary: >-
-  Webpack loader 是一种用于预处理 Webpack 中的模块的工具。它可以用来清除代码中的 console、添加 MIT
-  协议、加载视频并输出文件等。编写 Webpack loader 的方法有很多，可以根据需要选择合适的方法。
+summary: |-
+  这两篇文章介绍了如何编写 Webpack 加载器。文章中提供了三个示例：
+
+  1. 清除代码中的 console
+  2. 代码中添加 MIT 协议
+  3. 加载视频并将其作为文件输出
+
+  这些示例展示了如何使用 Webpack 加载器来处理和转换代码。
 ---
 
 > https://advancedweb.hu/how-to-write-a-webpack-loader/

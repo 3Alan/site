@@ -16,10 +16,10 @@ keywords:
 description: React 服务端渲染的简单实现原理
 authors: Alan
 summary: >-
-  React 服务端渲染（SSR）可以提升首次加载速度，提高用户体验。本项目使用 React、Express 和 Redux 实现了一个简单的 SSR
-  应用。服务端通过 `matchRoutes` 查找路由对应的组件，注入 `getServerSideProps` 返回的数据到组件中后使用
-  `renderToString` 进行缩水并返回到客户端。客户端通过 hydrate 进行注水，这一阶段 React 会尽可能的复用 HTML
-  结构，React 会根据服务端返回的 HTML 结构进行初始化工作。
+  这篇文章形象地解释了概念。技术栈包括 React、Express 和 Redux。源代码可以在 GitHub 上找到。服务端主要对组件进行缩水处理，处理
+  Redux 和 `getServerSideProps`。客户端通过 `hydrate` 进行注水，这一阶段 React 会尽可能的复用 HTML
+  结构。组件可以写成函数组件，使用 `useParams` 获取路由参数，使用 `useSelector` 获取 Redux 状态，并使用
+  `getServerSideProps` 获取服务端数据。
 ---
 
 关于概念，我觉得这篇[文章](https://segmentfault.com/a/1190000038336185)讲的很形象

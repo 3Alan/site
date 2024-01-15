@@ -16,10 +16,18 @@ description: >-
   解析 chatpdf 实现原理，利用 OpenAI API 将 PDF
   文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。
 summary: >-
-  ChatGPT PDF 是一款基于 OpenAI API 的 PDF 阅读器。它可以将 PDF
-  文本片段转换为向量，并使用余弦相似度算法匹配用户提出的问题和文本片段，从而实现对长文本的问答。该项目使用 PostgresSql、Next.js 和
-  Supabase 技术栈，并提供了详细的本地运行步骤。用户可以通过修改 prompt 来调整回答的准确性，也可以将自己的 PDF 移动到 public
-  目录下并修改默认显示的 PDF 路径来调整 PDF 显示。
+  最近，随着 OpenAI 开放相关 API，市面上出现了越来越多的 AI 应用。Chatpdf 项目引起了我的注意，它通过将 PDF 文本切分成小于
+  Token 限制的片段，并使用 OpenAI 的 Embedding API 生成向量来突破 API 最大 token 的限制。
+
+
+  这个项目使用 PostgresSql、Next.js 和 Supabase 等技术栈，并使用了余弦相似度算法来匹配用户的问题和 PDF 文本片段。
+
+
+  你可以通过克隆项目、创建数据库、运行项目并上传 PDF 文件来在本地运行这个 Demo。
+
+
+  这个项目受到了其他项目的启发，例如 mckaywrigley/paul-graham-gpt、openai/openai-cookbook 和
+  ddiu8081/chatgpt-demo。
 ---
 
 最近随着 OpenAI 开放了相关 API， 市面上出现了越来越多的 AI 应用，chatpdf 这个项目吸引了我的注意，它是如何突破 API 最大 token 的限制来读取这种长文本的呢？

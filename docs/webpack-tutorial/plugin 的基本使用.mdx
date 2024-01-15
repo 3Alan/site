@@ -24,8 +24,12 @@ date: 2020-05-17T10:05:14.000Z
 updated: 2020-05-16T13:33:00.000Z
 sidebar_position: 3
 summary: >-
-  webpack 插件可以帮助我们自动生成 HTML 文件，清除打包目录，支持多入口文件打包，配置 sourcemap 方便调试代码。常用的插件包括
-  html-webpack-plugin、clean-webpack-plugin 等。
+  这一节介绍了 webpack 中一些常用的插件的使用。
+
+
+  html-webpack-plugin 可以帮助我们自动生成 HTML 文件，并可以自定义 HTML 模板。clean-webpack-plugin
+  可以帮助我们在每次打包前清空 webpack 中配置的输出目录。多入口文件可以通过设置 entry 来完成打包，并通过 [name]
+  占位符来设置打包出来的文件的名称。sourceMap 可以帮助我们在代码存在错误时，找到错误所在处，有利于我们 debug 代码。
 ---
 
 这节介绍了 webpack 一些常用的 plugins 的使用

@@ -19,9 +19,66 @@ keywords:
 description: TypeScript入门教程这一篇就够了，涵盖了 Typescript 的基本用法。
 authors: Alan
 summary: >-
-  TypeScript 是 JavaScript 的一个超集，支持静态类型检测和面向对象编程。TypeScript
-  的基础类型包括布尔值、数字、字符串、数组、元组、枚举、联合类型、类型断言、非空断言、接口、类、泛型等。TypeScript 还支持 React
-  相关的内容，如 class 组件动态设置 state 等。
+  TypeScript 是一种流行的 JavaScript 超集，它增加了可选的静态类型和基于类的面向对象编程。它可以编译成纯 JavaScript，未编译的
+  TypeScript 代码无法在浏览器执行。
+
+
+  TypeScript 的优点包括：
+
+
+  - 能够进行动态类型检测，可以检测出一些潜在的 bug（例如拼写错误、参数缺失、undefined 等），提升代码健壮性
+
+  - 使用 vscode 进行开发可以很好的提示代码，提高开发效率
+
+  - 代码可读性好
+
+
+  TypeScript 的基本类型包括：
+
+
+  - boolean(布尔值)
+
+  - number(数值)
+
+  - string(字符串)
+
+  - `[]/Array<元素类型>(数组)`
+
+  - 元组 Tuple
+
+  - enum(枚举)
+
+  - any(任何值)
+
+  - void(空值)
+
+  - null
+
+  - undefined
+
+  - never
+
+
+  TypeScript 中的类和 ES6 中的类很相似，但有一些不同之处，包括：
+
+
+  - 变量修饰符：public（默认）、private（私有）、protected（受保护）
+
+  - 静态属性：只能通过类来访问，不能通过实例访问
+
+  - 构造函数：可以用来初始化类的属性
+
+  - 抽象类：不能被实例化，要使用的话要声明其派生类，并且重写其中的抽象方法
+
+
+  TypeScript 中的泛型是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。泛型可以用于函数、类和接口。
+
+
+  TypeScript 在 React 中的应用包括：
+
+
+  - class 组件动态设置 state：可以使用 `this.setState({ [name]: value } as
+  Pick<CompontentState, keyof CompontentState>)` 来动态设置 state
 ---
 
 TypeScript 常用知识点总结
