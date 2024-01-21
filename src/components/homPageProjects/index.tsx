@@ -23,6 +23,16 @@ const projectList: ProjectItem[] = [
     url: 'https://github.com/3Alan/DocsMind'
   },
   {
+    name: '🏡 仿 Airbnb',
+    description: '基于 Expo + MongoDB 开发的仿 Airbnb 全栈移动端应用',
+    url: 'https://github.com/3Alan/airbnb-clone'
+  },
+  {
+    name: '🤖 docs-ai-bot',
+    description: '基于 Probot 开发的 Github 机器人，为博客自动生成文章总结',
+    url: 'https://github.com/3Alan/docs-ai-bot'
+  },
+  {
     name: '🎨 alan-ui',
     description: '基于 React 开发的手绘风格组件库',
     url: 'https://github.com/3Alan/alan-ui'
