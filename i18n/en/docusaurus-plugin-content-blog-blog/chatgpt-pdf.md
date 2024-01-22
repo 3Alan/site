@@ -16,10 +16,6 @@ description: Analyzing the implementation of chatpdf, using OpenAI API to conver
 ai_translation: true
 ---
 
-:::warning
-The English translation was done by chatgpt.
-:::
-
 Recently, with the release of relevant APIs by OpenAI, more and more AI applications have emerged on the market. The chatpdf project caught my attention. How does it overcome the limitation of the maximum token of the API to read such long texts?
 
 <!--truncate-->
