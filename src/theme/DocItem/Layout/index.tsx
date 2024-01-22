@@ -19,6 +19,7 @@ import { OutDated } from '../../../components/outdated';
 import getFormatDate from '../../../utils/getFormatDate';
 import { Wip } from '@site/src/components/wip';
 import { AiSummary } from '@site/src/components/aiSummary';
+import { AiTranslation } from '@site/src/components/aiTranslation';
 
 /**
  * Decide if the toc should be rendered, on mobile or desktop viewports
@@ -50,6 +51,7 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
   const {
     hide_comment: hideComment,
     out_dated: outDated,
+    ai_translation: aiTranslation,
     wip,
     date,
     updated,
@@ -67,6 +69,7 @@ export default function DocItemLayout({ children }: Props): JSX.Element {
             {docTOC.mobile}
             <DocItemContent>
               <>
+                {aiTranslation && <AiTranslation />}
                 {summary && <AiSummary content={summary} />}
                 {outDated && <OutDated date={getFormatDate(updated || date)} />}
                 {wip && <Wip />}

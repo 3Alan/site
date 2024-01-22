@@ -21,6 +21,7 @@ import { OutDated } from '../../components/outdated';
 import getFormatDate from '../../utils/getFormatDate';
 import { Wip } from '@site/src/components/wip';
 import { AiSummary } from '@site/src/components/aiSummary';
+import { AiTranslation } from '@site/src/components/aiTranslation';
 
 function BlogPostPageContent({
   children
@@ -36,6 +37,7 @@ function BlogPostPageContent({
     toc_max_heading_level: tocMaxHeadingLevel,
     hide_comment: hideComment,
     out_dated: outDated,
+    ai_translation: aiTranslation,
     summary,
     wip,
     date,
@@ -54,6 +56,7 @@ function BlogPostPageContent({
       }
     >
       <BlogPostItem>
+        {aiTranslation && <AiTranslation />}
         {summary && <AiSummary content={summary} />}
         {outDated && <OutDated date={getFormatDate(updated || date)} />}
         {wip && <Wip />}

@@ -13,6 +13,7 @@ keywords:
   - cosine similarity algorithm
 authors: Alan
 description: Analyzing the implementation of chatpdf, using OpenAI API to convert PDF text fragments into vectors, and using cosine similarity algorithm to match user questions and text fragments, thus implementing Q&A for long texts.
+ai_translation: true
 ---
 
 :::warning
