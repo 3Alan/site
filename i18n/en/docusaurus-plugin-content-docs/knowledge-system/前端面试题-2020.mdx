@@ -1,0 +1,256 @@
+---
+slug: interview-summary-2020
+title: Front-end Interview Questions Summary - 2020
+tags:
+  - Front-end Interview Summary
+date: 2020-05-31T16:41:48.000Z
+updated: 2020-07-24T15:03:00.000Z
+keywords:
+  - Front-end Interview Questions
+  - HTML
+  - JS
+  - Computer Networks
+  - CSS
+description: Front-end Interview Questions Summary
+displayed_sidebar: interviewSidebar
+summary: >-
+  This article records some interview questions and problems encountered during
+  the author's review and summary during the epidemic. The article will be
+  continuously updated.
+
+  The article includes JS prototype and inheritance, deep copy and shallow copy,
+  for in and for of, event delegation, implementation of sliding animation,
+  eventLoop, this, closure, Promise, debounce and throttle, JS questions, etc.
+
+  The article also covers related knowledge of the React framework, such as
+  React lifecycle, useRef, cloneElement, HOC, etc.
+ai_translation: true
+---
+
+I have recorded some interview questions and problems encountered during my review and summary during the epidemic. The article will be continuously updated.
+
+<!--truncate-->
+
+![](http://img.adoutu.com/picture/1538925790667.jpg)
+
+## JS
+
+### Prototype and Inheritance
+
+![Image from the Red Book](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200724160959828.png)
+
+**Combination Inheritance**
+
+```js
+function Person(name) {
+  this.name = name;
+  this.features = ['eyes'];
+}
+
+function Student(name, id) {
+  Person.call(this, name); //Inheriting properties is equivalent to super(this)
+  this.id = id;
+}
+
+Student.prototype = new Person();
+
+Student.prototype.sayHello = function () {
+  console.log('hello');
+};
+
+const s1 = new Student('Alan', '001');
+const s2 = new Student('Bob', '002');
+
+console.log(s1 instanceof Person); // true
+// Reference types do not affect each other in each instance
+s1.features.push('hand');
+console.log(s2.features); // ["eyes"]
+```
+
+You can check Chapter 6 of the Red Book for more inheritance methods and their pros and cons (it's very "dry")
+
+### Deep Copy and Shallow Copy
+
+In JS, variables are divided into basic types and reference types. When assigning values to basic types, the values are copied, while when assigning values to reference types, the addresses are copied.
+
+<Tabs>
+  <TabItem value="Basic Types" label="Basic Types">
+
+```js
+let a = 1;
+let b = a;
+console.log(a); // 1
+a++;
+console.log(a); // 2
+console.log(b); // 1
+```
+
+  </TabItem>
+  <TabItem value="Reference Types" label="Reference Types">
+
+```js
+const obj = {
+  name: 'Alan',
+  age: 22
+};
+const cloneObj = obj;
+obj.age = 18;
+console.log(cloneObj.age); // 18
+```
+
+  </TabItem>
+</Tabs>
+
+We know from the examples above that cloneObj and obj point to the same address, and any modification to either of them will affect the other. So how do we create an independent cloneObj? This is where deep copy and shallow copy come in.
+
+The difference between deep copy and shallow copy:
+
+Distinguish according to the level of copying, shallow copy only copies one level, deep copy copies multiple levels.
+
+#### Shallow Copy
+
+<Tabs>
+  <TabItem value="Method 1" label="Method 1">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function shallowClone(source) {
+  const result = {};
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+const shallowObj = shallowClone(obj);
+obj.a = 10;
+console.log(shallowObj.a); // 1
+obj.b.b1 = 6;
+console.log(shallowObj.b.b1); // 6
+```
+
+  </TabItem>
+  <TabItem value="Method 2" label="Method 2">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function shallowClone1(source) {
+  return Object.assign({}, source);
+}
+const shallowObj = shallowClone1(obj);
+obj.a = 10;
+console.log(shallowObj.a); // 1
+obj.b.b1 = 6;
+console.log(shallowObj.b.b1); // 6
+```
+
+  </TabItem>
+</Tabs>
+
+#### Deep Copy
+
+<Tabs>
+  <TabItem value="Method 1" label="Method 1">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function deepClone(source) {
+  const result = {};
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (typeof source[key] === 'object') {
+        result[key] = deepClone(source[key]);
+      } else {
+        result[key] = source[key];
+      }
+    }
+  }
+  return result;
+}
+const deepObj = deepClone(obj);
+obj.a = 10;
+console.log(deepObj.a); // 1
+obj.b.b1 = 6;
+console.log(deepObj.b.b1); // 1
+```
+
+</TabItem>
+  <TabItem value="Method 2" label="Method 2">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function deepClone(source) {
+  return JSON.parse(JSON.stringify(source));
+}
+const deepObj = deepClone(obj);
+obj.a = 10;
+console.log(deepObj.a); // 1
+obj.b.b1 = 6;
+console.log(deepObj.b.b1); // 1
+```
+
+  </TabItem>
+</Tabs>
+
+### for in and for of
+
+- for in iterates over enumerable properties in an array, including the prototype. Can iterate over objects, iterating over key values
+- for of only iterates over elements in an array or iterable object, not including the prototype. Iterates over value values.
+
+```js
+Array.prototype.testMethod = function () {
+  console.log('testMethod');
+};
+const mArr = [1, 2, 3, 7];
+const mObject = {
+  name: 'Alan',
+  age: 1
+};
+for (const key in mArr) {
+  console.log(mArr[key]);
+  // 1 2 3 7
+  /*       ƒ () {
+        console.log('testMethod');
+      } */
+}
+// Solution
+for (const key in mArr) {
+  if (mArr.hasOwnProperty(key)) {
+    console.log(mArr[key]);
+    // 1 2 3 7
+  }
+}
+for (const key in mObject) {
+  console.log(key);
+  // name
+  // age
+}
+try {
+  for (const iterator of mObject) {
+    console.log(iterator);
+  }
+} catch (error) {
+  console.log(error);
+  //mObject is not iterable
+}
+```
+
+### Event Delegation
+
+Event delegation takes advantage of event bubbling, allowing a single event handler to manage all events of a certain type.
+
+For example, the click event will bubble all the way up to the document level. For example, in the example below, we don't need to add an onclick event to all li elements, we can simply use the event bubbling feature to achieve event delegation.
+
+```html
+<body>
+  <ul id="myList">
+    <li id="sayName">Name</li>
+    <li id="sayHello">Hello</li>
+    <li id="sayAge">Age</li>
+  </ul>
+  <script>
+    const myList = document.getElementById('myList');
+    myList.addEventListener('click', function (e) {
+      const target = e.target;
+      if (target.id === 'sayName') {

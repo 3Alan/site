@@ -1,0 +1,164 @@
+---
+slug: mitt
+title: Mitt Source Code Animation Analysis
+tags:
+  - Source Code Reading
+keywords:
+  - Mitt
+  - Source Code Analysis
+  - Event Emitter
+  - Event Dispatcher
+  - Publish-Subscribe Pattern
+  - Observer Pattern
+date: 2023-02-12T00:00:00.000Z
+description: >-
+  Implement a simple event dispatcher using the publish-subscribe pattern. This
+  article will explain Mitt's source code and implementation principles in
+  detail with animations, allowing you to quickly understand Mitt's usage and
+  advantages.
+references:
+  - name: Map and Set
+    url: 'https://zh.javascript.info/map-set'
+  - name: Not a Number Blog
+    url: 'https://www.nan.fyi/'
+  - name: mitt Repository
+    url: 'https://github.com/developit/mitt'
+summary: >-
+  Mitt is a very simple publish-subscribe library that uses a Map to store
+  events and handlers. When `mitt.on` is called, it adds the event and handler
+  to the Map. When `mitt.off` is called, it removes the event and handler from
+  the Map. When `mitt.emit` is called, it triggers all handlers subscribed to
+  that event. Mitt also provides the `mitt.once` method, which triggers the
+  subscribed handler only once.
+
+
+  The publish-subscribe pattern is a design pattern that allows objects to
+  communicate with each other without knowing each other's specific
+  implementation. The observer pattern is a special case of the
+  publish-subscribe pattern, in which observer objects subscribe to only one
+  observable object.
+ai_translation: true
+---
+
+import {
+  PubSubBaseExample,
+  PubSubAllExample,
+  PubSubScreenExample,
+  ObserverExample
+} from '../../src/contentExamples/pubSub';
+
+Mitt's source code is very simple, with less than 100 lines of code. This article will explain it with animations.
+
+:::tip
+Please use a PC to read this article for the best reading experience.
+:::
+
+## Prerequisites
+
+- [Map](https://zh.javascript.info/map-set)
+  - `map.set(key, value)`
+  - `map.get(key)`
+  - `map.clear()`
+- Publish-subscribe pattern
+
+## Specific Coding
+
+The code is very simple, mainly maintaining an `all` Map, and performing add (`mitt.on`), delete (`mitt.off`), modify (`mitt.on`), and query (`mitt.emit`) operations on it.
+
+```js
+function mitt() {
+  const all = new Map();
+
+  const on = (type, handler) => {
+    const handlers = all.get(type);
+    if (handlers) {
+      handlers.push(handler);
+    } else {
+      all.set(type, [handler]);
+    }
+  };
+
+  const off = (type, handler) => {
+    const handlers = all.get(type);
+    if (!handlers) {
+      return;
+    }
+
+    if (handler) {
+      const handlerIndex = handlers.indexOf(handler);
+      const hasHandler = handlerIndex !== -1;
+      if (hasHandler) {
+        handlers.splice(handlerIndex, 1);
+      }
+    } else {
+      all.set(type, []);
+    }
+  };
+
+  const emit = (type, params) => {
+    let handlers = all.get(type);
+    if (handlers) {
+      handlers.slice().map(handler => handler(params));
+    }
+
+    // If no event listener is found, check if all events are listened to *
+    handlers = all.get('*');
+    if (handlers) {
+      handlers.slice().map(handler => handler(params));
+    }
+  };
+
+  const once = (type, handler) => {
+    const onceFn = params => {
+      handler(params);
+      off(type, onceFn);
+    };
+
+    on(type, onceFn);
+  };
+
+  // Use the Map's own clear function to clear all subscriptions
+
+  return {
+    all,
+    on,
+    once,
+    off,
+    emit
+  };
+}
+```
+
+Combine the above code and watch the animation.
+
+<PubSubBaseExample eventBusTitle="EventBus(all)" />
+
+### `on('*')`
+
+`mitt.on` has a special case, which is to listen to all events. This only needs to be handled specially in the `emit` function. When no relevant subscriber is found, execute all functions under `all.get('*')`.
+
+<PubSubAllExample />
+
+## Extension
+
+The code uses the publish-subscribe pattern. The following scenarios briefly introduce the publish-subscribe pattern and the observer pattern, which is very similar to it.
+
+### Observer Pattern
+
+One day, Xiao Ming went to the convenience store at the door to buy yogurt as usual, but the owner was out of business. So he dialed the phone on the door, and the owner said that he would call him when it opened. So the owner saved Xiao Ming's phone number in his notebook. Two days later, Xiao Ming received a call from the owner saying that the store was open, so he immediately went to the convenience store to buy his favorite yogurt.
+
+In the above scenario, the observer (Observer) is Xiao Ming, the observable (Subject) is the owner, and the phone number recorded in the owner's notebook is the observer list (ObserverList).
+
+<ObserverExample />
+
+### Publish-Subscribe Pattern
+
+On the way home, Xiao Ming saw an advertisement for a second-hand trading software at the door, with a QR code for downloading the APP. It happened that Xiao Ming was short of a screen because he was working from home recently, so he downloaded the APP with a try. After opening the APP, users only need to post their needs or second-hand items on the APP, and the platform will help you find buyers or sellers and ensure the privacy of both parties. So Xiao Ming uploaded his needs on the APP and waited for the platform to notify him.
+
+Xiao Hong happened to have an idle screen, so she posted a sales request on the APP.
+
+After Xiao Hong posted the request, the system matched someone who needed a screen and sent a notification to the corresponding person, so Xiao Ming received the notification.
+
+In the above scenario, Xiao Ming, as a subscriber (sub), subscribed to the screen's needs, while Xiao Hong, as a publisher (pub), published the screen's needs. The APP acts as an event bus (eventBus) to handle these needs. For Xiao Hong and Xiao Ming, they do not know each other's relevant information. All communication is done through the APP as an intermediary, decoupling the two.
+
+<PubSubScreenExample />

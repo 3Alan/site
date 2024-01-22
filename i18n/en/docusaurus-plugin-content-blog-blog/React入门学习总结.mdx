@@ -1,0 +1,262 @@
+---
+slug: react-tutorial
+title: React Tutorial Summary
+tags:
+  - React
+categories:
+  - Front-end
+  - React
+date: 2020-11-04T18:13:56.000Z
+keywords:
+  - React Tutorial
+  - React Redux
+  - React Router
+  - React Lifecycle
+description: 'React Tutorial, including common React ecosystem'
+authors: Alan
+summary: >-
+  - Data flow in React is unidirectional, child components cannot modify parent
+  component data, while data flow in Vue is bidirectional, child components can
+  modify parent component data.
+
+  - Component names in React must start with a capital letter, while component
+  names in Vue can be lowercase.
+
+  - In React, you can use `<React.Fragment></ React.Fragment>` or `<></>` to
+  wrap tags, while in Vue you can use the `<template>` tag to wrap tags.
+
+  - The `class` keyword in React needs to be replaced with `className`, while
+  `class` can be used in Vue.
+
+  - The `for` attribute of the `label` tag in React needs to be replaced with
+  `htmlFor`, while `for` can be used in Vue.
+
+  - Do not modify `state` directly in React, use `this.setState()` instead,
+  while `data` can be modified directly in Vue.
+
+  - The `this` pointer issue in React needs to be solved using arrow functions
+  or `bind`, while this issue does not need to be considered in Vue.
+
+  - When rendering loops in React, you need to add `key`, while in Vue you don't
+  need to.
+
+  - Comments in React are written as `{/\*\*/}`, while comments in Vue are
+  written as `<!-- -->`.
+
+  - In React, you can use `dangerouslySetInnerHTML={{__html: item(data to be
+  displayed)}}` to not escape HTML tags, while in Vue you can use the `v-html`
+  directive to not escape HTML tags.
+
+  - The second parameter of `setState()` in React is a callback function, while
+  the second parameter of `setState()` in Vue is an object.
+
+  - Once `state`, `props` change in React, `render()` will be executed, while in
+  Vue, `render()` will only be executed when `data`, `props` change.
+
+  - In React, you can use `react-transition-group` to achieve animation effects,
+  while in Vue, you can use `vue-transition` to achieve animation effects.
+
+  - In React, when a component only has `render()`, it can be declared as a
+  stateless component, which can improve performance, while in Vue, you can also
+  use functional components to achieve stateless components.
+
+  - ref in React is used to get DOM elements, while ref in Vue is also used to
+  get DOM elements.
+ai_translation: true
+---
+
+Summary of difficulties and key points encountered while learning React and its ecosystem
+
+<!-- truncate -->
+
+![Are you learning? If not, I'll let go](http://img.doutula.com/production/uploads/image/2018/03/15/20180315080324_kYaXfj.jpg)
+
+## Basic Knowledge Points
+
+- Unidirectional data flow (child components cannot modify parent component data)
+
+- Component names start with a capital letter
+
+- You can use `<React.Fragment></ React.Fragment>` or `<></>` to wrap tags
+
+- Keywords
+  - `class` -> `className`
+  - `<label for="id name"></lable>`->`<label htmlFor="id name"></lable>` to expand the click range
+- Do not modify `state` directly, use `this.setState()`
+
+- `this` pointer issue
+
+  ```js
+  // Use bind in constructor, cannot pass parameters
+  this.handlerClick = this.handlerClick.bind(this);
+  // Call using bind, not friendly to performance optimization, because bind needs to be re-bound every time render() is called
+  onChange={this.handlerClick.bind(this,num)}
+  ```
+
+  ```js
+  // Use arrow function
+  onChange={e => this.handlerClick(num)}
+  ```
+
+  ```js
+  // Declare as an arrow function, cannot pass parameters
+  handlerClick = num => {};
+  ```
+
+- Add key when rendering loops, do not use index as key value.
+
+- Comment syntax `{/\*\*/}`
+
+- ```
+  dangerouslySetInnerHTML={{__html: item(data to be displayed)}} // Do not escape html tags
+  ```
+
+- The second parameter of [setState()](https://zh-hans.reactjs.org/docs/react-component.html#setstate) is a callback function
+
+- Once `state`, `props` change, `render()` will be executed. That is to say, once the parent component state changes, `render()` will be executed, so its child components in the parent component will also `render()` again.
+
+- Animation component [react-transition-group](https://reactcommunity.org/react-transition-group/)
+
+- When a component only has `render()`, it can be declared as a stateless component, which can improve performance
+
+- ref is used to get dom elements, `ref={(element) => {}}` element is the element
+
+## Component Communication
+
+### Parent -> Child
+
+Pass through properties, child components receive through `this.props`, changes in parent component values will directly affect child components.
+
+Parent component
+
+```jsx
+// Use child components in parent components
+const name = 'Alan'
+
+<Child name={name} />
+```
+
+Child component
+
+```jsx
+<div>{this.props.name}</div>
+```
+
+### Child -> Parent
+
+The parent component passes its own method to the child component, and the child component calls the method by adding an event. In this way, the child component can modify the data of the parent component, and at the same time, the data of the child component can be passed to the parent component.
+
+Parent component
+
+```jsx
+this.state = {
+    list: [1,2,3]
+}
+
+<Child handlerEvent={this.deleteItem.bind(this)} />
+
+// Method
+deleteItem(index) {
+  const list = [...this.state.list];
+  list.splice(index,1);
+  this.setState({
+    list,
+  });
+}
+```
+
+Child component
+
+```jsx
+<button onClick={() => this.props.handlerEvent(1)}></button>
+```
+
+## Props parameter verification and default value
+
+[Specific parameters](https://zh-hans.reactjs.org/docs/typechecking-with-proptypes.html)
+
+```jsx
+import PropTypes from 'prop-types';
+
+// Parameter verification
+// Child is the component name
+// Define this.props.content as a string type and a required parameter
+Child.propTypes = {
+  content: PropTypes.string.isRequired
+};
+
+// Default parameter value
+Child.defaultProps = {
+  mobile: 'none'
+};
+```
+
+## Asynchronous component loading plugin [react-loadable](https://github.com/jamiebuilds/react-loadable)
+
+Usage
+
+```jsx
+import React, { Component } from 'react';
+import Loadable from 'react-loadable';
+
+const LoadableComponent = Loadable({
+  // Components that need to be loaded asynchronously
+  loader: () => import('./index'),
+  loading() {
+    // The operation performed when loading, here shows loading to improve user experience
+    return <div>loading...</div>;
+  }
+});
+
+export default class App extends Component {
+  render() {
+    return <LoadableComponent />;
+  }
+}
+```
+
+## Virtual DOM
+
+### What is Virtual DOM
+
+Use JS objects to describe real DOM, virtual DOM (JS object) performance is much better than real DOM performance.
+
+Use `React.createElement(type, [props], [...children])` to generate virtual DOM
+
+Advantages:
+
+- DOM operations are very expensive, virtual DOM operations are good
+
+- No need to replace all DOMs, compare and replace partially changed DOMs through diff algorithm
+- Due to the use of virtual DOM, it is beneficial to the development of native applications (RN), because DOM exists in the browser.
+
+For performance reasons, react merges multiple `setState` (asynchronous functions) into one setState, because `setState` causes virtual DOM to be compared and contrasted.
+
+### Diff algorithm
+
+[Diff algorithm](https://segmentfault.com/a/1190000000606216)
+
+## Lifecycle
+
+- mounting
+  - `componentWillMount` / `UNSAFE_componentWillMount`
+  - `render()`
+  - `componentDidMount` Application scenario: send request
+- updation(props/state changes)
+  - [`componentWillReceiveProps()`](https://reactjs.org/docs/react-component.html#unsafe_componentwillreceiveprops) will be deprecated
+  - `shouldComponentUpdate` will update only when it returns true
+  - `render()`
+  - `componentDidUpdate`
+- unmounting
+  - `componentWillUnmount`
+
+## Performance optimization
+
+```js
+// Only execute render() when child component data changes
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.content !== this.props.content;
+  // Prevent updates from affecting performance
+}
+```
+

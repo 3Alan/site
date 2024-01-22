@@ -1,0 +1,290 @@
+---
+slug: axios
+title: Axios Source Code Analysis
+tags:
+  - Source Code Reading
+keywords:
+  - Axios Source Code Analysis
+  - Axios Interceptor
+  - Fetch Request Library
+  - Request Interruption
+  - Timeout Interruption
+date: 2023-02-18T00:00:00.000Z
+description: >-
+  Axios source code analysis, based on Axios source code, a simplified request
+  library is implemented, including the implementation of adapter, interceptor,
+  request interruption, timeout interruption and other functions.
+summary: >-
+  This article implements a simplified request library (for learning purposes
+  only), including basic requests, adapters, interceptors, request
+  interruptions, and timeout interruptions.
+
+
+  - The adapter pattern allows `Axios` to use different APIs on different
+  platforms to send requests.
+
+  - Interceptors are used to modify request and response data, handle errors,
+  etc.
+
+  - Request interruptions and timeout interruptions can be implemented through
+  `AbortController` and timers.
+
+
+  [Demo
+  Address](https://stackblitz.com/github/3Alan/simple-source/tree/main/axios?file=package.json)
+ai_translation: true
+---
+
+This article implements a simplified request library (for learning purposes only) based on the `Axios`(v1.3.3) source code, which will include the following functions
+
+- [x] Basic request
+- [x] Adapter
+- [x] Interceptor
+- [x] Request interruption
+- [x] Timeout interruption
+
+[Demo Address](https://stackblitz.com/github/3Alan/simple-source/tree/main/axios?file=package.json)
+
+## Prerequisite Knowledge
+
+- Adapter pattern
+- [Simple Usage of Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch)
+- [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController/AbortController)
+- [Promise Chain](https://zh.javascript.info/promise-chaining)
+
+## Adapter
+
+The adapter is used to make `Axios` use different APIs on the Browser/Node platform to send requests. `Axios` Browser uses `ajax`, and the Node end uses `http`. In this article, `fetch` will be used instead of `ajax` in the Browser, and the Node end will not be implemented for the time being. The `adapter` in the code below is actually the `fetch` function.
+
+<Tabs>
+<TabItem value="adapters" label="adapters/index.js">
+
+```js
+import xhr from './xhr';
+import http from './http';
+
+const knownAdapters = {
+  http,
+  xhr
+};
+
+export default async function adapters(config) {
+  let adapter;
+  for (const key in knownAdapters) {
+    if (knownAdapters[key]) {
+      adapter = knownAdapters[key];
+    }
+  }
+
+  return adapter(config);
+}
+```
+
+</TabItem>
+<TabItem value="xhr" label="adapters/xhr.js">
+
+```js
+const isXHRAdapterSupported = typeof fetch !== 'undefined';
+
+export default isXHRAdapterSupported &&
+  async function xhrAdapter(config) {
+    return fetch(config.url, config);
+  };
+```
+
+</TabItem>
+<TabItem value="http" label="adapters/http.js">
+
+```js
+const isHttpAdapterSupported = typeof process !== 'undefined';
+
+export default isHttpAdapterSupported &&
+  function httpAdapter(config) {
+    // TODO: Not implemented yet
+    return config;
+  };
+```
+
+</TabItem>
+</Tabs>
+
+## dispatchRequest
+
+This part is mainly used to send requests and process the `json()` of the fetch interface
+
+```js title="dispatchRequest.js"
+import adapters from './adapters/index.js';
+
+export default function dispatchRequest(config) {
+  const adapter = adapters(config);
+
+  return adapter.then(
+    async function onAdapterResolution(response) {
+      try {
+        const res = await response.json();
+        return { ...res, config };
+      } catch (error) {
+        return Promise.reject(response);
+      }
+    },
+    function onAdapterRejection(reason) {
+      return Promise.reject(reason);
+    }
+  );
+}
+```
+
+## Basic Request
+
+Let's first implement a simple `axios.get(url, [config])`
+
+```js title="Axios.js"
+import adapters from './adapters';
+
+export default class Axios {
+  constructor(config) {
+    this.defaultConfig = config;
+  }
+
+  request(config) {
+    // Equivalent to let promise = fetch(config.url, { ...this.defaultConfig, ...config });
+    let promise = dispatchRequest({ ...this.defaultConfig, ...config });
+    return promise;
+  }
+
+  get(url, config) {
+    const mergedConfig = { ...config, url };
+    return this.request(mergedConfig);
+  }
+}
+```
+
+At this point, we have basically implemented a very simple request library, which is nothing more than encapsulating `fetch` into the appearance of `axios` api
+
+## Interceptor
+
+Interceptor is a function that we use more often.
+
+With interceptors, we can achieve the following functions
+
+- Request interceptor: modify headers such as adding tokens, handle interface caching, etc...
+- Response interceptor: handle code codes (301 redirect, 404 jump to notFound page), collect error logs for failed requests, mock data, uniformly handle data return formats, record request time, etc...
+
+### Example
+
+Before implementing, let's take a look at the example code to clarify the functions to be implemented and what the api looks like
+
+```js
+const axios = new Axios();
+
+axios.interceptors.request.use(
+  function requestInterceptorFulfilled(config) {
+    config.headers = {
+      token: 'add by request interceptors'
+    };
+    config.metadata = { startTime: Date.now() };
+    return config;
+  },
+  function requestInterceptorRejected(error) {
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  function responseInterceptorFulfilled(response) {
+    response.extraData = 'add by response interceptors';
+    // Interface request time
+    response.duration = Date.now() - response.config.metadata.startTime;
+    return response;
+  },
+  function responseInterceptorRejected(error) {
+    if (error.status === 404) {
+      alert('The return status code is 404, redirect to the 404 page');
+    }
+    return Promise.reject(error);
+  }
+);
+```
+
+In the above example, we add `header.token` and `metadata` to the request parameters, add `extraData` and `duration` (record the request time) to the request return body, and handle the 404 status code.
+
+### Specific Implementation
+
+`InterceptorManager` maintains an array internally, and performs add (`use`) and delete (`eject`) operations on the interceptor
+
+```js title="InterceptorManager.js"
+export default class InterceptorManager {
+  constructor() {
+    this.handlers = [];
+  }
+
+  use(fulfilled, rejected) {
+    this.handlers.push({
+      fulfilled,
+      rejected
+    });
+
+    // Return the index of the current handler in the array, which is used for eject
+    return this.handlers.length - 1;
+  }
+
+  eject(index) {
+    if (this.handlers[index]) {
+      this.handlers[index] = null;
+    }
+  }
+}
+```
+
+Add `InterceptorManager` objects to `Axios` `this.interceptors.request` and `this.interceptors.response` respectively
+
+```js
+constructor(config) {
+  this.defaultConfig = config;
+  // highlight-add-start
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+  // highlight-add-end
+}
+```
+
+Next is the core `request` method writing
+
+```js
+request(config) {
+  let promise;
+  let i = 0;
+  const requestInterceptorChain = [];
+  const responseInterceptorChain = [];
+
+  this.interceptors.request.handlers.forEach(({ fulfilled, rejected }) => {
+    requestInterceptorChain.unshift(fulfilled, rejected);
+  });
+  this.interceptors.response.handlers.forEach(({ fulfilled, rejected }) => {
+    responseInterceptorChain.push(fulfilled, rejected);
+  });
+
+  // chain is a pair of fulfilled, rejected
+  const chain = [
+    ...requestInterceptorChain,
+    dispatchRequest,
+    undefined,
+    ...responseInterceptorChain
+  ];
+
+  let len = chain.length;
+
+  // Convert config to a promise object to facilitate the composition of the Promise chain later
+  promise = Promise.resolve({...this.defaultConfig, ...config});
+
+  while (i < len) {
+    promise = promise.then(chain[i++], chain[i++]);
+  }
+
+  return promise;
+}
+```
+
+There is a special place here, that is, when

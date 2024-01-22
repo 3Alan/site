@@ -1,0 +1,224 @@
+---
+slug: hexo-guide
+title: Hexo Blog Customization
+date: 2020-05-16T00:00:00.000Z
+tags:
+  - Hexo
+  - Blog
+categories:
+  - Hexo Blog
+references:
+  - name: valine-admin document
+    url: 'https://deserts.io/valine-admin-document/'
+keywords:
+  - Hexo
+  - Valine International Edition
+  - Hexo Comment Function
+  - DIY Blog
+  - Hexo Vercel Deployment
+description: >-
+  Hexo blog customization, including comment function, background management,
+  Baidu statistics, search engine inclusion and vercel deployment
+summary: >-
+  This article introduces comment system, email reply function, deploying
+  Valine-Admin, adding Baidu statistics, using Hexo-Admin for management,
+  generating permalinks, adding nofollow to external links, automatic upload of
+  search engine URLs, deploying Hexo with Vercel, etc. It also lists to-do
+  items, including optimizing SEO, fine-tuning styles, removing plugins that
+  consume loading speed, using CDN, etc. Finally, the author mentions the
+  problem of encountering page 404 when deploying on Mac, and points out that
+  this is caused by the Node version, and using the corresponding Node version
+  can solve the problem.
+ai_translation: true
+---
+
+Introduced the comment system and some custom configurations
+
+<!--truncate-->
+
+## Comment Function
+
+### Register a LeanCloud International Edition account (domestic ones seem to need to bind domain names and备案)
+
+Registration address 👉https://console.leancloud.app/login.html#/signup
+
+Then create an application, name it whatever you want
+
+Find the application keys in the settings, copy the appid and appkey to the corresponding configuration of hexo. Since this article focuses on the email reply function, this part will not be elaborated on 😝. Let's get to the point.
+
+- Modify the email template
+
+  ![Comment Email Template](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516161903124.png)
+
+```html
+<p>Hi, {{username}}</p>
+<p>You have received a new reply to your comment on {{appname}}, please click to view:</p>
+<p>
+  <a
+    href="https://alanwang.site"
+    style="display: inline-block; padding: 10px 20px; border-radius: 4px; background-color: #3090e4; color: #fff; text-decoration: none;"
+    >Check it out</a
+  >
+</p>
+```
+
+### Deploy valine-admin
+
+Configure first
+
+![LeanCloud Configuration](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516163804087.png)
+
+For more configurations, please refer to: https://github.com/DesertsP/Valine-Admin
+
+```
+https://github.com/DesertsP/Valine-Admin.git
+```
+
+The zhaojun1998 version online, I have tried it before, but it will report an error when deployed in the international version. Judging from the error message, it should be that the node version is too low, and even if the deployment is successful, the background cannot be logged in. I have tested this version and it is no problem.
+
+**The default deployment branch is master**
+
+Click Deploy to proceed
+
+![Deploy](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516164223578.png)
+
+Click the link to access the background management system (you need to log in with username and password here, you need to create it yourself in _User in the storage)
+
+![Create Storage](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516164422299.png)
+
+Here you only need to fill in username, password, email, add it and you can successfully log in by entering your email and password in the background management system.
+
+![valine-admin Interface](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516164630798.png)
+
+Set timed wake-up
+
+```js
+0 */30 7-23 * * ?
+```
+
+![Set Timed Wake-up](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200516164138651.png)
+
+## Add Baidu Statistics
+
+Complete the following operations
+
+- Register a Baidu Statistics account
+- Copy the statistics code
+
+![Copy Statistics Code](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200604101820220.png)
+
+- Paste the code into `G:\blog\themes\volantis\layout\_partial` under footer.ejs
+- Configure `G:\blog\_config.yml`
+
+```
+baidu_analytics_key: The key value in the picture above
+```
+
+- Check if the configuration is successful
+
+You can use the code check on the official website directly. If you don't use it, you can use the following method.
+
+Check in the control console network whether your website has a request starting with **hm**, if yes, it means it is successful. You can see the data in Baidu Statistics after about 20 minutes.
+
+![Check if the Configuration is Successful](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200604102323835.png)
+
+## Use hexo-admin for Management
+
+Install hexo-admin
+
+```
+npm i hexo-admin -S
+```
+
+Run the command
+
+```
+hexo s -d
+```
+
+You can access it through localhost:4000/admin
+If you want to use deploy in hexo-admin, just configure in _config.yml
+
+```yml
+admin:
+	deployCommand: './hexo-deploy.sh'
+```
+
+## hexo-abbrlink Generates Permalinks
+
+The link before modification is as follows
+
+![Link Before Modification](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200612183542458.png)
+
+Once we modify the publication date of the article, this link will become invalid.
+
+Then we process it with `hexo-abbrlink`
+
+Install first
+
+```yml
+npm i hexo-abbrlink -S
+```
+
+Modify the configuration under _config.yml
+
+```yml
+permalink: posts/:abbrlink/
+abbrlink:
+  alg: crc32
+  rep: hex
+```
+
+For detailed configuration, please refer to the [hexo-abbrlink official website](https://github.com/rozbo/hexo-abbrlink)
+
+Of course, if you want the link to become your title, you don't need to install the `hexo-abbrlink` plugin, just modify the configuration
+
+```yml
+permalink: posts/:title
+```
+
+## Add nofollow to External Links
+
+Use [`hexo-filter-nofollow`](https://github.com/hexojs/hexo-filter-nofollow) to automatically add the `nofollow ` attribute to external links to prevent external links from reducing the SEO weight of this site
+
+## Search Engine URL Automatically Uploaded
+
+Use the plugin [hexo-submit-urls-to-search-engine](https://github.com/cjh0613/hexo-submit-urls-to-search-engine)
+
+## Deploy Hexo with vercel
+
+At present, the access speed of vercel in China is already very good, and since `github page` prohibits Baidu crawlers, I have moved from the previous `github page` to vercel deployment.
+
+Since vercel has a built-in `hexo` template, you don't need to type a bunch of commands like before every time you deploy.
+
+```yml
+hexo clean
+hexo g
+hexo d
+```
+
+Configure package.json
+
+```json
+  "scripts": {
+    "build": "hexo generate && yarn deploy",
+    "deploy": "hexo deploy",
+  },
+```
+
+vercel configuration
+
+![vercel Configuration](https://raw.githubusercontent.com/3Alan/images/master/img/image-20211016103341684.png)
+
+In this way, after writing an article, you can automatically deploy it by directly pushing the code.
+
+## TODO
+
+- Optimize seo
+- Fine-tune style
+- Remove plugins that consume loading speed
+- Use cdn
+
+## Page 404 After `hexo d` Deployment
+
+When I deployed on mac, I found that the page was 404. After comparison and investigation, I found that
