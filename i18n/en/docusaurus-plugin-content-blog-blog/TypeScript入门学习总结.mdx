@@ -1,0 +1,259 @@
+---
+slug: typescript-tutorial
+title: TypeScript Tutorial
+tags:
+  - TypeScript
+categories:
+  - Front-end
+  - TypeScript
+abbrlink: fc7889ef
+date: 2020-07-01T11:52:09.000Z
+references:
+  - name: TypeScript 中文手册
+    url: 'https://typescript.bootcss.com/basic-types.html'
+  - name: TypeScript－系统入门到项目实战
+    url: 'https://coding.imooc.com/class/412.html'
+keywords:
+  - TypeScript Tutorial
+  - TypeScript－系统入门到项目实战 Notes
+description: >-
+  This TypeScript tutorial is all you need to get started with TypeScript. It
+  covers the basics of TypeScript.
+authors: Alan
+summary: >-
+  TypeScript is a superset of JavaScript that adds optional static typing and
+  class-based object-oriented programming to JavaScript. TypeScript can be
+  compiled to plain JavaScript, and uncompiled ts code cannot be executed in the
+  browser. We can understand its relationship with JavaScript as the
+  relationship between css and less, sass.
+
+
+  TypeScript has the following advantages:
+
+
+  - It can perform dynamic type checking, which can detect some potential bugs
+    (such as spelling errors, missing parameters, undefined, etc.),
+    improving the robustness of the code.
+
+  - Using vscode for development can provide good code prompts, improving
+    development efficiency.
+
+  - Good code readability.
+
+
+  The basic types in TypeScript include: boolean, number, string, array, tuple,
+  enum, any, void, null, and undefined.
+
+
+  Classes in TypeScript are very similar to classes in ES6, except that classes
+  in TypeScript can have access modifiers (public, private, protected), static
+  properties, and abstract methods.
+
+
+  Generics in TypeScript refer to a feature where specific types are not
+  pre-specified when defining functions, interfaces, or classes, but are
+  specified when used. Generics can improve code reusability.
+
+
+  React-related knowledge in TypeScript includes:
+
+
+  - Class component dynamically sets state: You can use `this.setState({ [name]:
+    value } as Pick<CompontentState, keyof CompontentState>)` to dynamically
+    set state.
+ai_translation: true
+---
+
+TypeScript Commonly Used Knowledge Points Summary
+
+> [TypeScript Chinese Manual](https://typescript.bootcss.com/basic-types.html)
+>
+> [TypeScript - System Introduction to Project Practice](https://coding.imooc.com/class/412.html)
+
+<!-- truncate -->
+
+## What is TypeScript
+
+TypeScript is a superset of JavaScript, which adds optional **static types** and class-based object-oriented programming to JavaScript. It can be compiled into pure JavaScript, and uncompiled ts code cannot be executed in the browser. We can understand its relationship with JavaScript as the relationship between css and less, sass.
+
+## What are the advantages of TypeScript
+
+- TS can perform dynamic type checking, which can detect some potential bugs (such as spelling errors, missing parameters, undefined, etc.), improving the robustness of the code.
+- Using vscode for development can provide good code prompts, improving development efficiency.
+- Good code readability.
+
+## Create the first TypeScript file
+
+First install TypeScript
+
+```
+npm install -g typescript
+```
+
+Check if it is successful after installation
+
+```
+tsc --version
+```
+
+I encountered the following problems after installation:
+
+![image-20200614175730166](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200614175730166.png)
+
+In this case, you only need to open the command line as an administrator and run the following command:
+
+```
+set-ExecutionPolicy RemoteSigned
+```
+
+Create the first ts file `Hello.ts`
+
+```tsx
+function sayHello(name: String) {
+  console.log(`Hello ${name}`);
+}
+let person = 'Alan';
+sayHello(person);
+```
+
+We found that the ts code is slightly different from the ordinary js code in the parameter of the `sayHello` function.
+`sayHello(name: String)`
+It roughly means that `sayHello` passes in a parameter named name, and the type of the parameter must be `String`, otherwise it cannot pass the compilation of ts.
+After writing the code, use tsc to compile the above `Hello.ts` file
+
+```
+tsc Hello.ts
+```
+
+After successful compilation, a `Hello.js` file is generated in the same level directory. It can be seen that the generated js file only converts the es6 syntax to es5 syntax, and does not change other codes.
+
+```js
+function sayHello(name) {
+  console.log('Hello ' + name);
+}
+var person = 'Alan';
+sayHello(person);
+```
+
+If you rewrite the `Hello.ts` file
+
+```tsx
+function sayHello(name: String) {
+  const text = 3 + name;
+  console.log(`Hello ${name}`);
+}
+let person = 123;
+sayHello(person);
+```
+
+Compile again and find that an error will be reported, but the js file can still be generated:
+![image-20200614180440953](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200614180440953.png)
+
+The specific meaning of the above error is
+
+- Since the function parameter `name` is declared as a static type `string`, when calling, the value passed in is `number` type `123`, which does not match the previous `string`.
+- In the `sayHello` function, two values of different types, `name(string)` and `3(number)`, are added.
+
+We found that every time we have to compile the ts file through tsc to get the js file and then run the js file, it is too troublesome. You can use the plugin `ts-node` to directly run the ts file.
+
+```
+npm i ts-node -g
+```
+
+```
+ts-node Hello.ts
+```
+
+:::info
+
+ts can try to analyze variable types (type inference), and ts cannot analyze variables. It is best to explicitly declare variable types (type annotations)
+
+:::
+
+## Basic types
+
+Variable declaration: `let [variable name]: [type] = value`
+
+For example: `let age: number = 21`
+
+TypeScript supports almost the same data types as JavaScript
+
+- boolean (Boolean value)
+- number (numerical)
+- string (string)
+- `[]/Array<element type> (array)`
+- Tuple
+- enum (enumeration)
+- any (any value)
+- void (empty value)
+- null
+- undefined
+- never
+
+## Array
+
+There are 2 ways to define an array
+
+```tsx
+let arr: number[] = [1, 2, 3]; // Element type followed by `[]`
+let arr: Array<number> = [1, 2, 3]; // Array generics
+let arr: (number | string)[] = [1, '2', '4']; // Element type can be number or string (similar to tuple)
+```
+
+## Tuple tuple
+
+Represents an array (the types of each element do not have to be the same)
+
+```tsx
+let list: [string, number]; // The first element is of type string, and the second is of type number
+a = ['abc', 123]; // qualified
+b = [123, 'abc']; // unqualified
+```
+
+## Enumeration
+
+It's actually a bit like an object
+Look at the example
+
+```tsx
+enum lan {js, ts, css};
+console.log(lan.js); // 0   js corresponding subscript, the first default subscript is 0
+
+enum lan {
+  js = 3,
+  ts,
+  css,
+}
+console.log(lan.js); // 3
+console.log(lan.ts); // 4
+console.log(lan.css); // 5
+
+enum lan {
+  js,
+  ts = 3,
+  css,
+}
+console.log(lan.js); // 0
+console.log(lan.ts); // 3
+console.log(lan.css); // 4
+console.log(lan[4]); // css
+console.log(lan[1]); // undefined
+// The first default subscript is 0, and css continues the value of ts+1
+
+enum lan {js = 'good', ts = 'nice', css = 'well'};
+console.log(lan.js); // good
+
+// const enumeration, in order to avoid overhead on additionally generated code and additional non-direct access to enumeration members.
+const enum People {
+  name: 'Alan',
+  age: 23
+}
+
+// It will be automatically converted to a constant value during compilation, and other codes will not be retained
+console.log(People.name); // Alan
+
+```
+
+## any
+
+As the name suggests, any value, when we want to specify a type for a variable that is not yet clear,

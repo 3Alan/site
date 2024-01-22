@@ -1,0 +1,247 @@
+---
+slug: babel
+title: Basic Usage of webpack babel
+sidebar_label: Basic Usage of babel
+tags:
+  - webpack4.0
+description: >-
+  webpack tutorial, introduces the basic usage and configuration of webpack
+  babel, packaging react projects, and processing ES6 syntax
+keywords:
+  - webpack
+  - webpack tutorial
+  - webpack bebel
+  - polyfill
+  - preset
+references:
+  - name: >-
+      From Basics to Practice, Hand in Hand to Master the New Version of
+      Webpack4.0
+    url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
+  - name: webpack official website
+    url: 'https://webpack.js.org/'
+date: 2020-05-17T10:05:14.000Z
+updated: 2020-05-16T13:33:00.000Z
+sidebar_position: 4
+summary: >-
+  1. Use Babel to process ES6 syntax so that it can run in old browsers.
+
+  2. Install Babel related dependencies and configure webpack.
+
+  3. Use `@babel/preset-env` to convert ES6 code to ES5 code.
+
+  4. Use `@babel/polyfill` to simulate the ES5 environment, supporting functions
+  such as Promise and filter.
+
+  5. Use `useBuiltIns:usage` to introduce `@babel/polyfill` on demand to reduce
+  the code size.
+ai_translation: true
+---
+
+## Processing ES6 Syntax
+
+Let's write some code with ES6 first
+
+```js
+const name = 'Alan';
+const list = [1, 8, 4, 6];
+
+const resultList = list.filter(item => item > 5);
+
+new Promise(() => {
+  console.log('666');
+});
+
+console.log(resultList);
+```
+
+`npm run build` packs to see the chrome effect
+
+![image-20200520142019038](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520142019038.png)
+
+Unfortunately, there is something like IE in this world 😣. Take a look at the effect on IE
+
+![image-20200520142207197](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520142207197.png)
+
+You can see where the error is reported:
+
+```js
+eval(
+  "const name = 'Alan';\r\nconst list = [1, 8, 4, 6];\r\n\r\nconst resultList = list.filter(item => item > 5);\r\n\r\nnew Promise(() => {\r\n  console.log('666');\r\n})\r\n\r\nconsole.log(resultList);\r\n\n\n//# sourceURL=webpack:///./src/index.js?"
+);
+```
+
+**It seems that IE cannot recognize ES6 syntax**, so we need to use babel to process it here.
+
+```js
+npm install --save-dev babel-loader @babel/core @babel/preset-env
+```
+
+`@babel/preset-env` converts ES6 to ES5
+
+`@babel/core` babel core content
+
+Configure webpack
+
+```js
+{
+  test: /\.js$/,
+  exclude: /node_modules/, // Do not process js files under node_modules
+  loader: 'babel-loader',
+  options: {
+    presets: ['@babel/preset-env']
+  }
+},
+```
+
+Pack again and have a look
+
+![image-20200520143428061](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520143428061.png)
+
+The packaged index.js file
+
+```js
+var name = 'Alan';
+var list = [1, 8, 4, 6];
+var resultList = list.filter(function (item) {
+  return item > 5;
+});
+new Promise(function () {
+  console.log('666');
+});
+console.log(resultList);
+```
+
+Although some ES6 syntax (arrow functions, const) has been processed, filter and Promise have not been processed.
+
+Here you need to use `@babel-polyfill`, which simulates an ES5 environment
+
+```
+npm install --save @babel/polyfill
+```
+
+After installation, you can import it at the beginning of the file
+
+```js
+import '@babel/polyfill';
+
+const name = 'Alan';
+const list = [1, 8, 4, 6];
+
+const resultList = list.filter(item => item > 5);
+
+new Promise(() => {
+  console.log('666');
+});
+
+console.log(resultList);
+```
+
+Run the package again
+
+![image-20200520144125415](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520144125415.png)
+
+Although the effect is achieved, compare the size of the package without using `@babel/polyfil`l and using `@babel/polyfill` 😮
+
+![image-20200520144511050](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200520144511050.png)
+
+Just introducing a `@babel-polyfill`, the volume has increased so much?
+
+In fact, it is because `@babel-polyfill` simulates all ES5 environments, and we only use Promise and filter here, so we can configure `useBuiltIns` to let it only simulate the ones we use.
+
+After configuring `useBuiltIns`, it will automatically help us introduce `@babel/polyfill`, so we don't need to introduce it here anymore.
+
+```js
+{
+  test: /\.js$/,
+  exclude: /node_modules/, // Do not process js files under node_modules
+  loader: 'babel-loader',
+  options: {
+    presets: [['@babel/preset-env', {
+      useBuiltIns: 'usage'
+    }]]
+  }
+},
+```
+
+```js
+main.js   68.6 KiB    main  [emitted]  main
+```
+
+Take another look at the packaged file, is it much smaller?
+
+The configuration of babel can be placed in the `.babelrc` file alone, just put the content in options directly under the .babelrc directory
+
+```json
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
+}
+```
+
+## Use @babel/preset-react to package React files
+
+```
+npm install --save-dev @babel/preset-react
+```
+
+<Tabs>
+<TabItem value=".babelrc" label=".babelrc">
+
+```json
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ],
+    "@babel/preset-react"
+  ]
+}
+```
+
+</TabItem>
+<TabItem value="index.js" label="index.js">
+
+```js
+import React, { Component } from 'react';
+import ReactDom from 'react-dom';
+
+class App extends Component {
+  render() {
+    return <div>Hello React</div>;
+  }
+}
+
+ReactDom.render(<App />, document.getElementById('root'));
+```
+
+</TabItem>
+
+</Tabs>
+
+There is one thing to note here, the order of presets is from back to front, just like css-loader, that is, js files are processed by `@babel/preset-react` before being processed by `@babel/preset-env`.
+
+## Summary of the used babel
+
+`@babel/preset-react` handles react's jsx syntax
+
+`@babel-polyfill` handles syntax that cannot be processed by low-version browsers, such as Promise, Array.from, and Object.assign
+
+`@babel/preset-env` converts ES6 to ES5
+
+`@babel/core` babel core content
+
+`useBuiltIns:usage` introduced on demand
+
+:::info
+For more configuration, please refer to [babel official website](https://babeljs.io/docs/en/)
+:::

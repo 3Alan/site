@@ -1,0 +1,239 @@
+---
+slug: what-is-webpack
+title: What is webpack
+tags:
+  - webpack4.0
+categories:
+  - Front-end
+  - webpack4.0 learning summary
+description: >-
+  webpack getting started tutorial, introducing what webpack is and a simple
+  example of webpack getting started, webpack packaging mechanism.
+keywords:
+  - webpack
+  - webpack getting started tutorial
+  - webpack packaging
+references:
+  - name: >-
+      From basic to actual combat, hand in hand to help you master the new
+      version of Webpack4.0
+    url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
+  - name: webpack official website
+    url: 'https://webpack.js.org/'
+date: 2020-05-14T16:01:46.000Z
+sidebar_position: 1
+summary: >-
+  Webpack is a module bundler that packages multiple modules into one or more
+  bundles. The webpack configuration file is named webpack.config.js, which can
+  be used to configure the entry file, output file, mode, etc. of the package.
+  Webpack has two modes: development and production. The code in development
+  mode is easy to debug, while the code in production mode is smaller in size.
+  Webpack can be run through npm script commands.
+ai_translation: true
+---
+
+This article mainly introduces what webpack is and some simple configurations of webpack. After you follow me to finish coding, you will definitely have a basic understanding of webpack. 😎
+
+<!--truncate-->
+
+## webpack is a module bundler
+
+> In essence, _webpack_ is a *static module bundler* for modern JavaScript applications. When webpack processes an application, it recursively builds a *dependency graph* that contains every module that the application requires, and then packages all of these modules into one or more _bundles_.
+
+The above is a quote from the webpack official website. We can simply understand that webpack is a module bundler. So what is a module bundler? 😂 Let's take a simple example
+
+<Tabs>
+<TabItem value="index.html" label="index.html">
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./index.js"></script>
+  </body>
+</html>
+```
+
+</TabItem>
+<TabItem value="index.js" label="index.js">
+
+```js
+// ES Moudule modular import
+import ComponentB from './componentB';
+
+var root = document.getElementById('root');
+
+// CommonJs module import
+var ComponentA = require('./componentA');
+
+new ComponentA();
+new ComponentB();
+```
+
+</TabItem>
+<TabItem value="ComponentA" label="ComponentA">
+
+```js
+function ComponentA() {
+  var componentA = document.createElement('div');
+  componentA.innerHTML = 'ComponentA';
+  root.append(componentA);
+}
+
+module.exports = ComponentA;
+```
+
+</TabItem>
+<TabItem value="ComponentB" label="ComponentB">
+
+```js
+function ComponentB() {
+  var componentB = document.createElement('div');
+  componentB.innerHTML = 'ComponentB';
+  root.append(componentB);
+}
+
+export default ComponentB;
+```
+
+</TabItem>
+</Tabs>
+
+The modules here can be understood as `componentA` and `componentB`. This writing method is very common in `vue` and `react`. After writing these files, open the `index.html` file, the browser will report an error.
+
+:::danger Open index.html
+
+Uncaught SyntaxError: Cannot use import statement outside a module
+
+:::
+
+This is because the es6 template import method is used here, and the browser cannot recognize this method. So what to do? 😥
+
+At this time, webpack comes in handy. First, initialize the project
+
+```
+npm init -y
+```
+
+After initialization, the `package.json` file will be generated
+
+**Install webpack-cli and webpack** (not recommended for global installation)
+
+```
+npm install webpack-cli -D
+npm install webpack -S
+```
+
+Install a fixed version of webpack
+
+```
+npm install webpack@version number
+npm info webpack  // View package information
+```
+
+Package index.js
+
+```
+npx webpack index.js
+```
+
+> If npx is not used here, node will search for webpack in the global environment by default. If npx is added, the webpack installed in the project will be used to execute the command
+
+After packaging, you can see that there is an additional dist folder under the root directory (the default setting of webpack, which will be explained later), and there is a main.js file in it. This file is the final `main.js` processed by webpack.
+
+Then we modify the place where `index.js` is imported in the code of `index.html`
+
+```html
+<script src="./dist/main.js"></script>
+```
+
+Now the browser can correctly recognize the js file in html. Up to this point, it should not be difficult to understand that webpack is a module bundler.
+webpack packages the modules `componentA` and `componentB` to generate the final `main.js`.
+
+## webpack configuration file
+
+The default name of the webpack configuration file is `webpack.config.js`. Of course, we can also specify the configuration file.
+
+Before we start, let's modify the project directory
+
+```
+webpacktest
+ ├── index.html
+ ├── package-lock.json
+ ├── package.json
+ ├── src
+ │   ├── componentA.js
+ │   ├── componentB.js
+ │   └── index.js
+ └── webpack.config.js
+```
+
+Create a new configuration file webpack.config.js in the project root directory:
+
+```js
+const path = require('path');
+
+module.exports = {
+  mode: 'development', // Defaults to production
+  entry: {
+    main: './src/index.js' // Entry file for packaging
+  },
+  output: {
+    // Output file configuration
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+The path referenced above is a module in node, and `__dirname` represents the directory where webpack.config.js is located.
+
+_entry can be abbreviated as entry: './src/index.js'_
+
+:::info
+What is the difference between development and production in mode
+:::
+
+Let's take a look at the bundled file bundle.js and we'll know. The code in production mode is a single line, which is smaller in size. The code in development mode is not a single line, which is easy to debug.
+
+:::tip
+[More information about node path](https://nodejs.org/api/path.html)
+:::
+
+After executing the following command, the packaging can be completed, and the effect is the same as in the previous section
+
+```
+npx webpack
+```
+
+Of course, you can also use a custom configuration file
+
+```
+npx webpack --config Custom configuration file
+```
+
+Partners who have written projects should have discovered that they usually use `npm run xxx` to package projects. The following will introduce how to configure
+
+Modify the script in the package.json file
+
+```json
+"scripts": {
+  "build": "webpack"
+},
+```
+
+In this way, you can use `npm run build` to package, but those who have read the first section must have questions, will this configuration use the global webpack to package? 🙄, in fact, it will not, here `npm script` The command will find and execute webpack in the `node_modules` file of the project.
+
+After the packaging is complete, we open index.html and find that it will report an error. Note here: we need to manually move index.html to the dist directory and modify the js path, because webpack did not package index.html into the dist directory.
+
+```html
+<script src="./bundle.js"></script>
+```
+
+Now running index.html again will be fine. 🎉

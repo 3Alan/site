@@ -1,0 +1,123 @@
+---
+slug: docusaurus-search-engines-urls-push
+title: Docusaurus automatically pushes urls to search engines
+tags:
+  - Blog
+  - Docusaurus
+keywords:
+  - Docusaurus
+  - Search engine inclusion
+  - Github Actions
+  - Baidu inclusion
+  - Bing inclusion
+  - Google inclusion
+date: 2022-11-10T00:00:00.000Z
+description: >-
+  Automatically submit Docusaurus urls to search engines (Baidu, Bing, Google)
+  through Github Actions
+sidebar_position: 3
+summary: >-
+  When I used `Hexo` before, there were third-party packages available, but
+  `Docusaurus` did not. So I wrote a generic `Github Action`
+  [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push),
+  which can be used as long as your website has a `sitemap`.
+
+
+  The premise of use is that your website has generated a `sitemap`.
+
+
+  You can create a `Github Action` in your project and configure the
+  corresponding `Actions secrets`.
+
+
+  For specific parameter acquisition, refer to the `action`
+  [search-engines-urls-push](https://github.com/3Alan/search-engines-urls-push)
+  documentation.
+
+
+  Since the `sitemap` plugin of `Docusaurus` cannot customize the generation
+  rules, it is impossible to submit only the 10 most recently updated articles.
+ai_translation: true
+---
+
+When I used `Hexo` before, there were third-party packages available. So I did some research and found that `Docusaurus` did not have similar third parties to use, so I simply wrote a generic `Github Action` [`search-engines-urls-push`](https://github.com/marketplace/actions/search-engines-urls-push), which can be used as long as your website has a `sitemap`.
+
+## How to use
+
+### Preconditions
+
+Your website has generated a sitemap
+
+### Create Github Action
+
+Create a `Github Action` for your project, as follows
+
+:::info
+
+Trigger conditions can be configured by yourself. For trigger conditions, please refer to [_Docusaurus DocSearch Setup_](/posts/blog-guides/docusaurus-search#create-github-actions)
+
+:::
+
+```yml
+name: search-engines-urls-push
+
+on: deployment
+
+jobs:
+  search-engines-urls-push:
+    runs-on: ubuntu-latest
+    name: search-engines-urls-push
+    steps:
+      - name: search-engines-urls-push
+        id: search-engines-urls-push
+        // highlight-add-start
+        # Use the latest version
+        uses: 3Alan/search-engines-urls-push@v0.2.2
+        // highlight-add-end
+        with:
+          site: ${{ secrets.SITE }}
+          sitemap: ${{ secrets.SITEMAP }}
+          count: ${{ secrets.COUNT }}
+          bing-token: ${{ secrets.BING_TOKEN }}
+          baidu-token: ${{ secrets.BAIDU_TOKEN }}
+          google-client-email: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          google-private-key: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+```
+
+### Configure Actions secrets
+
+Create the following `Actions secrets` in your project repository
+
+:::info
+[How to create Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)
+:::
+
+| Name                | Description                       | Required |
+| ------------------- | --------------------------------- | -------- |
+| SITE                | Website url                          | true     |
+| SITEMAP             | sitemap url                       | true     |
+| COUNT               | Number of urls to submit, leave blank to submit all | false    |
+| GOOGLE_CLIENT_EMAIL | client_email                      | false    |
+| GOOGLE_PRIVATE_KEY  | private_key                       | false    |
+| BING_TOKEN          | Bing API Key                      | false    |
+| BAIDU_TOKEN         | Baidu token                        | false    |
+
+For specific parameters, please refer to the `action` [search-engines-urls-push](https://github.com/3Alan/search-engines-urls-push) documentation, welcome to star and contribute code.
+
+:::warning If your bing daily quota is greater than the total number of urls you submit, please ignore this warning
+If you have configured BING_TOKEN, then the COUNT value should be less than 10. Since the BING daily quota is only 10 (most small traffic websites should be 10), exceeding 10 will cause all url submissions to fail.
+:::
+
+:::info Daily quota for each platform (for reference, it may be different for each person)
+Baidu: 3000
+
+Bing: 10
+
+Google: 200
+:::
+
+## TODO
+
+### `Docusaurus` generates the sitemap of the 10 most recently updated articles
+
+The previous idea was to submit only the 10 most recently updated articles each time (through the `date` in the preface). After all, repeated submissions not only waste quotas but may also affect seo. However, since the `sitemap` plugin of `Docusaurus` cannot customize the generation rules, I tried to modify the source code before, and finally found that the `Docusaurus` [postBuild](https://docusaurus.io/zh-CN/docs/api/plugin-methods/lifecycle-apis#postBuild) The url information exposed by the life cycle is too little (only one url...), and the preface information of each article cannot be obtained.

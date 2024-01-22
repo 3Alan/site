@@ -1,0 +1,273 @@
+---
+slug: plugin
+title: Basic usage of webpack plugin
+sidebar_label: Basic usage of plugin
+tags:
+  - webpack4.0
+categories:
+  - Front-end
+  - webpack4.0 learning summary
+description: >-
+  Webpack getting started tutorial, introducing the basic usage of webpack
+  plugin, including common plugin (html-webpack-plugin, clean-webpack-plugin to
+  clear dist directory), multi-entry packaging and configuration, sourcemap
+  configuration.
+keywords:
+  - webpack
+  - webpack getting started tutorial
+  - webpack plugin
+references:
+  - name: >-
+      From basic to practice, hand in hand to master the new version of
+      Webpack4.0
+    url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
+  - name: webpack official website
+    url: 'https://webpack.js.org/'
+date: 2020-05-17T10:05:14.000Z
+updated: 2020-05-16T13:33:00.000Z
+sidebar_position: 3
+summary: >-
+  This section introduces the usage of some common plugins of webpack.
+
+
+  html-webpack-plugin can help us automatically create HTML files and customize
+  HTML templates.
+
+
+  clean-webpack-plugin can help us clear the output directory configured in
+  webpack before each packaging.
+
+
+  Webpack can complete the packaging of multiple entry files by setting entry.
+
+
+  output's publicPath can help us put some files in cdn to speed up access after
+  packaging.
+
+
+  sourceMap can help us find the location of the error when there is an error in
+  the code, which is helpful for us to debug the code.
+ai_translation: true
+---
+
+This section introduces the usage of some common plugins of webpack.
+
+<!--truncate-->
+
+In the first section of my summary [What is webpack](/posts/webpack-tutorial/what-is-webpack), it is mentioned that `index.html` needs to be manually moved to the `dist` directory after packaging. So can we leave this work to the program? 🤔
+
+At this time, plugins come in handy.
+
+## html-webpack-plugin
+
+> The [`HtmlWebpackPlugin`](https://github.com/jantimon/html-webpack-plugin) simplifies creation of HTML files to serve your webpack bundles. This is especially useful for webpack bundles that include a hash in the filename which changes every compilation. You can either let the plugin generate an HTML file for you, supply your own template using [lodash templates](https://lodash.com/docs#template), or use your own [loader](https://webpack.js.org/loaders).
+
+The official website introduces that it can automatically create HTML files for us, and can also use custom HTML templates.
+
+See the example directly:
+
+```yaml title="Install the plugin"
+npm i html-webpack-plugin -D
+```
+
+```md title="Project directory"
+webpacktest
+├── package-lock.json
+├── package.json
+├── src
+│ └── index.js
+└── webpack.config.js
+```
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js
+var root = document.getElementById('root');
+
+root.innerHTML = '<div>Hello Webpack</div>';
+```
+
+</TabItem>
+<TabItem value="webpack.config.js" label="webpack.config.js">
+
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  mode: 'development', // The default is production
+  entry: {
+    main: './src/index.js' // Packaged entry file
+  },
+  output: {
+    // Output file configuration
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  plugins: [new HtmlWebpackPlugin()]
+};
+```
+
+</TabItem>
+</Tabs>
+
+`npm run build` to package and see the result
+
+```
+webpacktest
+ ├── dist
+ │   ├── bundle.js
+ │   └── index.html
+ ├── package-lock.json
+ ├── package.json
+ ├── src
+ │   └── index.js
+ └── webpack.config.js
+```
+
+The HtmlWebpackPlugin plugin automatically generates index.html for us in the `dist` directory, but... When the browser opens index.html, you can see nothing. What's the matter? Let's take a look at the generated index.html file and find the problem
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Webpack App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+
+There is no `#root` node in the generated file. What should I do? We also need to configure HtmlWebpackPlugin. The introduction of the official website mentioned earlier
+
+> You can either let the plugin generate an HTML file for you, supply your own template using [lodash templates](https://lodash.com/docs#template), or use your own [loader](https://webpack.js.org/loaders)
+
+We need to provide an HTML template by ourselves, so create an index.html in the src directory as the packaging template for HtmlWebpackPlugin
+
+<Tabs>
+<TabItem value="index.html" label="index.html">
+
+```html title="src/index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+</TabItem>
+<TabItem value="webpack.config.js" label="webpack.config.js">
+
+```js
+plugins: [
+  new HtmlWebpackPlugin({
+    template: './src/index.html'
+  })
+];
+```
+
+</TabItem>
+</Tabs>
+
+Pack again and take a look at the `index.html` file generated in the `dist` directory. It is the same as the html template we defined.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+
+When you open the browser, you can see that Hello Webpack is also displayed correctly. 🎉
+
+## clean-webpack-plugin
+
+https://www.npmjs.com/package/clean-webpack-plugin
+
+Its function is to clear the `out.path` (dist directory) configured in webpack before each packaging
+
+```
+npm i clean-webpack-plugin -D
+```
+
+In order to verify whether the dist directory is cleared, we first create a file my.js in the dist directory by ourselves
+
+```
+dist
+ ├── bundle.js
+ ├── index.html
+ └── my.js
+```
+
+```js title="webpack.config.js"
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  mode: 'development', // The default is production
+  entry: {
+    main: './src/index.js' // Packaged entry file
+  },
+  output: {
+    // Output file configuration
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new CleanWebpackPlugin()
+  ]
+};
+```
+
+`npm run build` to package
+
+```
+dist
+ ├── bundle.js
+ └── index.html
+```
+
+We found that the my.js file we created before has been cleared by CleanWebpackPlugin.
+
+## Multiple entry files
+
+Sometimes we have multiple entry files for packaging. At this time, we need to complete the packaging by setting entry. And use the [name] placeholder to set the name of the packaged file.
+
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  mode: 'development', // The default is production
+  entry: {
+    main: './src/index.js', // Packaged entry file
+    enrty: './src/entry.js'
+  },
+  output: {
+    // Output file configuration
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist')
+  

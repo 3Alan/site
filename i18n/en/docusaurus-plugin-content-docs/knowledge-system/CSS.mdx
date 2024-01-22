@@ -1,0 +1,181 @@
+---
+slug: css
+title: CSS
+date: 2021-02-24T23:14:08.000Z
+tags:
+  - Front-end Knowledge System
+keywords:
+  - Front-end Knowledge System
+  - CSS
+description: Front-end Knowledge System - CSS
+displayed_sidebar: interviewSidebar
+sidebar_label: CSS
+sidebar_position: 4
+summary: >-
+  * `rem`, `em`, and `vh/vw` are commonly used units in CSS, which are relative
+  to the root element font size, element font size, and viewport size
+  respectively.
+
+  * The difference between `translate` and absolute positioning is that
+  `translate` will occupy the original position, while absolute positioning
+  will脱离文档流.
+
+  * BFC is an isolated independent container, and the child elements in the
+  container will not affect the elements outside.
+
+  * Methods to clear floats include using pseudo-class elements, creating BFCs,
+  and using empty boxes.
+
+  * Methods for vertical centering include flex layout, absolute positioning,
+  margin, and table-cell.
+ai_translation: true
+---
+
+## Units
+
+- `rem`: relative to the font-size of the root element (html/:root) css3
+
+  If the font-size of html is 16px (default), then 1rem=16px
+
+- `em`: If the font-size is set for the element, then relative to the element. If not set, then relative to the parent element.
+
+  For example, if the font-size of div is set to 10px, then when em is used in the div, 1em is 10px
+
+  If the font-size is not set for the element and the font-size of the parent element is set to 20px, then 1em is 20px
+
+- `vh/vw` relative to the viewport, 10vh=1/10 of the screen height
+
+## The difference between translate and using absolute positioning
+
+translate will occupy the original position, while absolute positioning will脱离文档流.
+
+## BFC
+
+Concept: It is a vague and abstract isolated independent container on the page, and the child elements in the container will not affect the elements outside.
+
+Usage scenarios: clear floats, solve margin overlap
+
+**An element cannot exist in two BFCs at the same time**
+
+### How to create:
+
+- Root element
+- float is not none
+- position: absolute/fixed
+- display: inline-block/table-cell
+- overflow is not visible
+- Flexbox (`display: flex/inline-flex`)
+
+## Clear floats
+
+- Pseudo-class elements
+
+```css
+.clearfix::after {
+  content: '';
+  display: blcok;
+  clear: both;
+}
+```
+
+- Create BFC
+
+```css
+overflow: hidden;
+
+overflow: auto;
+```
+
+- Empty box
+
+```html
+<div style="clear: both;"></div>
+```
+
+## Selector priority
+
+`!important > style > id(100) > class(10) > tag(1) > * > inherit`
+
+> https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#%E4%BC%98%E5%85%88%E7%BA%A7_2
+
+## Vertical centering
+
+```html title=html
+<div class="outer">
+  <div class="inner"></div>
+</div>
+```
+
+- Flex layout
+
+- Absolute positioning
+
+<Tabs>
+  <TabItem value="已知子元素宽高" label="Known child element width and height">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px; /* Half the width */
+  margin-top: -50px; /* Half the height */
+}
+```
+
+  </TabItem>
+  <TabItem value="未知子元素宽高" label="Unknown child element width and height">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+  </TabItem>
+  <TabItem value="margin" label="margin">
+
+```css
+.outer {
+  position: relative;
+}
+.inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+```
+
+  </TabItem>
+</Tabs>
+
+- table-cell
+
+```css
+.outer {
+  width: 400px;
+  height: 400px;
+  background: aqua;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.inner {
+  width: 100px;
+  height: 100px;
+  background: brown;
+  display: inline-block;
+}
+```

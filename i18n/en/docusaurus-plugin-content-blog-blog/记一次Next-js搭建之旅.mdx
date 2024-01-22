@@ -1,0 +1,236 @@
+---
+slug: next-tutorial
+title: A Journey of Building with Next.js
+tags:
+  - React
+  - Next.js
+categories:
+  - Front-end
+  - React
+date: 2020-11-12T17:04:58.000Z
+keywords:
+  - Next.js deployment
+  - SSR server-side rendering
+  - Docker container
+  - Front-end engineering
+  - Mobile adaptation solutions
+  - Redux
+description: >-
+  Next.js tutorial, problems encountered during construction, front-end
+  engineering construction
+authors: Alan
+out_dated: true
+summary: >-
+  Next.js is a SSR (server-side rendering framework) based on React, which can
+  provide better SEO and faster first-screen rendering speed. Next.js's routing
+  method is similar to React Router, you can use programmatic jumps and
+  component jumps. In Next.js, you can use `getStaticProps` and
+  `getServerSideProps` to get data, and use `SWR` to get data on the client
+  side. Next.js also provides many out-of-the-box features, such as automatic
+  code splitting, route prefetching, internationalization support, etc. In the
+  project, I used Next.js to build a mobile H5 activity page, and encountered
+  many problems, such as environment variable configuration, environment
+  judgment, mobile adaptation, etc. In the end, I solved these problems by
+  consulting official documents, searching for relevant information, and asking
+  colleagues for advice, and successfully migrated the H5 activity page to
+  Next.js.
+ai_translation: true
+---
+
+Recently, my work required migrating the previous Vue H5 activity page to Next.js. After a period of research, I have summarized the following content.
+
+<!--truncate-->
+
+## What is Next.js
+
+A SSR (server-side rendering framework) based on `React`
+
+## SSR & CSR
+
+> Reference link: https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8
+
+<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/ssr-explanation.png?w=800&ssl=1" />
+
+> The main difference is that for SSR your server’s response to the browser is the HTML of your page that is ready to be rendered, while for CSR the browser gets a pretty empty document with links to your javascript. That means your browser will start rendering the HTML from your server without having to wait for all the JavaScript to be downloaded and executed. In both cases, React will need to be downloaded and go through the same process of building a virtual dom and attaching events to make the page interactive — but for SSR, the user can start viewing the page while all of that is happening. For the CSR world, you need to wait for all of the above to happen and then have the virtual dom moved to the browser dom for the page to be viewable.
+
+<img src="https://i2.wp.com/blog.logrocket.com/wp-content/uploads/2019/06/csr-explanation.png?w=800&ssl=1" />
+
+## Advantages of Next.js
+
+- Better SEO
+- Faster first-screen rendering speed
+
+## Next.js Basics (Differences from React Development)
+
+> https://nextjs.org/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website
+
+### Route Mapping
+
+> In Next.js, a **page** is a [React component](https://reactjs.org/docs/components-and-props.html) exported from a `.js`, `jsx`, `.ts` or `.tsx` file, which are stored in the `pages` directory. Each page uses its file name as the route.
+
+```js
+pages/about.js/jsx/ts/tsx → /about
+
+pages/dashboard/settings/username.js → /dashboard/settings/username
+```
+
+### Built-in routing: `next/router` `next/link`
+
+Similar to `react-router`, including programmatic jumps `router.push` and component jumps `<Link href="/about"><a>click me</a></Link>`
+
+```js
+import { useRouter } from 'next/router';
+
+const router = useRouter();
+router.push({
+  pathname: '/activities/experience-lesson/course-info',
+  query: { ...queryData, isFree: 0 }
+});
+router.push('/about');
+```
+
+### Rendering method
+
+#### Pre-rendering
+
+- **Static Generation** (HTML reuse, build generation)
+- **Server-side Rendering** (HTML generated each time a request is made, generated when the user requests)
+
+#### Related API
+
+- Static generation
+
+  - `getStaticProps(context)`
+  - `getStaticPaths(context)`
+
+- Server rendering
+  - `getServerSideProps(context)`
+- Client-side data acquisition
+  - SWR (officially recommended)
+
+**Note:** In the development environment `getStaticProps` and `getStaticPaths` will be called every time a request is made
+
+Use, export in the **page** file
+
+```js
+function Page({ data }) {
+  // Render data...
+}
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`https://.../data`);
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default Page;
+```
+
+## Project structure and engineering
+
+### Configure Eslint+Prettier
+
+> https://github.com/paulolramos/eslint-prettier-airbnb-react
+>
+> https://dev.to/karlhadwen/setup-eslint-prettier-airbnb-style-guide-in-under-2-minutes-a27
+>
+> https://dev.to/bybruno/configuring-absolute-paths-in-react-for-web-without-ejecting-en-us-52h6
+
+Solve the problem that `eslint` cannot recognize the dynamic import syntax `import()`:
+
+[Related issue](https://github.com/eslint/eslint/issues/11486)
+
+```js
+// eslint configuration
+parserOptions: {
+  ecmaVersion: 2020, // Use the latest ecmascript standard
+  sourceType: 'module', // Allows using import/export statements
+  ecmaFeatures: {
+    jsx: true // Enable JSX since we're using React
+  }
+},
+```
+
+Considering team collaboration, create a `.vscode` folder in the root directory and create a `setting.json` file in it to achieve the effect of automatic repair, which ensures the unity of the team's code.
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
+Later, after a period of time, it was discovered that some team members had set the editor to automatically save, so this step was skipped directly. Here, `husky` (used to add hooks to git) can be used with `lint-staged` to automatically do this before committing code.
+
+```
+yarn add husky lint-staged prettier --dev
+```
+
+Write `package.json`
+
+```
+"husky": {
+ "hooks": {
+    "pre-commit": "lint-staged"
+  }
+},
+"lint-staged": {
+  "*.{js, jsx}": [
+    "npm run lint",
+    "git add"
+  ]
+}
+```
+
+### Configure alias
+
+`next.config.js` configuration
+
+```js
+/* eslint-disable no-param-reassign */
+const path = require('path');
+
+module.exports = {
+  webpack: config => {
+    // Note: we provide webpack above so you should not `require` it
+    // Perform customizations to webpack config
+    config.resolve.alias['@'] = path.resolve(__dirname, './src');
+    // Important: return the modified config
+    return config;
+  }
+};
+```
+
+Eslint cannot recognize aliases, you need to create a file `jsconfig.json` in the root directory and configure `settings` in `.eslintrc.js`
+
+<Tabs>
+<TabItem value="jsconfig" label="jsconfig.json">
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
+```
+
+</TabItem>
+<TabItem value="eslintrc" label=".eslintrc.js">
+
+```js
+module.exports = {
+  root: true, // Make sure eslint picks up the config at the root of the directory
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:prettier/recommended', 'prettier/react'],
+  env: {
+    browser: true,
+    commonjs: true,
+    es6

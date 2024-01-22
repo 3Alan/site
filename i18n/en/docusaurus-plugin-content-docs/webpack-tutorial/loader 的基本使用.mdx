@@ -1,0 +1,272 @@
+---
+slug: loader
+title: Basic Usage of webpack loader
+sidebar_label: Basic Usage of loader
+tags:
+  - webpack4.0
+categories:
+  - Front-end
+  - webpack4.0 Learning Summary
+description: >-
+  webpack tutorial, introduces the basic usage, function, execution order of
+  webpack loader, file-loader processing images, css-loader and style-loader
+  processing CSS.
+keywords:
+  - webpack
+  - webpack tutorial
+  - webpack loader
+  - file-loader
+  - css-loader
+  - style-loader
+references:
+  - name: >-
+      From Basic to Practice, Hand in Hand to Master the New Version of
+      Webpack4.0
+    url: 'https://coding.imooc.com/class/chapter/316.html#Anchor'
+  - name: webpack official website
+    url: 'https://webpack.js.org/'
+date: 2020-05-15T20:00:22.000Z
+updated: 2020-05-16T13:33:00.000Z
+sidebar_position: 2
+summary: >-
+  This section mainly introduces the usage of `file-loader`, `url-loader` as
+  well as `css-loader` and `style-loader`.
+
+
+  `file-loader` can package files such as images into modules and output them to
+  a specified directory.
+
+  `url-loader` can convert files such as images into base64 encoding and output
+  them to a specified directory.
+
+  `css-loader` can package css files into modules and output them to a specified
+  directory.
+
+  `style-loader` can add css file content to the header of the page with the
+  `<style></style>` tag.
+ai_translation: true
+---
+
+This section mainly talks about the usage of some common Loaders. Including `file-loader`, `url-loader` as well as `css-loader` and `style-loader`.
+
+<!--truncate-->
+
+## Loader
+
+### file-loader
+
+The previous section briefly introduced what webpack is. webpack is a module bundler that can package es module files. In the previous section, we only packaged js files. Can we package other types of files? Let's try packaging images.
+
+Here we use `file-loader`
+
+```shell title="Install file-loader"
+npm i file-loader -D
+```
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js title="index.js"
+// ES Moudule modular import
+import ComponentB from './componentB';
+
+var root = document.getElementById('root');
+
+// CommonJs module import
+var ComponentA = require('./componentA');
+var img1 = require('./IMG_3294.jpg');
+console.log(img1);
+var img = new Image();
+img.src = img1;
+root.append(img);
+
+new ComponentA();
+new ComponentB();
+```
+
+</TabItem>
+<TabItem value="webpack.config.js" label="webpack.config.js">
+
+```js
+const path = require('path');
+
+module.exports = {
+  mode: 'development', // Defaults to production
+  entry: {
+    main: './src/index.js' // Packaged entry file
+  },
+  module: {
+    rules: [
+      // Match files ending with jpg using file-loader
+      {
+        test: /\.jpg$/,
+        use: {
+          loader: 'file-loader'
+        }
+      }
+    ]
+  },
+  output: {
+    // Output file configuration
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+</TabItem>
+</Tabs>
+
+`npm run build` to package, let's take a look at the img1 printed out by the console
+
+![img module](https://raw.githubusercontent.com/3Alan/images/master/img/20200515205827.png)
+
+Here you can see that img1 is a `Module`.
+
+We can use `img1.default` to get the path or import it directly in the form of import, so that the image is successfully displayed 😄
+
+```js
+import img1 from './IMG_3294.jpg';
+```
+
+Through this example, we can know the general function and method of loader. Use `test` to match specific files and use specific `loader` to process and package the files with (`use`).
+
+Let's take a look at the packaged file again
+
+```
+dist
+ ├── a2099657cfcaf9f019ccf08e9dc8747d.jpg
+ ├── bundle.js
+ └── index.html
+```
+
+It is found that the name of our image has been changed to a long string of characters. Then how can I keep it from changing its name? At this time, the **options** of the loader come in handy 😎
+
+```js title="webpack.config.js"
+rules: [
+  {
+    test: /\.(jpg|png)$/,
+    use: {
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]'
+      }
+    }
+  }
+];
+```
+
+Here `[name]` and `[ext]` are **placeholders** in the loader, representing the name and extension of the file, respectively. Of course, there are many more [placeholders](https://webpack.js.org/loaders/file-loader/#placeholders) in the loader.
+
+After setting, package to get the following result, you can see that the file name after packaging is consistent with that before packaging.
+
+```
+dist
+ ├── bundle.js
+ ├── IMG_3294.jpg
+ └── index.html
+```
+
+Now we have learned the basic usage of **file-loader**.
+
+### url-loader
+
+url-loader can also package files, but unlike file-loader, it converts our images to base64 encoding. So what if I don't want to convert? We can use the limit property in options to limit the conversion of files to base64 encoding when they are less than a certain size. Once this value is exceeded, the packaged effect will be the same as file-loader.
+
+Let's take a look at the example and it will be clear
+
+```
+npm i url-loader -D
+```
+
+Here we prepare two pictures, one is 300k in size and the other is 7k in size
+
+```js title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development', // Defaults to production
+  entry: {
+    main: './src/index.js' // Packaged entry file
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'images/',
+            limit: 10240
+          }
+        }
+      }
+    ]
+  },
+  output: {
+    // Output file configuration
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+Take a look at the packaged file
+
+```
+dist
+ ├── bundle.js
+ ├── images
+ │   └── 300k.jpg
+ └── index.html
+```
+
+The result is that the 300k.jpg file larger than 10240 is packaged as an image, so where did the 7k.jpg file go? We can find it in the `bundle.js` file.
+
+```
+data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...
+```
+
+Of course, limit can also be set to true/false, [more configurations](https://webpack.js.org/loaders/url-loader/#limit)
+
+I found during the operation that if 7k.jpg is not used in html, url-loader will not package it.
+
+:::tip
+It is not recommended to convert large files to base64 here, as this will increase the size of bundle.js, which is not friendly to project optimization
+:::
+
+### Style files
+
+Continuing with the example above, I now want to add some styles to the images in the page
+
+<Tabs>
+<TabItem value="index.js" label="index.js">
+
+```js
+// ES Moudule modular import
+import ComponentB from './componentB';
+import './index.css';
+
+var root = document.getElementById('root');
+
+// CommonJs module import
+var ComponentA = require('./componentA');
+import img1 from './300k.jpg';
+console.log(img1);
+
+var img = new Image();
+img.src = img1;
+img.classList.add('circle');
+root.append(img);
+
+new ComponentA();
+new ComponentB();
+```
+
+</TabItem>
+<TabItem value="index.css" label="index.css">
+
+```css
+.circle {
+  
