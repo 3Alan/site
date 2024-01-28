@@ -1,0 +1,709 @@
+---
+slug: react-tutorial
+title: Summary of React Tutorial
+tags:
+  - React
+categories:
+  - Frontend
+  - React
+date: 2020-11-04T18:13:56.000Z
+keywords:
+  - React Tutorial
+  - React Redux
+  - React Router
+  - React Lifecycle
+description: 'Summary of React tutorial, including common ecosystem of React'
+authors: Alan
+summary: >-
+  - In React, the data flow is one-way, child components cannot modify the data
+  of parent components, while in Vue, the data flow is two-way and child
+  components can modify the data of parent components.
+
+  - In React, component names must start with capital letters, while in Vue,
+  component names can be lowercase.
+
+  - In React, you can use `<React.Fragment></React.Fragment>` or `<></>` to wrap
+  tags, while in Vue, you can use `<template>` tag to wrap tags.
+
+  - In React, the keyword `class` needs to be replaced with `className`, while
+  in Vue, you can use `class`.
+
+  - In React, the `for` attribute of the `label` tag needs to be replaced with
+  `htmlFor`, while in Vue, you can use `for`.
+
+  - In React, `state` should not be directly modified, but should be modified
+  using `this.setState()`, while in Vue, `data` can be directly modified.
+
+  - In React, the `this` binding problem needs to be solved using arrow
+  functions or `bind`, while in Vue, this problem does not need to be
+  considered.
+
+  - In React, a `key` needs to be added when rendering a loop, while in Vue, it
+  is not necessary.
+
+  - In React, the comment syntax is `{/**/}`, while in Vue, the comment syntax
+  is `<!-- -->`.
+
+  - In React, you can use `dangerouslySetInnerHTML={{__html: item(data to be
+  displayed)}}` to disable HTML escaping, while in Vue, you can use the `v-html`
+  directive.
+
+  - In React, the second argument of `setState()` is a callback function, while
+  in Vue, the second argument of `setState()` is an object.
+
+  - In React, whenever `state` or `props` changes, `render()` is executed, while
+  in Vue, `render()` is only executed when `data` or `props` change.
+
+  - In React, you can use `react-transition-group` to achieve animations, while
+  in Vue, you can use `vue-transition` to achieve animations.
+
+  - In React, when a component only has `render()`, it can be declared as a
+  stateless component to improve performance, while in Vue, stateless components
+  can also be implemented using functional components.
+
+  - In React, `ref` is used to obtain DOM elements, while in Vue, `ref` is also
+  used to obtain DOM elements.
+ai_translation: true
+---
+
+Summary of learning React and its related ecosystem
+
+<!-- truncate -->
+
+![Do you want to learn? If not, I'll let it go](http://img.doutula.com/production/uploads/image/2018/03/15/20180315080324_kYaXfj.jpg)
+
+## Basic Knowledge
+
+- One-way data flow in React (child components cannot modify parent component data)
+
+- Component names must start with capital letters
+
+- You can use `<React.Fragment></React.Fragment>` or `<></>` to wrap tags
+
+- Keywords
+  - `class` -> `className`
+  - `<label for="id"></lable>` -> `<label htmlFor="id"></lable>` used to enlarge the click range
+- Do not directly modify `state`, but use `this.setState()`
+
+- `this` binding problem
+
+  ```js
+  // Use bind in constructor, cannot pass parameters
+  this.handlerClick = this.handlerClick.bind(this);
+  // Use bind when calling, unfriendly to performance, because it needs to be rebound every time render() is called
+  onChange={this.handlerClick.bind(this,num)}
+  ```
+
+  ```js
+  // Use arrow function
+  onChange={e => this.handlerClick(num)}
+  ```
+
+  ```js
+  // Declare as an arrow function, cannot pass parameters
+  handlerClick = num => {};
+  ```
+
+- Add key when rendering in a loop, do not use index as key value.
+
+- Comment syntax `{/**/}`
+
+- ```
+  dangerouslySetInnerHTML={{__html: item(data to be displayed)}} // Disable HTML escaping
+  ```
+
+- The second argument of `setState()` is a callback function
+
+- When `state` or `props` changes, `render()` is executed in React. In other words, when the state of the parent component changes, `render()` will execute and the child components in the parent component will also be rendered.
+
+- Animation component [react-transition-group](https://reactcommunity.org/react-transition-group/)
+
+- When a component only has `render()`, it can be declared as a stateless component to improve performance
+
+- `key` is used to obtain DOM elements. In Vue, `ref` is also used to obtain DOM elements.
+
+## Component Communication
+
+### Parent -> Child
+
+Passed through properties, child components receive them through `this.props`. Changes in the parent component will directly affect the child component.
+
+Parent component
+
+```jsx
+// Using child component inside parent component
+const name = 'Alan'
+
+<Child name={name} />
+```
+
+Child component
+
+```jsx
+<div>{this.props.name}</div>
+```
+
+### Child -> Parent
+
+The parent component passes its own method to the child component, and the child component calls the method by adding an event. This allows the child component to modify the parent component's data and pass its own data to the parent component.
+
+Parent component
+
+```jsx
+this.state = {
+    list: [1,2,3]
+}
+
+<Child handlerEvent={this.deleteItem.bind(this)} />
+
+// Method
+deleteItem(index) {
+  const list = [...this.state.list];
+  list.splice(index,1);
+  this.setState({
+    list,
+  });
+}
+```
+
+Child component
+
+```jsx
+<button onClick={() => this.props.handlerEvent(1)}></button>
+```
+
+## Props Validation and Default Values
+
+[Specific parameters](https://reactjs.org/docs/typechecking-with-proptypes.html)
+
+```jsx
+import PropTypes from 'prop-types';
+
+// Parameter validation
+// Child is the name of the component
+// Defines this.props.content as a required parameter of type string
+Child.propTypes = {
+  content: PropTypes.string.isRequired
+};
+
+// Default parameter values
+Child.defaultProps = {
+  mobile: 'none'
+};
+```
+
+## Asynchronous Component Loading Plugin [react-loadable](https://github.com/jamiebuilds/react-loadable)
+
+Usage
+
+```jsx
+import React, { Component } from 'react';
+import Loadable from 'react-loadable';
+
+const LoadableComponent = Loadable({
+  // Component to be asynchronously imported
+  loader: () => import('./index'),
+  loading() {
+    // Action to be taken while loading, here displaying loading to improve user experience
+    return <div>loading...</div>;
+  }
+});
+
+export default class App extends Component {
+  render() {
+    return <LoadableComponent />;
+  }
+}
+```
+
+## Virtual DOM
+
+### What is Virtual DOM
+
+Use JavaScript objects to describe the real DOM. Operations on the virtual DOM (JavaScript objects) are much more efficient than operations on the real DOM.
+
+Use `React.createElement(type, [props], [...children])` to generate a virtual DOM.
+
+Advantages:
+
+- DOM operations are time-consuming, while virtual DOM operations are efficient
+
+- No need to replace the entire DOM, but replace the modified part of the DOM by comparing changes through the diff algorithm
+- Due to the use of virtual DOM, it is beneficial for the development of native applications (RN) because the DOM exists in the browser.
+
+For performance reasons, React combines multiple `setState()` calls into one call (asynchronous function) because `setState()` will trigger the virtual DOM to perform diff comparison.
+
+### Diff Algorithm
+
+[Diff algorithm](https://segmentfault.com/a/1190000000606216)
+
+## Lifecycle
+
+- Mounting
+  - `componentWillMount` / `UNSAFE_componentWillMount`
+  - `render()`
+  - `componentDidMount` Use cases: sending requests
+- Updating (when props/state changes)
+  - [`componentWillReceiveProps()`](https://reactjs.org/docs/react-component.html#unsafe_componentwillreceiveprops) will be deprecated
+  - `shouldComponentUpdate` only updates if it returns `true`
+  - `render()`
+  - `componentDidUpdate`
+- Unmounting
+  - `componentWillUnmount`
+
+## Performance Optimization
+
+```js
+// Only execute render() when child component data changes
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.content !== this.props.content;
+  // Prevent updating from affecting performance
+}
+```
+
+You can also use the component to inherit from `React.PureComponent` to achieve the same effect as above, but it should be used sparingly because it has some issues. [Issues](https://reactjs.org/docs/render-props.html#be-careful-when-using-render-props-with-reactpurecomponent)
+
+**Similar APIs are available in hooks: useMemo and useCallback**
+
+> Reference for useMemo:
+>
+> [How to useMemo in React](https://www.robinwieruch.de/react-usememo-hook)
+
+## Redux
+
+![Redux Principle](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200622095821817.png)
+
+#### Principle
+
+Components notify the `store` through `dispatch(action)`. The `store` calls the corresponding `reducers` based on `action` to manipulate the copy of the `store`. The `reducers` return the manipulated data to the `store`.
+
+The components and the `store` synchronize the latest `store` data through `store.subscribe(this.setState(store.getState()))`.
+
+1. Create store (**createStore()**)
+
+```js
+import { createStore } from 'redux';
+import reducer from './reducer';
+// The second parameter can be configured to use the Google Redux plugin
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+export default store;
+```
+
+2. Create reducer (manage operation of store data)
+
+```js
+const defaultState = {
+  todoText: ''
+};
+
+export default (state = defaultState, action) => {
+  if (action.type === 'action type') {
+    let newState = JSON.parse(JSON.stringify(state));
+    // Update store
+    newState.todoText = action.value;
+    return newState;
+  }
+  return state;
+};
+```
+
+You can use `store.getState()` to get the data in the store, and assign initial values to the component
+
+```js
+this.state = store.getState();
+```
+
+3. Create action
+
+```js
+const action = {
+  type: '',
+  value: '' // The value to be changed
+};
+```
+
+4. Notify the `store` through `store.dispatch(action)`. The `reducer` accepts the previous `state` and `action`.
+
+5. The `reducer` updates the copy of the `state` and returns the new `state` to the `store`.
+
+6. In components that use the `store`, synchronize the latest `store` data by subscribing to the `store` through `store.subscribe(this.setState(store.getState()))`.
+
+To improve code robustness and maintainability, declare `action` as a separate file and declare `action.type` as a constant file.
+
+```
+store
+ ├── actionCreators.js // Generate actions
+ ├── actionType.js // Constants corresponding to action types
+ ├── index.js
+ └── reducer.js
+```
+
+<Tabs>
+<TabItem value="index" label="index.js">
+
+```js
+import { createStore } from 'redux';
+import reducer from './reducer';
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+export default store;
+```
+
+</TabItem>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+import { INPUT_CHANGE } from './actionType';
+
+export const changeInputAction = value => ({
+  type: INPUT_CHANGE,
+  value
+});
+```
+
+</TabItem>
+<TabItem value="reducer" label="reducer.js">
+
+```js
+import { INPUT_CHANGE } from './actionType';
+
+const defaultState = {
+  todoText: ''
+};
+
+export default (state = defaultState, action) => {
+  if (action.type === INPUT_CHANGE) {
+    let newState = JSON.parse(JSON.stringify(state));
+    newState.todoText = action.value;
+    return newState;
+  }
+  return state;
+};
+```
+
+</TabItem>
+<TabItem value="actionType" label="actionType.js">
+
+```js
+export const INPUT_CHANGE = 'inputChange';
+```
+
+</TabItem>
+</Tabs>
+
+<Admonition type="info">
+  <p>The return value of the reducers function needs to be predictable, which means that code with unpredictable results, such as new Date or Ajax, cannot be written inside it.</p>
+  <p>
+    Reducers cannot modify the original state and can only return a new state. To prevent bugs caused by being accidentally modified, you can use immutable.js to solve it, which can convert state data into a particular object.
+  </p>
+</Admonition>
+
+```
+npm i immutable redux-immutable -S
+```
+
+- Use `get()` and `set()` API of `immutable` objects to manipulate data. When multiple `set()` are used in a row, `merge({})` can be used to achieve the same purpose.
+- `immutable` can convert `state` into an `immutable` object using `fromJS`, and convert `immutable` objects into `js` objects using `toJS()`.
+- `redux-immutable` also provides `combineReducers`, which combines `reducers` of different modules while converting the `state` into an `immutable` object.
+
+<Admonition type="info">
+  When the project becomes larger and the reducer.js file becomes bloated, you can use the `combineReducers` provided by redux to split the reducer into different modules.
+</Admonition>
+
+```js
+import { combineReducers } from 'redux';
+import mAReducer from '../mAReducer/store/reducer';
+import mBReducer from '../mBReducer/store/reducer';
+
+export default combineReducers({
+  A: mAReducer,
+  B: mBReducer
+});
+// When using the data in mAReducer, you need to use state.A.xxx to access the data
+```
+
+### redux-thunk
+
+Middleware: between action and store
+
+redux-thunk allows redux to use asynchronous operations
+
+Usage
+
+```js
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './reducer';
+import thunk from 'redux-thunk';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+const store = createStore(reducer, enhancer);
+
+export default store;
+```
+
+Example
+
+<Tabs>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+export const setTodoList = list => ({
+  type: GET_TODOLIST,
+  list
+});
+
+export const getTodoList = () => {
+  return dispatch => {
+    axios.get('http://localhost:8888/test/getTodoList').then(res => {
+      const todoList = res.data.datas;
+      const action = setTodoList(todoList);
+      dispatch(action);
+    });
+  };
+};
+```
+
+</TabItem>
+<TabItem value="Using the Tab Component" label="Using the Tab Component">
+
+```js
+componentDidMount() {
+    const action = getTodoList();
+    store.dispatch(action);
+}
+```
+
+</TabItem>
+</Tabs>
+
+### redux-saga
+
+Usage
+
+<Tabs>
+<TabItem value="index" label="index.js">
+
+```js
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './reducer';
+import createSagaMiddleware from 'redux-saga';
+import mySaga from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+const store = createStore(reducer, enhancer);
+sagaMiddleware.run(mySaga);
+
+export default store;
+```
+
+</TabItem>
+<TabItem value="actionCreators" label="actionCreators.js">
+
+```js
+export const getSaga = list => ({
+  type: GET_SAGA,
+  list
+});
+```
+
+</TabItem>
+<TabItem value="sagas" label="sagas.js">
+
+```js
+import { takeEvery } from 'redux-saga/effects';
+import { GET_SAGA } from './actionType';
+
+function* getList() {
+  console.log('Performing asynchronous operation');
+}
+
+function* mySaga(action) {
+  // Call getList method when dispatch action.type = GET_SAGA
+  yield takeEvery(GET_SAGA, getList);
+}
+
+export default mySaga;
+```
+
+</TabItem>
+</Tabs>
+
+### react-redux
+
+Use `Provider` and `connect` to achieve store sharing. Previously, you needed to import the store in the component that needed to use it, and use `store.subscribe` and `store.getState` to synchronize and get the latest store content.
+
+```jsx
+<Provider store={store}>
+  {/* Wrap the component that needs to use the store */}
+  <App />
+</Provider>
+```
+
+```jsx title="Demo.js"
+import { deleteTodoItemAction } from '../../store/actionCreators';
+
+// Map the data in the store state to the props of the component
+const mapStateToProps = state => ({
+  ...state
+});
+
+// Map dispatch to props
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteTodoItem(index) {
+      const action = deleteTodoItemAction(index);
+      dispatch(action);
+    }
+  };
+};
+
+// Wrap the component that needs to use the store (Demo component)
+connect(mapStateToProps, mapDispatchToProps)(Demo);
+```
+
+---
+
+#### Hook
+
+If you are using hook for development, you can use the `hook` API provided by [react-redux](https://react-redux.js.org/next/api/hooks) to simplify the writing process without using `connect()` to wrap the component. **However, you still need to use `Provider` to wrap the parent component**
+
+```jsx
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTodoItemAction } from '../../store/actionCreators';
+
+// Equivalent to the previous mapStateToProps
+const counter = useSelector(state => state.counter);
+
+const dispatch = useDispatch();
+
+// Usage
+dispatch(deleteTodoItemAction);
+```
+
+- `useSelector`: Returns the value in `state`. When an `action` is `dispatched`, `useSelector` compares the result returned by the previous selector with the current result through a `shallow` comparison (the default is deep comparison `===`). If they are different, the component will be rendered forcefully, otherwise it will not.
+
+## CSS Writing Style
+
+Unlike Vue, React does not provide a way to write CSS code elegantly in Vue files. However, React does provide several ways to write CSS code (to be supplemented).
+
+- CSS-in-JS
+- Use styled-components
+- CSS Modules (dependent on webpack)
+
+styled-components (write CSS code in JS)
+
+<Tabs>
+<TabItem value="style" label="style.js">
+
+```js
+import styled from 'styled-components';
+
+export const Logo = styled.a.attrs({
+  href: '/'
+})`
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(${props => props.imgUrl});
+`;
+```
+
+</TabItem>
+<TabItem value="Usage" label="Usage">
+
+```jsx
+import React, { Component } from 'react';
+import { Logo } from './style';
+
+class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return <Logo imgUrl="xxx" />;
+  }
+}
+
+export default Header;
+```
+
+</TabItem>
+</Tabs>
+
+The above writing is equivalent to
+
+```jsx
+render() {
+  return (
+    <a href="/" style={{position: "absolute", top: 0, left: 0}}></a>
+  );
+}
+```
+
+## react-router
+
+```
+npm i react-router-dom -S
+```
+
+```jsx title="Usage"
+import React from 'react';
+import Header from './common/header';
+import store from './store';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Home from './pages/home';
+import Detail from './pages/detail';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <Route path="/" exact component={Home}></Route>
+        <Route path="/detail" exact component={Detail}></Route>
+      </Router>
+    </Provider>
+  );
+}
+
+export default App;
+```
+
+**exact is used for precise matching of routes**
+
+Page navigation is done through `<Link to="xxx"></Link>` in the `react-router-dom`, and redirection is done through `<Redirect to="xxx"></Redirect>`
+
+Programmatic writing:
+
+`this.props.history.(push()/goBack(num)/go()/replace())`
+
+```jsx title="Dynamic Routing"
+<Route path="/post/:id" exact component={POST}></Route>
+// In the POST component, you can get the id value using this.props.match.params.id
+```
+
+**You can use withRouter to wrap the component to get history**
+
+## React vs Vue
+
+Compared to Vue, React has a higher learning curve but is more flexible. Vue provides many encapsulated APIs, making it easier for beginners to learn.
+

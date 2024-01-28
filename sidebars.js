@@ -34,10 +34,11 @@ const sidebars = {
       link: {
         type: 'generated-index',
         title: 'webpack 学习笔记',
-        description: '涵盖了 webpack4.0 零基础到实战，是慕课网课程的学习笔记 https://coding.imooc.com/class/chapter/316.html#Anchor',
+        description:
+          '涵盖了 webpack4.0 零基础到实战，是慕课网课程的学习笔记 https://coding.imooc.com/class/chapter/316.html#Anchor',
         slug: '/index/webpack-guides',
-        keywords: ['webpack'],
-      },
+        keywords: ['webpack']
+      }
     },
     {
       type: 'category',
@@ -53,8 +54,8 @@ const sidebars = {
         title: 'React 组件库搭建',
         description: '记录了关于组件库搭建的相关知识点及每个组件的编写思路',
         slug: '/index/react-component-guides',
-        keywords: ['react', 'components', '组件库'],
-      },
+        keywords: ['react', 'components', '组件库']
+      }
     },
     {
       type: 'category',
@@ -68,10 +69,11 @@ const sidebars = {
       link: {
         type: 'generated-index',
         title: '博客搭建系列',
-        description: '包含了所有我曾经使用过的博客工具及其相关教程，包括 Hexo, Next.js, Docusaurus。',
+        description:
+          '包含了所有我曾经使用过的博客工具及其相关教程，包括 Hexo, Next.js, Docusaurus。',
         slug: '/index/blog-guides',
-        keywords: ['Docusaurus', 'Next.js', 'Docusaurus'],
-      },
+        keywords: ['Docusaurus', 'Next.js', 'Docusaurus']
+      }
     },
     {
       type: 'category',
@@ -87,9 +89,9 @@ const sidebars = {
         title: '源码实现系列',
         description: '记录了一些库的简单实现原理',
         slug: '/index/simple-source',
-        keywords: ['event emitter'],
-      },
-    },
+        keywords: ['event emitter']
+      }
+    }
   ]
 };
 

@@ -1,0 +1,216 @@
+---
+slug: docusaurus-search
+title: Building Docusaurus DocSearch
+tags:
+  - Blog
+  - Docusaurus
+keywords:
+  - Docusaurus
+  - Docusaurus DocSearch
+  - Docusaurus search
+  - Docusaurus Algolia
+  - Github Actions
+  - DocSearch crawler
+date: 2022-10-12T00:00:00.000Z
+description: >-
+  Implementing Docusaurus search functionality using Algolia DocSearch with
+  Github Actions
+sidebar_position: 2
+summary: >-
+  Since it was difficult for me to apply for Algolia DocSearch recommended by
+  the Docusaurus official website, I built my own DocSearch crawler. First,
+  create an account on the Algolia website and obtain three key values. Then,
+  create a Github Actions in the blog repository, choose a trigger condition as
+  needed. Next, create two Actions secrets in the project repository. Finally,
+  create a docsearch.json document in the project root directory and configure
+  the docusaurus.config.js file. Following these steps will enable search
+  functionality.
+ai_translation: true
+---
+
+Since I failed to apply for Algolia DocSearch recommended by the Docusaurus official website three times, I built my own DocSearch crawler based on the website's instructions.
+
+## Create Algolia Account
+
+Upon creation, obtain the following three key values:
+
+```
+Application ID
+Search-Only API Key
+Admin API Key
+```
+
+## Create Github Actions
+
+Create an "Action" in the blog repository.
+
+Below, I provide multiple trigger conditions. Choose and replace the contents in the "yml" file according to your own needs. Since my blog is deployed on "vercel", the content scraping action is triggered after the "vercel" deployment is completed, using the "deployment" trigger.
+
+<Tabs>
+<TabItem value="deployment" label="Trigger after successful deployment">
+
+```yml
+on: deployment
+```
+
+</TabItem>
+<TabItem value="main" label="Trigger on code submission">
+
+```yml
+on:
+  push:
+    branches:
+      - main
+```
+
+</TabItem>
+<TabItem value="cron" label="Scheduled trigger">
+
+```yml
+on:
+  schedule:
+    # Trigger at 8 am every day (UTC time: midnight)
+    - cron: '0 0 * * *'
+```
+
+</TabItem>
+<TabItem value="workflow_dispatch" label="Trigger manually">
+
+```yml
+on:
+  workflow_dispatch:
+```
+
+</TabItem>
+</Tabs>
+
+```yml title=.github/workflows/docsearch.yml
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: docsearch
+
+// highlight-add-start
+on:
+  deployment
+// highlight-add-end
+
+jobs:
+  algolia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get the content of docsearch.json as config
+        id: algolia_config
+        run: echo "::set-output name=config::$(cat docsearch.json | jq -r tostring)"
+
+      - name: Run algolia/docsearch-scraper image
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          CONFIG: ${{ steps.algolia_config.outputs.config }}
+        run: |
+          docker run \
+            --env APPLICATION_ID=${ALGOLIA_APP_ID} \
+            --env API_KEY=${ALGOLIA_API_KEY} \
+            --env "CONFIG=${CONFIG}" \
+            algolia/docsearch-scraper
+
+```
+
+Also, create two `Actions secrets` in the project repository.
+
+```json
+// Application ID from earlier
+ALGOLIA_APP_ID
+// Admin API Key from earlier
+ALGOLIA_API_KEY
+```
+
+:::info
+[How to create Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)
+:::
+
+## Create docsearch.json
+
+Create a `docsearch.json` document in the project root directory and replace the highlighted parts with your own.
+
+```json
+{
+  // highlight-update-start
+  "index_name": "blog",
+  "start_urls": ["https://www.alanwang.site/"],
+  "sitemap_urls": ["https://www.alanwang.site/sitemap.xml"],
+  // highlight-update-end
+  "selectors": {
+    "lvl0": {
+      "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
+      "type": "xpath",
+      "global": true,
+      "default_value": "Documentation"
+    },
+    "lvl1": "header h1, article h1",
+    "lvl2": "article h2",
+    "lvl3": "article h3",
+    "lvl4": "article h4",
+    "lvl5": "article h5, article td:first-child",
+    "lvl6": "article h6",
+    "text": "article p, article li, article td:last-child"
+  },
+  "custom_settings": {
+    "attributesForFaceting": ["type", "lang", "language", "version", "docusaurus_tag"],
+    "attributesToRetrieve": ["hierarchy", "content", "anchor", "url", "url_without_anchor", "type"],
+    "attributesToHighlight": ["hierarchy", "content"],
+    "attributesToSnippet": ["content:10"],
+    "camelCaseAttributes": ["hierarchy", "content"],
+    "searchableAttributes": [
+      "unordered(hierarchy.lvl0)",
+      "unordered(hierarchy.lvl1)",
+      "unordered(hierarchy.lvl2)",
+      "unordered(hierarchy.lvl3)",
+      "unordered(hierarchy.lvl4)",
+      "unordered(hierarchy.lvl5)",
+      "unordered(hierarchy.lvl6)",
+      "content"
+    ],
+    "distinct": true,
+    "attributeForDistinct": "url",
+    "customRanking": ["desc(weight.pageRank)", "desc(weight.level)", "asc(weight.position)"],
+    "ranking": ["words", "filters", "typo", "attribute", "proximity", "exact", "custom"],
+    "highlightPreTag": "<span class='algolia-docsearch-suggestion--highlight'>",
+    "highlightPostTag": "</span>",
+    "minWordSizefor1Typo": 3,
+    "minWordSizefor2Typos": 7,
+    "allowTyposOnNumericTokens": false,
+    "minProximity": 1,
+    "ignorePlurals": true,
+    "advancedSyntax": true,
+    "attributeCriteriaComputedByMinProximity": true,
+    "removeWordsIfNoResults": "allOptional",
+    "separatorsToIndex": "_",
+    "synonyms": [
+      ["js", "javascript"],
+      ["ts", "typescript"]
+    ]
+  }
+}
+```
+
+## Configure docusaurus.config.js
+
+```js
+module.exports = {
+  themeConfig: {
+    algolia: {
+      // Application ID
+      appId: 'YOUR_APP_ID',
+      // Search-Only API Key
+      apiKey: 'YOUR_SEARCH_API_KEY',
+      indexName: 'YOUR_INDEX_NAME'
+    }
+  }
+};
+```
+
+Following the above configuration steps will enable search functionality.

@@ -50,5 +50,13 @@
   "link.item.label.利用 Vercel 搭建属于自己的 ChatGPT": {
     "message": "利用 Vercel 搭建属于自己的 ChatGPT",
     "description": "The label of footer link with label=利用 Vercel 搭建属于自己的 ChatGPT linking to /blog/personal-chatgpt"
+  },
+  "link.item.label.Expo 开发 Airbnb Clone 全栈应用": {
+    "message": "Expo 开发 Airbnb Clone 全栈应用",
+    "description": "The label of footer link with label=Expo 开发 Airbnb Clone 全栈应用 linking to /blog/expo-airbnb-clone"
+  },
+  "link.item.label.Docusaurus AI 总结": {
+    "message": "Docusaurus AI 总结",
+    "description": "The label of footer link with label=Docusaurus AI 总结 linking to /posts/blog-guides/docusaurus-ai-bot"
   }
 }

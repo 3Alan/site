@@ -1,0 +1,522 @@
+---
+slug: next-tutorial
+title: A Journey of Building with Next.js
+tags:
+  - React
+  - Next.js
+categories:
+  - Frontend
+  - React
+date: 2020-11-12T17:04:58.000Z
+keywords:
+  - Next.js Deployment
+  - Server-Side Rendering (SSR)
+  - Docker Containers
+  - Frontend Engineering
+  - Mobile Adaptation Solution
+  - Redux
+description: A tutorial on building with Next.js, the problems encountered during the build, and frontend engineering setup.
+authors: Alan
+out_dated: true
+summary: >-
+  Next.js is a Server-Side Rendering (SSR) framework based on React. It provides better SEO and faster initial rendering speed. Next.js has a routing system similar to React Router, allowing for both programmatic and component-based navigation. In Next.js, data can be fetched using `getStaticProps` and `getServerSideProps`, and `SWR` can be used for client-side data fetching. Next.js also offers many out-of-the-box features, such as automatic code splitting, route prefetching, and internationalization support. In my project, I used Next.js to build a mobile H5 activity page, and encountered many issues during the process, such as environment configuration, environment detection, and mobile adaptation. I was able to solve these issues by referring to the official documentation, searching for relevant information, and consulting with colleagues, and successfully migrated the H5 activity page to Next.js.
+ai_translation: true
+---
+
+Recently, I was required to migrate a Vue H5 activity page to Next.js. After some research and experimentation, I have summarized the following content.
+
+<!--truncate-->
+
+## What is Next.js
+
+Next.js is a Server-Side Rendering (SSR) framework based on React.
+
+## SSR & CSR
+
+> Reference: [The Benefits of Server-Side Rendering over Client-Side Rendering](https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8)
+
+The main difference is that for SSR your server’s response to the browser is the HTML of your page that is ready to be rendered, while for CSR the browser gets a pretty empty document with links to your JavaScript. That means your browser will start rendering the HTML from your server without having to wait for all the JavaScript to be downloaded and executed. In both cases, React will need to be downloaded and go through the same process of building a virtual DOM and attaching events to make the page interactive — but for SSR, the user can start viewing the page while all of that is happening. For the CSR world, you need to wait for all of the above to happen and then have the virtual DOM moved to the browser DOM for the page to be viewable.
+
+## Advantages of Next.js
+
+- Better SEO
+- Faster initial rendering speed
+
+## Basics of Next.js (Differences from React Development)
+
+> [Next.js Basics](https://www.nextjs.cn/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website)
+
+### Route Mapping
+
+> In Next.js, a **page** is a [React component](https://reactjs.org/docs/components-and-props.html) exported from a `.js`, `.jsx`, `.ts`, or `.tsx` file in the `pages` directory. Each page is associated with a route based on its file name.
+
+```js
+pages/about.js/jsx/ts/tsx → /about
+
+pages/dashboard/settings/username.js → /dashboard/settings/username
+```
+
+### Built-in Routing: `next/router` and `next/link`
+
+Similar to `react-router`, including programmatic navigation with `router.push` and component-based navigation with `<Link href="/about"><a>click me</a></Link>`.
+
+```js
+import { useRouter } from 'next/router';
+
+const router = useRouter();
+router.push({
+  pathname: '/activities/experience-lesson/course-info',
+  query: { ...queryData, isFree: 0 }
+});
+router.push('/about');
+```
+
+### Rendering Modes
+
+#### Pre-rendering
+
+- **Static Generation** (HTML reuse, build-generated)
+- **Server-Side Rendering** (Different HTML generated for each request, generated on user's request)
+
+#### Relevant APIs
+
+- Static Generation
+
+  - `getStaticProps(context)`
+  - `getStaticPaths(context)`
+
+- Server-Side Rendering
+  - `getServerSideProps(context)`
+- Client-Side Data Fetching
+  - SWR (official recommendation)
+
+**Note:** In development environment, `getStaticProps` and `getStaticPaths` are called on every request.
+
+Usage: Export in **page** file.
+
+```js
+function Page({ data }) {
+  // Render data...
+}
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`https://.../data`);
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default Page;
+```
+
+## Project Structure and Engineering Setup
+
+### Eslint+Prettier Configuration
+
+> https://github.com/paulolramos/eslint-prettier-airbnb-react
+>
+> https://dev.to/karlhadwen/setup-eslint-prettier-airbnb-style-guide-in-under-2-minutes-a27
+>
+> https://dev.to/bybruno/configuring-absolute-paths-in-react-for-web-without-ejecting-en-us-52h6
+
+Solution for `eslint` not recognizing dynamic import syntax `import()`:
+
+[Related issue](https://github.com/eslint/eslint/issues/11486)
+
+```js
+// Eslint configuration
+parserOptions: {
+  ecmaVersion: 2020, // Use the latest ECMAScript standard
+  sourceType: 'module', // Allows using import/export statements
+  ecmaFeatures: {
+    jsx: true // Enable JSX since we're using React
+  }
+},
+```
+
+To ensure code consistency within the team, create a `.vscode` folder in the root directory and create a `settings.json` file inside it to automatically fix lint issues upon saving.
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
+After some time, it was found that some team members had enabled auto-save functionality in their editors, so this step could be skipped. Instead, `husky` (used to add git hooks) can be used in conjunction with `lint-staged` to automatically format the code before committing.
+
+```
+yarn add husky lint-staged prettier --dev
+```
+
+Write `package.json`:
+
+```json
+"husky": {
+ "hooks": {
+    "pre-commit": "lint-staged"
+  }
+},
+"lint-staged": {
+  "*.{js, jsx}": [
+    "npm run lint",
+    "git add"
+  ]
+}
+```
+
+### Alias Configuration
+
+`next.config.js` configuration
+
+```js
+/* eslint-disable no-param-reassign */
+const path = require('path');
+
+module.exports = {
+  webpack: config => {
+    // Note: we provide webpack above so you should not `require` it
+    // Perform customizations to webpack config
+    config.resolve.alias['@'] = path.resolve(__dirname, './src');
+    // Important: return the modified config
+    return config;
+  }
+};
+```
+
+Eslint cannot recognize aliases, so create a `jsconfig.json` file in the root directory and configure `settings` in `.eslintrc.js`.
+
+<Tabs>
+<TabItem value="jsconfig" label="jsconfig.json">
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
+```
+
+</TabItem>
+<TabItem value="eslintrc" label=".eslintrc.js">
+
+```js
+module.exports = {
+  root: true, // Make sure eslint picks up the config at the root of the directory
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:prettier/recommended', 'prettier/react'],
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+    jest: true,
+    node: true
+  },
+  globals: {
+    wx: true
+  },
+  parserOptions: {
+    ecmaVersion: 2020, // Use the latest ECMAScript standard
+    sourceType: 'module', // Allows using import/export statements
+    ecmaFeatures: {
+      jsx: true // Enable JSX since we're using React
+    }
+  },
+  rules: {
+    'react/react-in-jsx-scope': 0,
+    'jsx-a11y/alt-text': 0, // img alt
+    'react/prop-types': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'dot-notation': 0,
+    'import/prefer-default-export': 0,
+    'react/jsx-props-no-spreading': 0,
+    'jsx-a11y/href-no-hash': ['off'],
+    'react/no-array-index-key': 0,
+    'no-console': 0,
+    'no-alert': 0,
+    'consistent-return': 0,
+    // eslint-disable-next-line prettier/prettier
+    eqeqeq: 1,
+    'react/self-closing-comp': 0,
+    'react-hooks/exhaustive-deps': 0,
+    'react/no-danger': 0,
+    'no-shadow': 0,
+    'jsx-a11y/label-has-associated-control': 0,
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+    'max-len': [
+      'warn',
+      {
+        code: 120,
+        tabWidth: 2,
+        comments: 120,
+        ignoreComments: false,
+        ignoreTrailingComments: true,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true
+      }
+    ]
+  },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [['@', './src']],
+        extensions: ['.ts', '.js', '.jsx', '.json']
+      }
+    }
+  }
+};
+```
+
+</TabItem>
+</Tabs>
+
+### Axios Wrapper to Display `Spin` Component for Every Request
+
+Note: Since the server-side does not have a `document`, it is necessary to check the current environment before executing the operation.
+
+<details>
+  <summary>Detailed Code</summary>
+
+```jsx
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import Spin from '../components/Spin/Spin';
+
+const Axios = axios.create({
+  timeout: 20000
+});
+
+const csr = process.browser;
+
+// Number of ongoing requests
+let requestCount = 0;
+
+function showLoading() {
+  if (requestCount === 0) {
+    var dom = document.createElement('div');
+    dom.setAttribute('id', 'loading');
+    document.body.appendChild(dom);
+    ReactDOM.render(<Spin />, dom);
+  }
+  requestCount++;
+  console.log('showLoading', requestCount);
+}
+
+function hideLoading() {
+  requestCount--;
+  if (requestCount === 0) {
+    document.body.removeChild(document.getElementById('loading'));
+  }
+  console.log('hideLoading', requestCount);
+}
+
+Axios.interceptors.request.use(
+  config => {
+    csr && showLoading();
+    return config;
+  },
+  err => {
+    csr && hideLoading();
+    return Promise.reject(err);
+  }
+);
+
+Axios.interceptors.response.use(
+  res => {
+    csr && hideLoading();
+    return res;
+  },
+  err => {
+    csr && hideLoading();
+    return Promise.reject(err);
+  }
+);
+
+export default Axios;
+```
+
+</details>
+
+### Custom Input Hook
+
+Using this hook eliminates the need to set `onChange` for every form component.
+
+```jsx
+import { useState } from 'react';
+
+export function useInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+  return {
+    value,
+    setValue,
+    reset: () => setValue(''),
+    bind: {
+      value,
+      onChange: e => {
+        setValue(e.target.value);
+      }
+    }
+  };
+}
+```
+
+Usage:
+
+```jsx
+// Before
+const [phone, setPhone] = useState('');
+
+<input
+  name="phone"
+  type="number"
+  placeholder="Please enter your phone number (required)"
+  className={`${styles['cell-content']} ${styles['cell-content-right']}`}
+  value={phone}
+  onChange={() => setPhone(e.target.value)}
+/>;
+
+// After
+const { value: phone, bind: bindPhone } = useInput('');
+
+<input
+  name="phone"
+  type="number"
+  placeholder="Please enter your phone number (required)"
+  className={`${styles['cell-content']} ${styles['cell-content-right']}`}
+  {...bindPhone}
+/>;
+```
+
+### Modal Component
+
+```jsx
+import { createPortal } from 'react-dom';
+import styles from './Modal.module.css';
+
+export default function Modal({ content, show, onOk }) {
+  const modal = show && (
+    <div className={styles['overlay']}>
+      <div className={styles['modal']}>
+        {/* Prevent propagation to close the window */}
+        <div className={styles['wrapper']} onClick={e => e.stopPropagation()}>
+          <div className={styles['content']}>{content}</div>
+          <div className={styles['readed_btn']} onClick={() => onOk()}>
+            OK
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const PortalContent = () => {
+    // Handle the absence of a document on the server-side
+    try {
+      // Mount the modal on the body
+      return document && createPortal(modal, document.body);
+    } catch (error) {
+      return null;
+    }
+  };
+
+  // Dynamically import component
+  // import dynamic from 'next/dynamic';
+  // const Modal = dynamic(() => import('./components/Modal/Modal'), { ssr: false });
+
+  return (
+    <>
+      <PortalContent />
+    </>
+  );
+}
+```
+
+### Mobile Adaptation
+
+Using the `postcss-px-to-viewport` plugin
+
+Create a `postcss.config.js` file in the root directory
+
+```js
+module.exports = {
+  plugins: {
+    'postcss-px-to-viewport': {
+      viewportWidth: 375,
+      unitPrecision: 3,
+      viewportUnit: 'vw',
+      selectorBlackList: ['.ignore'],
+      minPixelValue: 1,
+      mediaQuery: false
+    }
+  }
+};
+```
+
+### Automated Deployment with Docker + Coding
+
+### Common Docker Commands
+
+- `docker image ls`
+- `docker image build -t [imageName] .` The `.` represents the path to the `Dockerfile`.
+- `docker container ls` List all running containers. `--all , -a` can be used to list all containers.
+- [`docker container run -p [appPort:dockerPort] [imageName]`](https://docs.docker.com/engine/reference/commandline/container_run/) Create a container instance.
+- `docker container kill [containID]`
+
+#### Dockerfile
+
+```dockerfile
+FROM node:12-alpine
+
+ARG API_ENV
+
+RUN echo ${API_ENV}
+
+ENV NEXT_PUBLIC_API_ENV=${API_ENV}
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package*.json /usr/src/app/
+RUN npm install
+
+COPY . /usr/src/app
+
+RUN npm run build
+EXPOSE 3000
+
+CMD [ "npm", "run", "start" ]
+```
+
+Set up a code push trigger rule in Coding to trigger the generation of artifacts.
+
+### Using Redux
+
+> https://github.com/vercel/next.js/tree/canary/examples/with-redux
+>
+> https://github.com/vercel/next.js/tree/canary/examples/with-redux-thunk
+
+It uses a new JavaScript feature called [Nullish coalescing operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator).
+
+## Pitfalls of Next.js
+
+### Environment Configuration
+
+Environment variables cannot be accessed by the client-side. Background: I needed to use different API domain names based on the environment variable in my project.
+
+Solution: The official documentation provides environment variables starting with `NEXT_PUBLIC_`, which allows the environment variables to be accessed by both the client-side and server-side.
+
+### Environment Detection
+
+```js
+process.browser === true ? 'client' : 'server';
+```
