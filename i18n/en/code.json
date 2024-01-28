@@ -456,5 +456,11 @@
   },
   "component.outdated.content": {
     "message": "Some information may be outdated. Please be aware of the latest references when reading this article."
+  },
+  "component.wip.label": {
+    "message": "WIP"
+  },
+  "component.wip.content": {
+    "message": "This article is still work in progress."
   }
 }
