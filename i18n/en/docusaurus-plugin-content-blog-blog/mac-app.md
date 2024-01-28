@@ -17,7 +17,7 @@ summary: >-
 ai_translation: true
 ---
 
-import SiteCard from '../src/components/siteCard';
+import SiteCard from '../../../src/components/siteCard';
 
 I have collected some useful Mac apps and will continue to update the content.
 

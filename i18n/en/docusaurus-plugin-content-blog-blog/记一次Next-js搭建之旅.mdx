@@ -1,8 +1,4 @@
 ---
-ai_translation: true
----
-```
----
 slug: next-tutorial
 title: A Journey of Building with Next.js
 tags:
@@ -24,6 +20,7 @@ authors: Alan
 out_dated: true
 summary: >-
   Next.js is a Server-Side Rendering (SSR) framework based on React. It provides better SEO and faster initial rendering speed. Next.js has a routing system similar to React Router, allowing for both programmatic and component-based navigation. In Next.js, data can be fetched using `getStaticProps` and `getServerSideProps`, and `SWR` can be used for client-side data fetching. Next.js also offers many out-of-the-box features, such as automatic code splitting, route prefetching, and internationalization support. In my project, I used Next.js to build a mobile H5 activity page, and encountered many issues during the process, such as environment configuration, environment detection, and mobile adaptation. I was able to solve these issues by referring to the official documentation, searching for relevant information, and consulting with colleagues, and successfully migrated the H5 activity page to Next.js.
+ai_translation: true
 ---
 
 Recently, I was required to migrate a Vue H5 activity page to Next.js. After some research and experimentation, I have summarized the following content.
@@ -521,5 +518,5 @@ Solution: The official documentation provides environment variables starting wit
 ### Environment Detection
 
 ```js
-process.browser === true ? 'client' : 'server'
+process.browser === true ? 'client' : 'server';
 ```
