@@ -7,100 +7,87 @@ keywords:
   - chatgpt pdf
   - chatgpt pdf reader
   - OpenAI API
-  - chatpdf implementation principle
+  - chatpdf implementation
   - PostgresSql
   - embedding
   - cosine similarity algorithm
 authors: Alan
-description: >-
-  This document explains the implementation principle of chatpdf. It uses the
-  OpenAI API to convert PDF text fragments into vectors and matches the
-  questions posed by users to the text fragments using the cosine similarity
-  algorithm, thereby implementing a question-and-answer system for long texts.
-summary: >-
-  Recently, with the OpenAI API becoming more accessible, there has been an
-  increase in AI applications. The chatpdf project caught my attention as it
-  extracts text from PDFs, segments the text into fragments that are smaller
-  than the token limit, generates vectors using the OpenAI Embedding API, and
-  saves them to a database. It then converts user-provided questions into
-  vectors and matches them with the vectors in the database using the cosine
-  similarity algorithm to find the most similar text fragment. Finally, the text
-  fragment is fed to ChatGPT to answer the user's question. This project
-  utilizes technologies such as PostgresSql, Next.js, and Supabase.
+description: Analyzing the implementation of chatpdf, using OpenAI API to convert PDF text fragments into vectors, and using cosine similarity algorithm to match user questions and text fragments, thus implementing Q&A for long texts.
 ai_translation: true
 ---
 
-Recently, with the OpenAI API becoming more accessible, there has been an increase in AI applications. The chatpdf project caught my attention. How does it overcome the token limit of the API to read such long texts?
+Recently, with the release of relevant APIs by OpenAI, more and more AI applications have emerged on the market. The chatpdf project caught my attention. How does it overcome the limitation of the maximum token of the API to read such long texts?
 
 <!--truncate-->
 
 :::tip
-🎉🎉 My new project [DocsMind](https://github.com/3Alan/DocsMind) has now been open-sourced. It supports Markdown, PDF, and Docker deployment. Feel free to star and contribute via PR.
+🎉🎉 My new project [DocsMind](https://github.com/3Alan/DocsMind) has been open-sourced, supporting Markdown and PDF as well as Docker deployment. Welcome to give it a Star or submit a PR.
 :::
 
-Out of curiosity about the principles of chatpdf, I started researching related applications on the market and created a simple demo for learning purposes. In the process, I also familiarized myself with the usage of the OpenAI API.
+Out of curiosity about the chatpdf principle, I started researching relevant applications on the market and wrote a simple demo for learning after a brief understanding, and familiarized myself with the use of OpenAI API.
 
 ## Demo
 
-In this demo, you can ask ChatGPT questions related to the content of a PDF:
+In this demo, you can ask ChatGPT questions related to the PDF:
 
 Demo: https://chatpdf-demo.alanwang.site/
 
 Github: https://github.com/3Alan/chatgpt-pdf-demo
 
-The demo is a prepared data for the "GitHub Privacy Policy." Currently, the prompt has not been fine-tuned to its optimal state, so some answers may not be very accurate. You can try asking some simple questions, such as "What personal information is collected in the GitHub Privacy Policy?"
+The demo is the "GitHub Privacy Agreement" that I ran data in advance. Currently, the Prompt has not been debugged to the best state, so some of the answers to the questions are not very good. You can try asking some simple questions, such as "What personal information is collected in the GitHub privacy agreement?"
 
-## General Principle
+## Basic principle
 
-1. Extract the text from the PDF for further processing.
-2. Since the OpenAI API has a limit on the number of tokens, we need to segment the PDF text into fragments smaller than the token limit.
-3. Use the OpenAI Embedding API to generate vectors for each fragment and save them in a Postgres database.
-4. Start asking questions.
-5. Convert the user-provided question into a vector.
-6. Use the cosine similarity algorithm to compare the question vector with the vectors in the database and find the most similar text fragment.
-7. Feed the fragment text to ChatGPT to generate an answer to the user's question.
+1. Extract the PDF text for subsequent processing.
+2. Since OpenAI API has a limit on the number of tokens, we need to split the PDF text into fragments smaller than the token limit.
+3. Generate vectors for each fragment using OpenAI's Embedding API and save them to the database (Postgres).
+4. Start to ask questions
+5. Convert the user's question to a vector.
+6. Use cosine similarity algorithm to compare the user's question vector with the vectors in the database to find the text fragment that is most similar to the question.
+7. Feed the text fragment to ChatGPT, let it answer the user's question based on these fragments.
 
-These are just the general principles. The specific code implementation involves:
+Here we only discuss the general principles. When it comes to actual coding, there are still some issues to consider:
 
-- How to extract the text?
-- What criteria to use for segmentation? How to ensure that each fragment is semantically related?
+- How to extract text?
 
-Since the extracted PDF text consists of words, we can only segment it based on word count and use sentences as the segmentation criteria. We simply split the text into fragments using the separators ".", and "。". If it is Markdown, it is easier since we can segment it based on paragraphs. This way, we can ensure that each fragment is semantically related (the task of semantic segmentation is actually delegated to the person who writes the Markdown).
+- What is the dimension for slicing? How can we ensure that each segment is semantically related as much as possible?
 
-## Technologies Used
+Since the extracted PDF text is all in words, we can only slice it by word count and use "sentences" as the dimension for segmentation. Here, we simply use `.` or `。` as separators for slicing. If it's Markdown, then it's easier - just slice by paragraph so that each segment can be semantically related (in fact, separating semantic tasks is like handing them over to those who write Markdown).
+
+## Technology stack used
 
 - PostgresSql
 - Next.js
 - Supabase: Used to save vectors and text fragments.
 
-Currently, due to rate limits imposed by the OpenAI API, controlling the API call frequency is necessary when generating vectors for large PDF files.
+Currently, due to the limited frequency of OpenAI API calls, the interface call frequency needs to be controlled when generating vectors for large PDF files.
 
-## Glossary
+## Proprietary terms
 
-Here are some terms, and I'll share the understanding of these terms by ChatGPT:
+The following are some proprietary terms. After all, I am not a professional AI person. I will post ChatGPT's understanding of these words.
 
 ### Embedding
 
-Embedding is a technique that converts discrete data (e.g., words, characters, images) into continuous vectors. In natural language processing, embedding technology can map words or characters to a low-dimensional continuous vector space, thus representing semantic information better. For example, the words "cat" and "dog" may be mapped to vectors that are close together in the embedding space because they both represent animals, while the words "cat" and "table" may be mapped to vectors that are far apart in the embedding space because they represent different things.
+Embedding is a technique that converts discrete data (such as words, characters, images, etc.) into continuous vectors. In natural language processing, embedding technology can map words or characters to a low-dimensional continuous vector space, which can better represent semantic information. For example, the two words "cat" and "dog" may be mapped to vectors that are relatively close in the embedding space because they both represent animals, while the two words "cat" and "table" may be mapped to vectors that are relatively far away in the embedding space because they represent different things.
 
-In the ChatGPT PDF project, we use the OpenAI Embedding API to convert PDF text fragments into vectors and save these vectors to a database. This approach allows us to better represent the semantic information of text fragments and thereby improve the accuracy of question matching.
+In the ChatGPT PDF project, we use OpenAI's Embedding API to convert PDF text fragments into vectors and save these vectors to the database. The advantage of doing this is that it can better represent the semantic information of text fragments, thereby improving the accuracy of question matching.
 
 ### Cosine Similarity Algorithm
 
-The cosine similarity algorithm is a method for calculating the similarity between two vectors. It calculates the cosine value of the angle between two vectors to determine their similarity.
+The cosine similarity algorithm is a method used to calculate the similarity between two vectors. Its principle is to judge the similarity between them by calculating the cosine value of the angle between two vectors.
 
-In the ChatGPT PDF project, we first calculate the cosine similarity between the user's question vector and the vectors of each text fragment in the database. We then select the most similar text fragment as the context for ChatGPT to answer.
+In the ChatGPT PDF project, we first calculate the cosine similarity between the user's query vector and each text segment vector in the database, and then select the most similar text segment as the context to ask ChatGPT.
 
-## Running the Demo Locally
+## How to Run Demo Locally
 
 :::warning
-Please make sure you can access https://api.openai.com
+Please make sure that you can access https://api.openai.com normally.
 
 ```bash
 curl https://api.openai.com
 ```
 
-If you receive the following result, it means you can access the API. Otherwise, you will need to configure the OPENAI_API_PROXY environment variable to proxy https://api.openai.com
+If you receive the following result, it means that you can access it normally. Otherwise, you will need to configure the environment variable OPENAI_API_PROXY to proxy https://api.openai.com.
 
 ```
 {
@@ -116,20 +103,20 @@ If you receive the following result, it means you can access the API. Otherwise,
 
 :::
 
-### Cloning the Project
+### Clone Project
 
-1. Clone the project.
-2. Create an `.env` file and fill in the environment variables. You can refer to `.env.example`.
+1. Clone the project
+2. Create `.env` file and fill in environment variables, see `.env.example` for reference
    ![20230325110936](https://raw.githubusercontent.com/3Alan/images/master/img/20230325110936.png)
 
-### Creating the Database Using Supabase
+### Use Supabase to Create Database
 
-Copy the contents of the `schema.sql` file in the project's root directory to Supabase and run it.
+Copy the contents of the `schema.sql` file in the root directory of the project to Supabase and run it.
 ![supabase](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325104103.png)
 
-After running it, you will have the `chatgpt` table.
+After running, you will get one table `chatgpt`.
 
-### Running the Project
+### Run Project
 
 ```
 yarn
@@ -139,35 +126,35 @@ yarn
 yarn dev
 ```
 
-1. Delete the default displayed [pdf](https://github.com/3Alan/chatgpt-pdf-demo/blob/main/src/pages/index.tsx#LL45C51-L45C72).
-2. Modify `disabledUpload` to `false` in [this line](https://github.com/3Alan/chatgpt-pdf-demo/blob/7c8daa32a9d2450f037224a06cc821ff682f5c36/src/pages/index.tsx#L46).
+1. Delete the [pdf](https://github.com/3Alan/chatgpt-pdf-demo/blob/main/src/pages/index.tsx#LL45C51-L45C72) that is displayed by default
+2. Set [`disabledUpload`](https://github.com/3Alan/chatgpt-pdf-demo/blob/7c8daa32a9d2450f037224a06cc821ff682f5c36/src/pages/index.tsx#L46) to false.
 
-Once you have completed these steps, you will see
+After completing the above steps, you will see
 ![20230325105607](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325105607.png)
 
-Then, upload your PDF and click "start reading." This will take some time (depending on the size of your PDF), during which you can use the browser console to view network requests.
+Then upload your PDF and click "Start Reading". This will take some time (depending on the size of your PDF), during which you can view network requests by opening the browser console.
 
 :::warning
-If your file is too large, you may encounter failures due to the rate limits of the OpenAI API.
+If your file is too large, you may fail due to OpenAI's rate limit.
 :::
 
-After the PDF has been processed, you will see the embedded values in your Supabase.
+After the PDF is processed, you will see the embedding values in your Supabase.
 ![20230325105953](https://raw.githubusercontent.com/3Alan/images/master/img/img20230325105953.png)
 
 After completing these steps, you can start asking questions. You can fine-tune the [prompt](https://github.com/3Alan/chatgpt-pdf-demo/blob/588135cc265eb702b39d9ee9a853264173c45dc5/src/utils/openaiStream.ts#L19) to make the answers more accurate.
 
-### Adjusting the PDF Display
+### Adjust PDF Display
 
 After completing the above steps, you can:
 
-1. Move your PDF to the "public" directory.
-2. Change the default displayed PDF to the path of your uploaded PDF.
-3. Change `disabledUpload` to `true` so you won't see the file upload module.
+1. Move your PDF to the public directory
+2. Change the default displayed PDF to the path of the PDF you uploaded
+3. Set `disabledUpload` to true so that you won't see the file upload module anymore.
 
-## References
+## Reference
 
 - https://github.com/mckaywrigley/paul-graham-gpt
 - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb
 - https://github.com/ddiu8081/chatgpt-demo
 
-If this project has inspired you in any way, feel free to give it a [star](https://github.com/3Alan/chatgpt-pdf-demo).
+If this project inspires you, please give me a [star](https://github.com/3Alan/chatgpt-pdf-demo).
