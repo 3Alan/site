@@ -1,0 +1,531 @@
+---
+slug: interview-summary-2020
+title: Front-end Interview Summary-2020
+tags:
+  - Front-end Interview Summary
+date: 2020-05-31T16:41:48.000Z
+updated: 2020-07-24T15:03:00.000Z
+keywords:
+  - Front-end interview questions
+  - HTML
+  - JS
+  - Computer Network
+  - CSS
+description: Summary of front-end interview questions
+displayed_sidebar: interviewSidebar
+summary: >-
+  This article records some interview questions and problems encountered in
+  interviews that the author reviewed and summarized during the epidemic. The
+  article will be continuously updated.
+
+  The article includes topics such as JS prototype and inheritance, deep copy
+  and shallow copy, for in and for of, event delegation, implementation of
+  sliding animation, event loop, this, closure, Promise, debounce and throttle,
+  and JS questions.
+
+  The article also includes relevant knowledge of the React framework, such as
+  React lifecycle, useRef, cloneElement, HOC, etc.
+ai_translation: true
+---
+
+Records some interview questions and problems encountered in interviews that the author reviewed and summarized during the epidemic.
+
+<!--truncate-->
+
+![](http://img.adoutu.com/picture/1538925790667.jpg)
+
+## JS
+
+### Prototype and Inheritance
+
+![Figure in the red book](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200724160959828.png)
+
+**Combination inheritance**
+
+```js
+function Person(name) {
+  this.name = name;
+  this.features = ['eyes'];
+}
+
+function Student(name, id) {
+  Person.call(this, name); // Inheriting properties is equivalent to super(this)
+  this.id = id;
+}
+
+Student.prototype = new Person();
+
+Student.prototype.sayHello = function () {
+  console.log('hello');
+};
+
+const s1 = new Student('Alan', '001');
+const s2 = new Student('Bob', '002');
+
+console.log(s1 instanceof Person); // true
+// Reference types do not affect each other in each instance
+s1.features.push('hand');
+console.log(s2.features); // ["eyes"]
+```
+
+More inheritance methods and their advantages and disadvantages can be found in Chapter 6 of the red book (which is explained in a very "dry" way).
+
+### Deep Copy and Shallow Copy
+
+In JavaScript, variables are divided into primitive types and reference types. When assigning a value to a primitive type, the value is copied, while assigning a value to a reference type copies the address.
+
+<Tabs>
+  <TabItem value="Primitive Types" label="Primitive Types">
+
+```js
+let a = 1;
+let b = a;
+console.log(a); // 1
+a++;
+console.log(a); // 2
+console.log(b); // 1
+```
+
+  </TabItem>
+  <TabItem value="Reference Types" label="Reference Types">
+
+```js
+const obj = {
+  name: 'Alan',
+  age: 22
+};
+const cloneObj = obj;
+obj.age = 18;
+console.log(cloneObj.age); // 18
+```
+
+  </TabItem>
+</Tabs>
+
+From the examples above, we can see that `cloneObj` and `obj` point to the same address. Any modification on either side will affect the other. So how can we create an independent `cloneObj`? This is where deep copy and shallow copy come in.
+
+The difference between deep copy and shallow copy:
+
+Based on the level of copying, shallow copy only performs one level of copying, while deep copy performs multiple levels of copying.
+
+#### Shallow Copy
+
+<Tabs>
+  <TabItem value="Method 1" label="Method 1">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function shallowClone(source) {
+  const result = {};
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+const shallowObj = shallowClone(obj);
+obj.a = 10;
+console.log(shallowObj.a); // 1
+obj.b.b1 = 6;
+console.log(shallowObj.b.b1); // 6
+```
+
+  </TabItem>
+  <TabItem value="Method 2" label="Method 2">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function shallowClone1(source) {
+  return Object.assign({}, source);
+}
+const shallowObj = shallowClone1(obj);
+obj.a = 10;
+console.log(shallowObj.a); // 1
+obj.b.b1 = 6;
+console.log(shallowObj.b.b1); // 6
+```
+
+  </TabItem>
+</Tabs>
+
+#### Deep Copy
+
+<Tabs>
+  <TabItem value="Method 1" label="Method 1">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function deepClone(source) {
+  const result = {};
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (typeof source[key] === 'object') {
+        result[key] = deepClone(source[key]);
+      } else {
+        result[key] = source[key];
+      }
+    }
+  }
+  return result;
+}
+const deepObj = deepClone(obj);
+obj.a = 10;
+console.log(deepObj.a); // 1
+obj.b.b1 = 6;
+console.log(deepObj.b.b1); // 1
+```
+
+</TabItem>
+  <TabItem value="Method 2" label="Method 2">
+
+```js
+const obj = { a: 1, b: { b1: 1, b2: 2 }, c: 0 };
+function deepClone(source) {
+  return JSON.parse(JSON.stringify(source));
+}
+const deepObj = deepClone(obj);
+obj.a = 10;
+console.log(deepObj.a); // 1
+obj.b.b1 = 6;
+console.log(deepObj.b.b1); // 1
+```
+
+  </TabItem>
+</Tabs>
+
+### for in and for of
+
+- `for in` iterates over the enumerable properties in an array, including prototypes. It can also iterate over objects, iterating over key values.
+- `for of` iterates over the elements of an array or iterable object, excluding prototypes. It iterates over values.
+
+```js
+Array.prototype.testMethod = function () {
+  console.log('testMethod');
+};
+const mArr = [1, 2, 3, 7];
+const mObject = {
+  name: 'Alan',
+  age: 1
+};
+for (const key in mArr) {
+  console.log(mArr[key]);
+  // 1 2 3 7
+  /*       ƒ () {
+        console.log('testMethod');
+      } */
+}
+// Solution
+for (const key in mArr) {
+  if (mArr.hasOwnProperty(key)) {
+    console.log(mArr[key]);
+    // 1 2 3 7
+  }
+}
+for (const key in mObject) {
+  console.log(key);
+  // name
+  // age
+}
+try {
+  for (const iterator of mObject) {
+    console.log(iterator);
+  }
+} catch (error) {
+  console.log(error);
+  //mObject is not iterable
+}
+```
+
+### Event Delegation
+
+Event delegation utilizes event bubbling and only specifies one event handler to manage events of a certain type. 
+
+For example, the click event will bubble up to the document level. In the example below, we don't need to add onclick events to all li elements. We can use the event bubbling feature to achieve event delegation.
+
+```html
+<body>
+  <ul id="myList">
+    <li id="sayName">Name</li>
+    <li id="sayHello">Hello</li>
+    <li id="sayAge">Age</li>
+  </ul>
+  <script>
+    const myList = document.getElementById('myList');
+    myList.addEventListener('click', function (e) {
+      const target = e.target;
+      if (target.id === 'sayName') {
+        alert('Alan');
+      } else if (target.id === 'sayHello') {
+        alert('Hello');
+      } else {
+        alert('sayAge');
+      }
+    });
+  </script>
+</body>
+```
+
+### Implementation of Sliding Animation
+
+```html
+<div id="myDiv"></div>
+
+<script>
+  const myDiv = document.getElementById('myDiv');
+  const time = Date.now(); //timestamp
+
+  const transition = setInterval(() => {
+    const timeLength = Date.now() - time;
+    const step = (5000 - timeLength) / 1000;
+    console.log(step);
+
+    if (timeLength > 5000) {
+      clearInterval(transition);
+      // Ends after 5s
+    }
+    myDiv.style.left = myDiv.offsetLeft + step + 'px';
+  }, 50);
+</script>
+```
+
+### Event Loop
+
+JavaScript is single-threaded. Why is it not multi-threaded? Imagine a scenario where one thread changes the background of the body to red, and another thread changes the background of the body to green. The browser doesn't know what the background color should be. This shows that multi-threading would create many synchronization issues for DOM operations in the browser. [Reference](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
+
+**JS tasks can be divided into synchronous tasks and asynchronous tasks.**
+
+1. Synchronous tasks are executed in the main thread. They form the execution stack.
+2. Asynchronous tasks are put into a task **queue** and are read into the execution stack when the stack is empty.
+
+By executing steps 1 and 2 repeatedly, an event loop is formed.
+
+If we further divide the tasks, we can divide them into **macro-tasks** and **micro-tasks**:
+
+- Macro-tasks: including the entire script code, setTimeout, setInterval
+- Micro-tasks: Promise.then(), process.nextTick
+
+Priority: process.nextTick > Promise.then()
+
+**When there are no tasks in the execution stack, micro-tasks are always executed before macro-tasks.**
+
+Please refer to the article [What the heck is the event loop anyway?](https://dev.to/arnavaggarwal/what-the-heck-is-the-event-loop-anyway-4mjg) for more details.
+
+```js
+console.log('script start');
+
+async function async1() {
+  await async2();
+  console.log('async1 end');
+}
+async function async2() {
+  console.log('async2 end');
+  return Promise.resolve().then(() => {
+    console.log('async2 end1');
+  });
+}
+async1();
+
+setTimeout(function () {
+  console.log('setTimeout');
+}, 0);
+
+new Promise(resolve => {
+  console.log('Promise');
+  resolve();
+})
+  .then(function () {
+    console.log('promise1');
+  })
+  .then(function () {
+    console.log('promise2');
+  });
+
+console.log('script end');
+
+// script start => async2 end => Promise => script end => async2 end1 => promise1 => promise2 => async1 end => setTimeout
+```
+
+### this
+
+> https://juejin.cn/post/6844903496253177863
+
+- `this` refers to the object that called it, obtained during function execution.
+- The `this` value of an arrow function is determined by the nearest non-arrow function's `this` value when the arrow function is defined. It depends on the external context.
+
+Special Case
+
+```js
+var name = 'windowsName';
+var a = {
+  name: null,
+  fn: function () {
+    console.log(this.name); // windowsName
+  }
+};
+
+var f = a.fn;
+f();
+```
+
+### Closure
+
+Keywords: Memory Leak
+
+- When the contents of the current function execution context are occupied by external contents, causing the current context to be unable to be released.
+- A closure refers to a function that has access to variables from another function's scope.
+- One common way to create a closure is to create another function inside the current function.
+
+[Related Article](https://juejin.cn/post/6937469222251560990?share_token=acad6730-948d-4fcb-8bcb-799dd6bf0dc3)
+
+### Promise
+
+```js
+// new Promise(executor)，The executor is automatically executed when new Promise is created
+let promise = new Promise(function (resolve, reject) {
+  resolve('finished');
+  // reject(new Error);
+});
+// Promise.then(f1,f2) f1 is executed after resolve (the parameter is the result of resolve), f2 is executed after reject (the parameter is the error of reject)
+promise.then(
+  result => console.log(result), //finished
+  error => console.log(error) // Output the error
+);
+```
+
+- `Promise.all()` executes multiple promises at the same time. If any promise is rejected, it will not continue executing.
+- `Promise.allSettled()` is similar to `Promise.all()`, but it waits until all promises are executed.
+- `Promise.race()` returns the result of the promise that executes the fastest.
+- Unhandled rejections can be captured using `window.addEventListener('unhandledrejection', event => alert(event.reason))`.
+- Thenable objects (objects with a callable `then` method)
+
+#### Implementing a Sleep Function
+
+```js
+function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
+(async () => {
+  console.log('Output after 2s...');
+  await sleep(2000);
+  console.log('666');
+})();
+```
+
+:::info
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+:::
+
+### Debounce and Throttle
+
+#### Throttle
+
+The function is executed only once within a certain period of time. For example, after clicking a button, go to the server to fetch data. Throttling can prevent multiple requests within a short period of time, reducing the server's load.
+
+#### Debounce
+
+The function is executed after a certain period of time (it will only be executed once even if triggered multiple times). Application scenario: The input search box waits for a certain duration to send a request.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 4000px;
+        width: 100px;
+        background: rgb(241, 165, 165);
+      }
+    </style>
+  </head>
+  <body>
+    <button id="fetchBtn">fetch data</button>
+    <span>searchBar</span><input id="inputBar" />
+    <script>
+      // Throttle
+      function throttle(func, wait) {
+        let last = 0;
+        return function (...args) {
+          let now = new Date();
+          if (now - last > wait) {
+            last = now;
+            func.apply(this, args);
+          }
+        };
+      }
+
+      // Debounce
+      function debounce(func, wait, immediate) {
+        let timer = 0;
+        return function (...args) {
+          if (timer) clearTimeout(timer);
+
+          if (immediate) {
+            if (!timer) {
+              func.apply(this, args);
+            }
+
+            timer = setTimeout(() => {
+              timer = null;
+            }, wait);
+          } else {
+            timer = setTimeout(() => {
+              func.apply(this, args);
+            }, wait);
+          }
+        };
+      }
+
+      document.getElementById('fetchBtn').addEventListener(
+        'click',
+        throttle(function (numb) {
+          console.log('fetching');
+        }, 1000)
+      );
+      document.getElementById('inputBar').addEventListener(
+        'input',
+        debounce(function (numb) {
+          console.log('searching');
+        }, 1000)
+      );
+    </script>
+  </body>
+</html>
+```
+
+### JavaScript Questions
+
+```js
+function isSameLetter(a, b) {
+  a = a.toString().toLowerCase();
+  b = b.toString().toLowerCase();
+  return a.split('').sort().join('') === b.split('').sort().join('');
+}
+console.log(isSameLetter('176as', 'a17s6'));
+// Determine if the two strings contain the same letters, in any order
+```
+
+## Front-end Framework Related
+
+### React
+
+- [React Lifecycle](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+- useRef
+  - Manipulating DOM
+  - Saving variables that do not need to be rendered in JSX
+  - Saving instances
+  - Using `forwardRef` to pass refs
+  - Using `useImperativeHandle` to constrain what is exposed to the outside world and solve the issue of not being able to get the instance in function components.
+  - When `ref` needs to use the latest `state`, use [flushSync](https://dev.to/somshekhar/have-you-used-flushsync-in-react-4cpo)
+- `cloneElement` can intercept `children element` and merge `props`
+- [Higher-Order Component (HOC)](https://juejin.cn/post/6940422320427106335?from=from_parent_mindnote)
+  - Annotation
+  - Reusing logic
+  - Forwarding props (enhancing props)
+  - Reverse property forwarding (extending components can access the internal state of the component)

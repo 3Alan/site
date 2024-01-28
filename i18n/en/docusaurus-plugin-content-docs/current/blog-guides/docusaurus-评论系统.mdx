@@ -1,0 +1,377 @@
+---
+slug: docusaurus-comment
+title: Adding Comment Functionality to Docusaurus
+tags:
+  - Blog
+  - Docusaurus
+keywords:
+  - Docusaurus
+  - Docusaurus Comment Functionality
+  - Docusaurus Comments
+  - Giscus
+  - Github discussion
+  - Docusaurus Swizzling
+date: 2022-09-29T00:00:00.000Z
+updated: 2023-01-28T00:00:00.000Z
+description: >-
+  Adding Giscus comment functionality to blogs and documentation through
+  Docusaurus Swizzling
+sidebar_position: 1
+summary: >-
+  1. Configure and obtain configuration parameters according to the steps on the
+  Giscus official website.
+
+  2. Install the required packages `yarn add @giscus/react mitt`.
+
+  3. Wrap the comment component, including configuring lifecycle functions and
+  creating the component.
+
+  4. Swizzle Docusaurus internal components to modify the corresponding
+  components for document pages and blog pages.
+
+  5. Configure Giscus, including setting up repositories, categories, and other
+  information.
+
+  6. After completing the above steps, you will see the comment functionality at
+  the bottom of each blog and document.
+ai_translation: true
+---
+
+## Obtaining Giscus Configuration Parameters
+
+First, configure and install Giscus according to the steps on the [Giscus official website](https://giscus.app/zh-CN) and obtain the configured parameters.
+
+> Select the repository to connect Giscus to. Please ensure that:
+>
+> 1. The repository is public, otherwise visitors will not be able to view the discussions.
+> 2. The Giscus app is installed, otherwise visitors will not be able to comment and reply.
+> 3. The Discussions feature is enabled in your repository.
+
+## Installing Required Packages
+
+```
+yarn add @giscus/react mitt
+```
+
+## Wrapping the Comment Component
+
+### Configuring Lifecycle Functions
+
+Due to a `Docusaurus` bug that sometimes causes `Giscus` to retrieve comments from the previous article, we can solve this problem by creating a `clientModule`.
+
+```tsx title="src/clientModules/routeModules.ts"
+import mitt from 'mitt';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+const emitter = mitt();
+
+if (ExecutionEnvironment.canUseDOM) {
+  window.emitter = emitter;
+}
+
+export function onRouteDidUpdate() {
+  if (ExecutionEnvironment.canUseDOM) {
+    setTimeout(() => {
+      window.emitter.emit('onRouteDidUpdate');
+    });
+  }
+  // https://github.com/facebook/docusaurus/issues/8278
+}
+```
+
+:::info
+Related issue: [https://github.com/facebook/docusaurus/issues/8278](https://github.com/facebook/docusaurus/issues/8278)
+:::
+
+### Creating a Component
+
+```tsx title="src/components/comment/index.tsx"
+import React, { forwardRef, useEffect, useState } from 'react';
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import Giscus, { GiscusProps } from '@giscus/react';
+import {
+  useThemeConfig,
+  useColorMode,
+  ThemeConfig
+} from '@docusaurus/theme-common';
+interface CustomThemeConfig extends ThemeConfig {
+  giscus: GiscusProps & { darkTheme: string };
+}
+
+export const Comment = forwardRef<HTMLDivElement>((_props, ref) => {
+  const { giscus } = useThemeConfig() as CustomThemeConfig;
+  const { colorMode } = useColorMode();
+  const { theme = 'light', darkTheme = 'dark_dimmed' } = giscus;
+  const giscusTheme = colorMode === 'dark' ? darkTheme : theme;
+  const [routeDidUpdate, setRouteDidUpdate] = useState(false);
+
+  useEffect(() => {
+    function eventHandler(e) {
+      setRouteDidUpdate(true);
+    }
+
+    window.emitter.on('onRouteDidUpdate', eventHandler);
+
+    return () => {
+      window.emitter.off('onRouteDidUpdate', eventHandler);
+    };
+  }, []);
+
+  if (!routeDidUpdate) {
+    return null;
+  }
+
+  return (
+    <BrowserOnly fallback={<div>Loading Comments...</div>}>
+      {() => (
+        <div ref={ref} id="comment" style={{ paddingTop: 50 }}>
+          <Giscus
+            id="comments"
+            mapping="title"
+            strict="1"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="bottom"
+            lang="zh-CN"
+            loading="lazy"
+            {...giscus}
+            theme={giscusTheme}
+          />
+        </div>
+      )}
+    </BrowserOnly>
+  );
+});
+
+export default Comment;
+```
+
+## Swizzling Docusaurus Internal Components
+
+Docusaurus pages are divided into document and blog pages. Swizzle the corresponding page components according to your needs.
+
+### Swizzling Document Page Component
+
+```
+yarn run swizzle @docusaurus/theme-classic DocItem/Layout -- --eject --typescript
+```
+
+:::warning
+
+Since my project is based on typescript, if your project is in javascript, you don't need to add --typescript at the end.
+
+:::
+
+After swizzling, the `src/theme/DocItem/Layout` directory will be generated. We need to modify `src/theme/DocItem/Layout/index.tsx`.
+
+```tsx title="src/theme/DocItem/Layout/index.tsx"
+import React from 'react';
+import clsx from 'clsx';
+import { useWindowSize } from '@docusaurus/theme-common';
+// @ts-ignore
+import { useDoc } from '@docusaurus/theme-common/internal';
+import DocItemPaginator from '@theme/DocItem/Paginator';
+import DocVersionBanner from '@theme/DocVersionBanner';
+import DocVersionBadge from '@theme/DocVersionBadge';
+import DocItemFooter from '@theme/DocItem/Footer';
+import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
+import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
+import DocItemContent from '@theme/DocItem/Content';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
+import type { Props } from '@theme/DocItem/Layout';
+
+import styles from './styles.module.css';
+// highlight-add-line
+import Comment from '../../../components/comment';
+
+/**
+ * Decide if the toc should be rendered, on mobile or desktop viewports
+ */
+function useDocTOC() {
+  const { frontMatter, toc } = useDoc();
+  const windowSize = useWindowSize();
+
+  const hidden = frontMatter.hide_table_of_contents;
+  const canRender = !hidden && toc.length > 0;
+
+  const mobile = canRender ? <DocItemTOCMobile /> : undefined;
+
+  const desktop =
+    canRender && (windowSize === 'desktop' || windowSize === 'ssr') ? (
+      <DocItemTOCDesktop />
+    ) : undefined;
+
+  return {
+    hidden,
+    mobile,
+    desktop
+  };
+}
+
+export default function DocItemLayout({ children }: Props): JSX.Element {
+  const docTOC = useDocTOC();
+  // highlight-add-start
+  const { frontMatter } = useDoc();
+  const { hide_comment: hideComment } = frontMatter;
+  // highlight-add-end
+
+  return (
+    <div className="row">
+      <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
+        <DocVersionBanner />
+        <div className={styles.docItemContainer}>
+          <article>
+            <DocBreadcrumbs />
+            <DocVersionBadge />
+            {docTOC.mobile}
+            <DocItemContent>{children}</DocItemContent>
+            <DocItemFooter />
+          </article>
+          <DocItemPaginator />
+        </div>
+        // highlight-add-line
+        {!hideComment && <Comment />}
+      </div>
+      {docTOC.desktop && <div className="col col--3">{docTOC.desktop}</div>}
+    </div>
+  );
+}
+```
+
+### Swizzling Blog Page Component
+
+```
+yarn run swizzle @docusaurus/theme-classic BlogPostPage -- --eject --typescript
+```
+
+Similarly, modify the file
+
+```tsx title="src/theme/BlogPostPage/index.tsx"
+import React, { type ReactNode } from 'react';
+import clsx from 'clsx';
+import {
+  HtmlClassNameProvider,
+  ThemeClassNames
+} from '@docusaurus/theme-common';
+
+import {
+  BlogPostProvider,
+  useBlogPost
+  // @ts-ignore
+} from '@docusaurus/theme-common/internal';
+import BlogLayout from '@theme/BlogLayout';
+import BlogPostItem from '@theme/BlogPostItem';
+import BlogPostPaginator from '@theme/BlogPostPaginator';
+import BlogPostPageMetadata from '@theme/BlogPostPage/Metadata';
+import TOC from '@theme/TOC';
+import type { Props } from '@theme/BlogPostPage';
+import type { BlogSidebar } from '@docusaurus/plugin-content-blog';
+// highlight-add-line
+import Comment from '../../components/comment';
+
+function BlogPostPageContent({
+  sidebar,
+  children
+}: {
+  sidebar: BlogSidebar;
+  children: ReactNode;
+}): JSX.Element {
+  const { metadata, toc } = useBlogPost();
+  const { nextItem, prevItem, frontMatter } = metadata;
+  const {
+    hide_table_of_contents: hideTableOfContents,
+    toc_min_heading_level: tocMinHeadingLevel,
+    toc_max_heading_level: tocMaxHeadingLevel,
+    // highlight-add-start
+    hide_comment: hideComment
+    // highlight-add-end
+  } = frontMatter;
+  return (
+    <BlogLayout
+      sidebar={sidebar}
+      toc={
+        !hideTableOfContents && toc.length > 0 ? (
+          <TOC
+            toc={toc}
+            minHeadingLevel={tocMinHeadingLevel}
+            maxHeadingLevel={tocMaxHeadingLevel}
+          />
+        ) : undefined
+      }
+    >
+      <BlogPostItem>{children}</BlogPostItem>
+      {(nextItem || prevItem) && (
+        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+      )}
+      // highlight-add-line
+      {!hideComment && <Comment />}
+    </BlogLayout>
+  );
+}
+
+export default function BlogPostPage(props: Props): JSX.Element {
+  const BlogPostContent = props.content;
+  return (
+    <BlogPostProvider content={props.content} isBlogPostPage>
+      <HtmlClassNameProvider
+        className={clsx(
+          ThemeClassNames.wrapper.blogPages,
+          ThemeClassNames.page.blogPostPage
+        )}
+      >
+        <BlogPostPageMetadata />
+        <BlogPostPageContent sidebar={props.sidebar}>
+          <BlogPostContent />
+        </BlogPostPageContent>
+      </HtmlClassNameProvider>
+    </BlogPostProvider>
+  );
+}
+```
+
+:::warning
+
+After swizzling, you need to run Docusaurus again to see the changes.
+
+:::
+
+:::tip
+
+For articles that do not require comments, add `hide_comment: true` to the front matter.
+
+:::
+
+## Configuring Giscus
+
+```js title=docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    giscus: {
+      repo: 'xxx',
+      repoId: 'xxx',
+      category: 'Announcements',
+      categoryId: 'xxx'
+    }
+  },
+  clientModules: [require.resolve('./src/clientModules/routeModules.ts')]
+};
+```
+
+## Dark Mode
+
+Modify the configuration according to your preferences.
+
+```js title=docusaurus.config.js
+giscus: {
+  theme: 'light_high_contrast',
+  darkTheme: 'dark_tritanopia'
+},
+```
+
+:::info
+The default themes are: light, dark_dimmed
+:::
+
+## Done!
+
+After completing the above steps, you will see the comment functionality at the bottom of each blog and document.

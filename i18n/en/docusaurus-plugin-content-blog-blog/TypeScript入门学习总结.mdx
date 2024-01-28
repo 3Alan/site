@@ -1,0 +1,734 @@
+---
+slug: typescript-tutorial
+title: Summary of TypeScript Beginner's Tutorial
+tags:
+  - TypeScript
+categories:
+  - Frontend
+  - TypeScript
+abbrlink: fc7889ef
+date: 2020-07-01T11:52:09.000Z
+references:
+  - name: TypeScript Chinese Manual
+    url: 'https://typescript.bootcss.com/basic-types.html'
+  - name: TypeScript Beginner's Tutorial to Project Practice
+    url: 'https://coding.imooc.com/class/412.html'
+keywords:
+  - TypeScript Beginner's Tutorial
+  - Summary of TypeScript Beginner's Tutorial to Project Practice
+description: >-
+  This is a beginner's tutorial for TypeScript, covering the basics of
+  TypeScript.
+authors: Alan
+summary: >-
+  TypeScript is a superset of JavaScript that adds optional static typing and
+  class-based object-oriented programming to JavaScript. TypeScript code can be
+  compiled to pure JavaScript and cannot be executed in the browser without
+  compilation. It can be understood as a relationship between CSS and less/sass,
+  similar to the relationship between TypeScript and JavaScript.
+
+
+  TypeScript has the following advantages:
+
+
+  - It can perform dynamic type checking and detect potential bugs (such as
+  spelling errors, missing parameters, undefined, etc.), improving code
+  robustness.
+
+  - Development with vscode provides good code suggestions, improving
+  development efficiency.
+
+  - TypeScript code has good readability.
+
+
+  The basic types in TypeScript include: boolean, number, string, arrays,
+  tuples, enums, any, void, null, and undefined.
+
+
+  Classes in TypeScript are similar to classes in ES6, with the difference being
+  that classes in TypeScript can have access modifiers (public, private,
+  protected), static properties, and abstract methods.
+
+
+  Generics in TypeScript refer to a feature where types are not specified in
+  advance when defining functions, interfaces, or classes, but are specified
+  when used. Generics can improve code reusability.
+
+
+  The React-related knowledge in TypeScript includes:
+
+
+  - Dynamically setting state in class components: you can use `this.setState({
+  [name]: value } as Pick<CompontentState, keyof CompontentState>)` to
+  dynamically set state.
+ai_translation: true
+---
+
+Summary of TypeScript Knowledge Points
+
+> [TypeScript Chinese Manual](https://typescript.bootcss.com/basic-types.html)
+>
+> [TypeScript Beginner's Tutorial to Project Practice](https://coding.imooc.com/class/412.html)
+
+<!-- truncate -->
+
+## What is TypeScript
+
+TypeScript is a superset of JavaScript that adds optional **static typing** and class-based object-oriented programming to JavaScript. It can be compiled to pure JavaScript and cannot be executed in the browser without compilation. It can be understood as a relationship between CSS and less/sass and is similar to the relationship between TypeScript and JavaScript.
+
+## Advantages of TypeScript
+
+- TypeScript can perform dynamic type checking and detect potential bugs (such as spelling errors, missing parameters, undefined, etc.), improving code robustness.
+- Development with vscode provides good code suggestions, improving development efficiency.
+- TypeScript code has good readability.
+
+## Creating the First TypeScript File
+
+First, install TypeScript
+
+```bash
+npm install -g typescript
+```
+
+Check if the installation is successful
+
+```bash
+tsc --version
+```
+
+I encountered the following problem after installation:
+
+![image-20200614175730166](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200614175730166.png)
+
+In this case, you only need to open the command line as an administrator and run the following command:
+
+```bash
+set-ExecutionPolicy RemoteSigned
+```
+
+Create the first ts file `Hello.ts`
+
+```tsx
+function sayHello(name: String) {
+  console.log(`Hello ${name}`);
+}
+let person = 'Alan';
+sayHello(person);
+```
+
+We found that the ts code is slightly different from ordinary js code in the parameter of the `sayHello` function.
+`sayHello(name: String)`
+Basically, it means that the `sayHello` function takes a parameter named `name`, and the type of this parameter must be `String`. If not, it will not pass the compilation of ts.
+After writing the code, use `tsc` to compile the `Hello.ts` file:
+
+```bash
+tsc Hello.ts
+```
+
+After successful compilation, a `Hello.js` file will be generated in the same directory. You can see that the generated js file only converts es6 syntax to es5 syntax and does not change other code.
+
+```js
+function sayHello(name) {
+  console.log('Hello ' + name);
+}
+var person = 'Alan';
+sayHello(person);
+```
+
+If we modify the `Hello.ts` file as follows:
+
+```tsx
+function sayHello(name: String) {
+  const text = 3 + name;
+  console.log(`Hello ${name}`);
+}
+let person = 123;
+sayHello(person);
+```
+
+If we compile it again, we will find an error, but the js file can still be generated:
+![image-20200614180440953](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200614180440953.png)
+
+The specific meaning of the error is:
+- Since the function parameter `name` is declared as a static type `string`, but `123` of type `number` is passed in, which does not match the previous `string` type.
+- In the `sayHello` function, two different types of values, `name(string)` and `3(number)`, are added together.
+
+We found that every time we need to use `tsc` to compile the ts file to get the js file and then run the js file, which is too cumbersome. We can use the `ts-node` plugin to directly run ts files.
+
+```bash
+npm i ts-node -g
+```
+
+```bash
+ts-node Hello.ts
+```
+
+:::info
+
+TS can try to analyze variable types (type inference). It is better to explicitly declare variable types (type annotations) for variables that TS cannot analyze.
+
+:::
+
+## Basic Types
+
+Variable declaration: `let [variable name]: [type] = value`
+
+For example: `let age: number = 21`
+
+TypeScript supports almost the same data types as JavaScript:
+
+- boolean
+- number
+- string
+- `[]/Array<element type>` (array)
+- Tuple
+- enum
+- any
+- void
+- null
+- undefined
+- never
+
+## Arrays
+
+There are 2 ways to define arrays
+
+```tsx
+let arr: number[] = [1, 2, 3]; // element type followed by `[]`
+let arr: Array<number> = [1, 2, 3]; // array generics
+let arr: (number | string)[] = [1, '2', '4']; // element types can be number or string (similar to tuples)
+```
+
+## Tuples
+
+Represents an array where the types of certain elements are known (the types of the elements do not have to be the same)
+
+```tsx
+let list: [string, number]; // the first element is of type string, the second is of type number
+a = ['abc', 123]; // valid
+b = [123, 'abc']; // invalid
+```
+
+## Enum
+
+It's actually similar to an object. Look at the example:
+
+```tsx
+enum lan {js, ts, css};
+console.log(lan.js); // 0  js corresponds to the index, the first default index is 0
+
+enum lan {
+  js = 3,
+  ts,
+  css,
+}
+console.log(lan.js); // 3
+console.log(lan.ts); // 4
+console.log(lan.css); // 5
+
+enum lan {
+  js,
+  ts = 3,
+  css,
+}
+console.log(lan.js); // 0
+console.log(lan.ts); // 3
+console.log(lan.css); // 4
+console.log(lan[4]); // css
+console.log(lan[1]); // undefined
+// The first default index is 0, css follows ts's value +1
+
+enum lan {js = 'good', ts = 'nice', css = 'well'};
+console.log(lan.js); // good
+
+// const enum, to avoid overhead on generated code and extra non-direct access to members on enums.
+const enum People {
+  name: 'Alan',
+  age: 23
+}
+
+// It will be automatically converted to constant value during compilation and will not retain other code
+console.log(People.name); // Alan
+
+```
+
+## any
+
+As the name suggests, it is any value. When we want to specify a type for a variable that is not yet known, `any` is the best choice 🤭
+
+```tsx
+let a: any = 4;
+a = '123'; // valid
+
+let arr: any[] = [1, '123', true]; // similar to tuples
+arr[1] = 'good';
+```
+
+## void
+
+Commonly used for function declarations that do not have a return value
+
+```tsx
+function func(): void {
+  console.log('learning typescript...');
+}
+func(); // valid
+
+function func(): void {
+  return 1;
+}
+func(); // invalid: Type '1' is not assignable to type 'void'
+```
+
+## null and undefined
+
+They are not very useful by default. By default, they are subtypes of all types. For example, the following code is valid:
+
+```tsx
+let a: string;
+a = undefined;
+a = null;
+```
+
+**However**, when the `--strictNullChecks` flag is specified, null and undefined can only be assigned to void and themselves.
+
+## never
+
+Represents the type of values that never occur.
+The type never is a subtype of every type and can be assigned to any type. However, there is no type that can be assigned to never (except never itself).
+
+```tsx
+function error(message: string): never {
+  throw new Error(message);
+}
+
+// Functions that have no reachable endpoint
+function infiniteLoop(): never {
+  while (true) {}
+}
+```
+
+## Object Destructuring
+
+```tsx
+function sayAge({ name, age }: { name: string | number; age: number }): void {
+  console.log(`${name} is ${age} years old`);
+}
+sayAge({ name: 'Alan', age: 22 });
+sayAge({ name: 2, age: 22 });
+```
+
+## Union Types
+
+Use `|` to represent multiple possible values
+
+```tsx
+let a: string | number;
+a = 1;
+a = 'A';
+```
+
+## Type Assertion
+
+You can specify the type of a value yourself.
+The format is either `<type>value` or `value as type`.
+
+```tsx
+interface student {
+  isStudent: boolean;
+  education: number;
+}
+interface worker {
+  isStudent: boolean;
+  seniority: number;
+}
+function Recruit(candidate: worker | student): void {
+  if (candidate.isStudent) {
+    console.log(`your education is ${(candidate as student).education}`);
+  } else {
+    console.log(`your seniority is ${(candidate as worker).seniority}`);
+  }
+}
+
+const a: student = { isStudent: true, education: 4 };
+const b: worker = { isStudent: false, seniority: 2 };
+Recruit(a);
+Recruit(b);
+```
+
+Because `candidate` uses a union type, TypeScript cannot determine whether `candidate` belongs to `student` or `worker`, so you need to use type assertion to explicitly tell TypeScript.
+
+Of course, there are other ways to achieve the same result.
+
+```tsx
+interface student {
+  isStudent: boolean;
+  education: number;
+}
+interface worker {
+  isStudent: boolean;
+  seniority: number;
+}
+function Recruit(candidate: worker | student): void {
+  'education' in candidate &&
+    console.log(`your education is ${candidate.education}`);
+  'seniority' in candidate &&
+    console.log(`your seniority is ${candidate.seniority}`);
+}
+
+const a: student = { isStudent: true, education: 4 };
+const b: worker = { isStudent: false, seniority: 2 };
+Recruit(a);
+Recruit(b);
+```
+
+- typeof
+- instanceof
+
+## Non-null Assertion Operator
+
+`!.` corresponds to `--strictNullChecks`
+
+```ts
+interface person {
+  name: string;
+}
+function work(personObj?: person) {
+  // `personObj` may not be passed, so `personObj` may be undefined. Use `!.` to assert that `personObj` is not empty
+  console.log(personObj!.name);
+}
+```
+
+## Interfaces
+
+Let's first look at an example of an interface:
+
+```tsx
+interface person {
+  name: string;
+}
+function work(personObj: person) {
+  console.log(personObj.name);
+}
+let person1 = { name: 'Alan', age: 21 };
+work(person1);
+let person2 = { age: 21 };
+work(person2);
+```
+
+![image-20200615180720618](https://raw.githubusercontent.com/3Alan/images/master/img/image-20200615180720618.png)
+
+The keyword for defining an interface is `interface`.
+In this example, the parameter passed to `work` must be an object with a name(string) property. You can think of it as recruiting an employee with a name. Employees without names are not needed. However, when we directly pass the parameter, an error will occur.
+
+```js
+work({ name: 'Alan', age: 21 });
+```
+
+If the attributes other than the name that the employee to be recruited may have are unknown, you can redefine the interface as shown below to solve the above problem.
+
+```tsx
+interface person {
+  name: string;
+  [propName: string]: any;
+}
+```
+
+### Optional Properties
+
+If I want to recruit employees who know TypeScript the best, TypeScript is optional (it would be nice to know, hehe 😜), then we need to use **optional properties**. Add a `?` after the optional property name.
+
+```tsx
+interface person {
+  name: string;
+  ts?: boolean;
+}
+function Recruit(personObj: person): string {
+  if (personObj.ts) {
+    return `congratulations! ${personObj.name}`;
+  } else {
+    return `sorry, ${personObj.name}, we need an employee who knows TypeScript!`;
+  }
+}
+let person1 = { name: 'Alan', age: 21, ts: true };
+console.log(Recruit(person1));
+let person2 = { name: 'Bob', age: 21 };
+console.log(Recruit(person2));
+```
+
+### Readonly Properties
+
+As we all know, a person's name cannot be changed (under normal circumstances), so we can modify the person interface by adding `readonly` before the property name.
+
+:::tip
+
+Of course, you can also use setter/getter to achieve this.
+
+:::
+
+```tsx
+interface person {
+  readonly name: string;
+}
+let person1: person = { name: 'Alan' };
+person1.name = 'Bob'; // Cannot assign to 'name' because it is a read-only property.
+```
+
+**We found that the roles of readonly and const seem to be somewhat similar, so when should we use readonly and when should we use const?**
+Variable---->const
+Property---->readonly
+
+### Function Type Interfaces
+
+Interfaces can also be used to describe function types. Here is an example of a function used to check if you have clocked in 😁
+
+```tsx
+interface attendanceFunc {
+  (name: string, startTime: number, endTime: number): boolean;
+}
+let checkAttendance: attendanceFunc;
+checkAttendance = function (
+  name: string,
+  startTime: number,
+  endTime: number
+): boolean {
+  let result = startTime < 9 && endTime > 18;
+  return result;
+};
+console.log(checkAttendance('Alan', 10, 19)); // false
+```
+
+Let's see the declaration of the interface:
+
+```tsx
+interface attendanceFunc {
+  (name: string, startTime: number, endTime: number): boolean;
+}
+```
+
+`name, startTime, endTime` put in `()` represents the parameters of the function
+`: boolean` represents the return value type of the function
+Of course, the parameters and return value types of `checkAttendance` can be omitted, because `checkAttendance` is assigned to the variable `attendanceFunc`, and the type checker will automatically infer the types of parameters and return values (in the order of parameters in the interface), which means it is also valid to write as follows. **The parameter names in the function do not have to be the same as those in the interface**
+
+```tsx
+interface attendanceFunc {
+  (name: string, startTime: number, endTime: number): boolean;
+}
+let checkAttendance: attendanceFunc;
+checkAttendance = function (n, startTime, endTime) {
+  let result = startTime < 9 && endTime > 18;
+  return result;
+};
+console.log(checkAttendance('Alan', 10, 19)); // false
+```
+
+### Interface Inheritance
+
+An interface can inherit one or more interfaces:
+Inheritance uses the keyword `extends`
+
+```tsx
+interface person {
+  name: string;
+}
+interface student {
+  studentId: number;
+}
+interface seniorStudent extends person, student {
+  grade: string;
+}
+let student1: seniorStudent = { name: 'Alan', studentId: 1, grade: 'one' };
+console.log(student1);
+```
+
+## Class
+
+Classes in TS are similar to classes in ES6, with the difference being
+
+### Variable Modifiers
+
+- public (default)
+- private (cannot be accessed outside the class that declares it)
+- protected (similar to private, but protected variables can be accessed in derived classes (i.e., subclasses))
+
+### Static Properties
+
+```tsx
+class Person {
+  static fingerNum = 5;
+}
+
+// Can only be accessed through the class
+console.log(Person.fingerNum);
+// Cannot be accessed through the instance
+console.log(new Person().fingerNum);
+```
+
+```tsx
+// Create a single instance for the singleton pattern
+class singleClass {
+  private static instance: singleClass;
+  private constructor(public name: string) {}
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new singleClass('Alan');
+    }
+    return this.instance;
+  }
+}
+
+const class1 = singleClass.getInstance();
+const class2 = singleClass.getInstance();
+console.log(class1.name); // Alan
+console.log(class1 === class2); // true
+```
+
+### Constructors
+
+```tsx
+class Person {
+  constructor(name, mobile, sex) {
+    this.name = name;
+    this.mobile = mobile;
+    this.sex = sex;
+  }
+  public name: string;
+  private mobile: string;
+  protected sex: string;
+}
+```
+
+The above code can be simplified as follows:
+
+```tsx
+class Person {
+  constructor(name: string, private mobile: string, protected sex: string) {}
+}
+```
+
+### Abstract Classes
+
+- Cannot be instantiated
+- Need to be declared by derived classes and override abstract methods
+
+```tsx
+abstract class Animal {
+  constructor(public name: string) {}
+  sayHello() {
+    console.log('hello');
+  }
+  // Declare abstract method
+  abstract action(): void;
+}
+
+class Bird extends Animal {
+  constructor(name) {
+    super(name);
+  }
+  action() {
+    console.log('jijiji');
+  }
+}
+
+const bird = new Bird('qc');
+console.log(bird);
+// Bird { name: 'qc' }
+```
+
+## Generics
+
+> Generics is a feature where types are not specified in advance when defining functions, interfaces, or classes, but are specified when used.
+
+### Function Usage: `<generic name>`
+
+```tsx
+function Recruit<T>(name: string, props: T) {
+  return name + props;
+}
+// Explicitly specify T as number type
+console.log(Recruit<number>('Alan', 123)); // Alan123
+// TS automatically infers it as number type, same as the previous one
+console.log(Recruit('Alan', 123)); // Alan123
+console.log(Recruit('Alan', [1, 2, 3])); // Alan1,2,3
+```
+
+You can also use multiple generic names. The following example combines interfaces to achieve this:
+
+```tsx
+interface Contact {
+  mobile: string;
+}
+
+interface Address {
+  province: string;
+}
+
+function Recruit<C extends Contact, A extends Address>(
+  name: string,
+  contact: C,
+  address: A
+) {
+  return `${name}'s mobile is ${contact.mobile}, live in ${address.province}`;
+}
+
+console.log(
+  Recruit('Alan', { mobile: '666' }, { province: 'Shanghai' })
+);
+// Alan's mobile is 666, live in Shanghai
+```
+
+### Class Usage
+
+```tsx
+interface employee {
+  name: string;
+  age: number;
+}
+
+class RecruitManager<T extends employee> {
+  constructor(private data: Array<T>) {}
+  select(age: number): T {
+    return this.data.find(item => item.age > age);
+  }
+}
+
+const result = new RecruitManager([
+  {
+    name: 'Alan',
+    age: 22
+  },
+  {
+    name: 'Bob',
+    age: 18
+  }
+]);
+console.log(result.select(20));
+```
+
+### Generic Constraints
+
+Use `extends` to constrain generic types
+
+```tsx
+interface info {
+  mobile: string;
+}
+
+// T must satisfy info
+function Recruit<T extends info>(name: string, props: T) {
+  return name + props.mobile;
+}
+
+console.log(Recruit('Alan', { mobile: '1232910830' })); // Alan1232910830
+```
+
+## React Related
+
+### Dynamically Setting State in Class Components
+
+```ts
+this.setState({
+  [name]: value
+} as Pick<CompontentState, keyof CompontentState>);
+```
