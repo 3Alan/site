@@ -2,13 +2,14 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 const { themes } = require('prism-react-renderer');
+const getI18nContent = require('./src/utils/getI18nContent');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.oceanicNext;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Alan|前端博客',
-  titleDelimiter: '-',
+  title: 'Alan Wang',
+  titleDelimiter: '|',
   tagline: '此刻想举重若轻，之前必要负重前行',
   url: 'https://www.alanwang.site',
   baseUrl: '/',
@@ -51,11 +52,17 @@ const config = {
       metadata: [
         {
           name: 'keywords',
-          content: 'Alan,博客,Blog,前端,React,Vue,Webpack,Node.js,Typescript'
+          content: getI18nContent({
+            defaultContent: 'Alan Wang,博客,Blog,前端,React,Vue,Webpack,Node.js,Typescript',
+            en: 'Alan Wang,Blog,Front-end,React,Vue,Webpack,Node.js,Typescript'
+          })
         },
         {
           name: 'description',
-          content: '一个专注于前端开发的小白, 分享前端开发知识'
+          content: getI18nContent({
+            defaultContent: '一个专注于前端开发的小白, 分享前端开发知识',
+            en: 'A front-end developer, sharing front-end development knowledge'
+          })
         }
       ],
       announcementBar: {

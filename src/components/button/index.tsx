@@ -1,6 +1,7 @@
 import React, { forwardRef, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode } from 'react';
 import './index.scss';
 import clsx from 'clsx';
+import Link from '@docusaurus/Link';
 
 const cls = 'btn';
 
@@ -18,7 +19,7 @@ const Button = forwardRef<any, ButtonProps>(
   ({ children, href, onClick, disabled, ariaLabel, icon, trackName, target = '_self' }, ref) => {
     if (href) {
       return (
-        <a
+        <Link
           ref={ref}
           href={href}
           target={target}
@@ -27,7 +28,7 @@ const Button = forwardRef<any, ButtonProps>(
         >
           <span className={`${cls}-icon`}>{icon}</span>
           {children && <span className={clsx({ [`${cls}-text-gap`]: icon })}>{children}</span>}
-        </a>
+        </Link>
       );
     }
 

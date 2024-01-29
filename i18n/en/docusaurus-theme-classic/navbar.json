@@ -4,19 +4,19 @@
     "description": "The title in the navbar"
   },
   "item.label.系列文章": {
-    "message": "系列文章",
-    "description": "Navbar item with label 系列文章"
+    "message": "Series Articles",
+    "description": "Navbar item with label Series Articles"
   },
   "item.label.知识体系": {
-    "message": "知识体系",
-    "description": "Navbar item with label 知识体系"
+    "message": "Knowledge System",
+    "description": "Navbar item with label Knowledge System"
   },
   "item.label.博文": {
-    "message": "博文",
-    "description": "Navbar item with label 博文"
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
   },
   "logo.alt": {
-    "message": "Alan|前端博客",
+    "message": "Alan Wang",
     "description": "The alt text of navbar logo"
   }
 }
