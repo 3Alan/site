@@ -1,20 +1,32 @@
 $namespace: ai-summary;
 
+@keyframes shaking {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(0eg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .#{$namespace} {
   margin-bottom: 20px;
 
   &-button {
     background-color: #242428;
     outline: none;
-    border: none;
+    border: 1px solid #666;
     cursor: pointer;
     padding: 6px 10px;
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
 
     span {
       margin-left: 5px;
+    }
+
+    svg {
+      animation: shaking 0.7s ease-in-out infinite;
     }
 
     &:hover {
