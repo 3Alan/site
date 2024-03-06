@@ -41,6 +41,7 @@ summary: >-
 | [Chatpad](https://github.com/deiucanta/chatpad)                 | ❓          | ![Chatpad stars](https://img.shields.io/github/stars/deiucanta/chatpad?style=social)                 |
 | [Anse](https://github.com/anse-app/anse)                        | ✅          | ![anse stars](https://img.shields.io/github/stars/anse-app/anse?style=social)                        |
 | [ChatChat](https://github.com/okisdev/ChatChat)                 | ✅          | ![ChatChat stars](https://img.shields.io/github/stars/okisdev/ChatChat?style=social)                 |
+| [Lobe Chat](https://github.com/lobehub/lobe-chat)               | ✅          | ![Lobe Chat stars](https://img.shields.io/github/stars/lobehub/lobe-chat?style=social)               |
 
 挑选一个自己喜欢的项目，然后根据项目的 README.md 文件进行部署即可。
 这里举一个例子，我之前选择了 chatgpt-demo 这个项目，它支持 Vercel 部署，所以直接在 Vercel 上部署了，部署完后再绑定自己的域名（Vercel 域名国内已墙）就可随时随地使用了。
