@@ -53,7 +53,8 @@ const config = {
         {
           name: 'keywords',
           content: getI18nContent({
-            defaultContent: 'Alan Wang,博客,Blog,前端,React,Vue,Webpack,Node.js,Typescript',
+            defaultContent:
+              'Alan Wang,博客,Blog,前端,React,Vue,Webpack,Node.js,Typescript',
             en: 'Alan Wang,Blog,Front-end,React,Vue,Webpack,Node.js,Typescript'
           })
         },
@@ -259,6 +260,10 @@ const config = {
           {
             from: '/posts/源码实现/eventEmitter',
             to: '/posts/source-analysis/mitt'
+          },
+          {
+            from: '/blog/mac-app',
+            to: '/blog/awesome-tools'
           }
         ]
       }
